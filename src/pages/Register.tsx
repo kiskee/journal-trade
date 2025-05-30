@@ -79,7 +79,6 @@ export const Register = () => {
     handleSubmit,
     formState: { errors, isSubmitting },
     setError,
-    clearErrors,
   } = form;
 
   const googleLogin = useGoogleLogin({
