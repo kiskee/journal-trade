@@ -1,16 +1,37 @@
-import { useState, type JSX } from 'react';
+import { useContext, useState, type JSX } from 'react';
 import { Bell, Search, Settings, Menu, X, TrendingUp, Wallet, BarChart3 } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
+import { googleLogout } from "@react-oauth/google";
+import { UserDetailContext } from '../context/UserDetailContext';
 
 
 
 export default function Header(): JSX.Element {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [notifications] = useState<number>(3);
+  const navigate = useNavigate();
+  const context = useContext(UserDetailContext);
+
+  if (!context) {
+    throw new Error(
+      "UserDetailContext debe usarse dentro de un UserDetailProvider"
+    );
+  }
+
+  const { setUserDetail } = context;
 
 
   const toggleMenu = (): void => {
     setIsMenuOpen(!isMenuOpen);
   };
+
+ const onLogOut = (e: React.MouseEvent<HTMLButtonElement>) => {
+  e.preventDefault(); // si necesitas evitar recarga por algún motivo
+  googleLogout();
+  setUserDetail(null);
+  navigate("/", { replace: true });
+};
+
 
   return (
     <div className="w-full bg-neutral-900 border-b border-neutral-800 fixed top-0 left-0 right-0 z-50">
@@ -47,6 +68,10 @@ export default function Header(): JSX.Element {
             <button className="px-3 xl:px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors text-sm">
               <span className="hidden xl:inline">New Entry</span>
               <span className="xl:hidden">New</span>
+            </button>
+              <button className="px-3 xl:px-4 py-2 bg-red-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors text-sm" onClick={onLogOut}> 
+              <span className="hidden xl:inline">LogOut</span>
+              <span className="xl:hidden">Out</span>
             </button>
           </nav>
 
@@ -124,6 +149,9 @@ export default function Header(): JSX.Element {
               </button>
               <button className="mx-3 mt-2 px-4 py-2.5 sm:py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors">
                 New Entry
+              </button>
+              <button className="mx-3 mt-2 px-4 py-2.5 sm:py-3 bg-red-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors">
+                LogOut
               </button>
             </nav>
           </div>

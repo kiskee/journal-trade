@@ -13,6 +13,7 @@ function App() {
       <Router>
         <Layout>
           <Routes>
+            {/* Rutas públicas */}
             <Route
               path="/"
               element={<DesprotectedRoute element={<Login />} />}
@@ -21,16 +22,21 @@ function App() {
               path="/register"
               element={<DesprotectedRoute element={<Register />} />}
             />
-          </Routes>
 
-          <IntLayaout>
-            <Routes>
-              <Route
-                path="/inicio"
-                element={<ProtectedRoute element={<Home />} />}
-              />
-            </Routes>
-          </IntLayaout>
+            {/* Rutas protegidas con IntLayout */}
+            <Route
+              path="/inicio"
+              element={
+                <ProtectedRoute
+                  element={
+                    <IntLayaout>
+                      <Home />
+                    </IntLayaout>
+                  }
+                />
+              }
+            />
+          </Routes>
         </Layout>
       </Router>
     </>
