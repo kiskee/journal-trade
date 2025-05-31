@@ -121,10 +121,11 @@ export const Login = () => {
       const user = data;
 
       const login = await apiService.post("/auth/login", user);
-      setUserDetail({
-        ...login.user,
-        token: login.accessToken,
-      });
+      console.log(login)
+      // setUserDetail({
+      //   ...login.user,
+      //   token: login.accessToken,
+      // });
     } catch (error) {
       // Si hay error de la API, mostrar el error
       setError("root", {

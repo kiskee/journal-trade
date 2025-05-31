@@ -1,14 +1,21 @@
-import { useContext, useState, type JSX } from 'react';
-import { Bell, Search, Settings, Menu, X, TrendingUp, Wallet, BarChart3 } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useContext, useState, type JSX } from "react";
+import {
+ // Bell,
+  Search,
+  Settings,
+  Menu,
+  X,
+  TrendingUp,
+  Wallet,
+  BarChart3,
+} from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { googleLogout } from "@react-oauth/google";
-import { UserDetailContext } from '../context/UserDetailContext';
-
-
+import { UserDetailContext } from "../context/UserDetailContext";
 
 export default function Header(): JSX.Element {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  const [notifications] = useState<number>(3);
+  //const [notifications] = useState<number>(3);
   const navigate = useNavigate();
   const context = useContext(UserDetailContext);
 
@@ -18,20 +25,21 @@ export default function Header(): JSX.Element {
     );
   }
 
-  const { setUserDetail } = context;
-
+  const { setUserDetail, userDetail } = context;
+  //console.log(userDetail)
 
   const toggleMenu = (): void => {
     setIsMenuOpen(!isMenuOpen);
   };
 
- const onLogOut = (e: React.MouseEvent<HTMLButtonElement>) => {
-  e.preventDefault(); // si necesitas evitar recarga por algún motivo
-  googleLogout();
-  setUserDetail(null);
-  navigate("/", { replace: true });
-};
+  const onLogOut = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault(); // si necesitas evitar recarga por algún motivo
+    googleLogout();
+    setUserDetail(null);
+    navigate("/", { replace: true });
+  };
 
+ 
 
   return (
     <div className="w-full bg-neutral-900 border-b border-neutral-800 fixed top-0 left-0 right-0 z-50">
@@ -69,7 +77,10 @@ export default function Header(): JSX.Element {
               <span className="hidden xl:inline">New Entry</span>
               <span className="xl:hidden">New</span>
             </button>
-              <button className="px-3 xl:px-4 py-2 bg-red-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors text-sm" onClick={onLogOut}> 
+            <button
+              className="px-3 xl:px-4 py-2 bg-red-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors text-sm"
+              onClick={onLogOut}
+            >
               <span className="hidden xl:inline">LogOut</span>
               <span className="xl:hidden">Out</span>
             </button>
@@ -78,38 +89,42 @@ export default function Header(): JSX.Element {
           {/* Área derecha con iconos y avatar */}
           <div className="flex items-center space-x-1 sm:space-x-2 md:space-x-4">
             {/* Buscador - oculto en mobile muy pequeño */}
-            <button className="hidden sm:block p-2 text-neutral-400 hover:text-white hover:bg-neutral-800 rounded-lg transition-colors">
+            {/* <button className="hidden sm:block p-2 text-neutral-400 hover:text-white hover:bg-neutral-800 rounded-lg transition-colors">
               <Search className="w-4 h-4 sm:w-5 sm:h-5" />
-            </button>
+            </button> */}
 
             {/* Notificaciones */}
-            <button className="relative p-1.5 sm:p-2 text-neutral-400 hover:text-white hover:bg-neutral-800 rounded-lg transition-colors">
+            {/* <button className="relative p-1.5 sm:p-2 text-neutral-400 hover:text-white hover:bg-neutral-800 rounded-lg transition-colors">
               <Bell className="w-4 h-4 sm:w-5 sm:h-5" />
               {notifications > 0 && (
                 <span className="absolute -top-0.5 sm:-top-1 -right-0.5 sm:-right-1 w-4 h-4 sm:w-5 sm:h-5 bg-rose-500 text-white text-xs rounded-full flex items-center justify-center">
                   {notifications}
                 </span>
               )}
-            </button>
+            </button> */}
 
             {/* Configuraciones - oculto en mobile pequeño */}
-            <button className="hidden md:block p-2 text-neutral-400 hover:text-white hover:bg-neutral-800 rounded-lg transition-colors">
+            {/* <button className="hidden md:block p-2 text-neutral-400 hover:text-white hover:bg-neutral-800 rounded-lg transition-colors">
               <Settings className="w-5 h-5" />
-            </button>
+            </button> */}
 
             {/* Avatar */}
             <div className="flex items-center space-x-2 sm:space-x-3">
               <div className="relative">
                 <img
-                  src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=40&h=40&fit=crop&crop=face&auto=format"
+                  src={userDetail?.picture}
                   alt="Avatar"
                   className="w-8 h-8 sm:w-10 sm:h-10 rounded-full border-2 border-neutral-700 hover:border-blue-500 transition-colors cursor-pointer"
+                 
                 />
+
                 <div className="absolute -bottom-0.5 -right-0.5 sm:-bottom-1 sm:-right-1 w-3 h-3 sm:w-4 sm:h-4 bg-emerald-500 border-2 border-neutral-900 rounded-full"></div>
               </div>
               <div className="hidden lg:block">
-                <p className="text-sm font-medium text-white">Alex Johnson</p>
-                <p className="text-xs text-neutral-400">Pro Trader</p>
+                <p className="text-sm font-medium text-white">
+                  {userDetail?.name}
+                </p>
+                <p className="text-xs text-neutral-400">{userDetail?.email}</p>
               </div>
             </div>
 
@@ -118,7 +133,11 @@ export default function Header(): JSX.Element {
               onClick={toggleMenu}
               className="lg:hidden p-1.5 sm:p-2 text-neutral-400 hover:text-white hover:bg-neutral-800 rounded-lg transition-colors ml-1 sm:ml-2"
             >
-              {isMenuOpen ? <X className="w-4 h-4 sm:w-5 sm:h-5" /> : <Menu className="w-4 h-4 sm:w-5 sm:h-5" />}
+              {isMenuOpen ? (
+                <X className="w-4 h-4 sm:w-5 sm:h-5" />
+              ) : (
+                <Menu className="w-4 h-4 sm:w-5 sm:h-5" />
+              )}
             </button>
           </div>
         </div>
@@ -156,10 +175,12 @@ export default function Header(): JSX.Element {
             </nav>
           </div>
         )}
+
+        
       </div>
 
       {/* Barra de progreso de mercado */}
-      <div className="bg-neutral-800 px-3 sm:px-4 md:px-6 lg:px-8 py-2">
+      {/* <div className="bg-neutral-800 px-3 sm:px-4 md:px-6 lg:px-8 py-2">
         <div className="w-full flex items-center justify-between text-xs sm:text-sm">
           <div className="flex items-center space-x-3 sm:space-x-6 min-w-0">
             <span className="text-neutral-400 hidden sm:inline">Market Status:</span>
@@ -178,7 +199,7 @@ export default function Header(): JSX.Element {
             <span className="hidden sm:inline">Last updated: </span>2m ago
           </div>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }
