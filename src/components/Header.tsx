@@ -5,7 +5,7 @@ import { Bell, Search, Settings, Menu, X, TrendingUp, Wallet, BarChart3 } from '
 
 export default function Header(): JSX.Element {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
-  const [notifications, setNotifications] = useState<number>(3);
+  const [notifications] = useState<number>(3);
 
 
   const toggleMenu = (): void => {
