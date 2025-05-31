@@ -7,7 +7,6 @@ export default function Header(): JSX.Element {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [notifications, setNotifications] = useState<number>(3);
 
-  setNotifications(3)
 
   const toggleMenu = (): void => {
     setIsMenuOpen(!isMenuOpen);
