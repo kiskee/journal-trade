@@ -1,11 +1,13 @@
-import { useState } from 'react';
+import { useState, type JSX } from 'react';
 import { Bell, Search, Settings, Menu, X, TrendingUp, Wallet, BarChart3 } from 'lucide-react';
 
-interface HeaderProps {}
+
 
 export default function Header(): JSX.Element {
   const [isMenuOpen, setIsMenuOpen] = useState<boolean>(false);
   const [notifications, setNotifications] = useState<number>(3);
+
+  setNotifications(3)
 
   const toggleMenu = (): void => {
     setIsMenuOpen(!isMenuOpen);
