@@ -3,8 +3,9 @@ import { Login } from "./components/Login";
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import ProtectedRoute from "./components/utils/ProtectedRoute";
 import Home from "./pages/Home";
-import {Register} from "./pages/Register";
+import { Register } from "./pages/Register";
 import DesprotectedRoute from "./components/utils/DesprotectedRoute";
+import IntLayaout from "./components/IntLayaout";
 
 function App() {
   return (
@@ -20,11 +21,16 @@ function App() {
               path="/register"
               element={<DesprotectedRoute element={<Register />} />}
             />
-            <Route
-              path="/inicio"
-              element={<ProtectedRoute element={<Home />} />}
-            />
           </Routes>
+
+          <IntLayaout>
+            <Routes>
+              <Route
+                path="/inicio"
+                element={<ProtectedRoute element={<Home />} />}
+              />
+            </Routes>
+          </IntLayaout>
         </Layout>
       </Router>
     </>
