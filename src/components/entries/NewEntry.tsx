@@ -1,4 +1,4 @@
-import { useState, type ReactElement } from "react";
+import { useEffect, useState, type ReactElement } from "react";
 import BasicData from "./BasicData";
 import StepsVisual from "./StepsVisual";
 import ResultsData from "./ResultsData";
@@ -23,6 +23,7 @@ interface CompleteFormData {
 }
 
 const NewEntry = () => {
+   
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<CompleteFormData>({});
   const totalSteps = 5;
@@ -33,7 +34,9 @@ const NewEntry = () => {
     "Análisis",
     "Resultados",
   ];
-
+useEffect(() => {
+    window.scrollTo(0, 0);
+  }, [currentStep]);
   const handleFormComplete = (data: CompleteFormData) => {
     console.log("Formulario completado:", data);
     // Aquí puedes enviar los datos a tu API

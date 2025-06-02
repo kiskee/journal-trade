@@ -110,5 +110,6 @@ export const tradeResultSchema = z.object({
 
   fees: z
     .number({ invalid_type_error: "Las comisiones deben ser un número" })
-    .nonnegative("Debe ser 0 o más"),
+    .nonnegative("Debe ser 0 o más")
+    .optional(),
 });

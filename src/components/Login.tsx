@@ -65,7 +65,7 @@ export const Login = () => {
         );
 
         const user = userInfo.data;
-        console.log(user);
+        
         //Enviar el login y obtener el JWT
         const login = await apiService.post("/auth/login-google", user);
 
@@ -98,7 +98,6 @@ export const Login = () => {
       const user = data;
 
       const login = await apiService.post("/auth/login", user);
-      console.log(login);
       setUserDetail({
         ...login.user,
         token: login.accessToken,

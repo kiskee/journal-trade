@@ -21,13 +21,13 @@ const ResultsData = (props: FormStepProps) => {
   const form = useForm<FormSchema>({
     resolver: zodResolver(tradeResultSchema),
     defaultValues: props.initialData || {
-      entryPrice: 0,
-      exitPrice: 0,
-      stopLoss: 0,
-      takeProfit: 0,
-      resultUsd: 0,
-      resultPercent: 0,
-      fees: 0,
+      entryPrice: "",
+      exitPrice: "",
+      stopLoss: "",
+      takeProfit: "",
+      resultUsd: "",
+      resultPercent: "",
+      fees: "",
     },
   });
 
@@ -40,7 +40,7 @@ const ResultsData = (props: FormStepProps) => {
   } = form;
 
   const onSubmit = (data: FormSchema) => {
-     console.log("Form submitted:", data);
+    // console.log("Form submitted:", data);
     props.onNext(data);
   };
 
@@ -163,7 +163,10 @@ const ResultsData = (props: FormStepProps) => {
             <input
               type="number"
               step="any"
-              {...register("fees", { valueAsNumber: true })}
+              {...register("fees", {
+                setValueAs: (value) =>
+                  value === "" ? undefined : parseFloat(value) || 0,
+              })}
               className="w-full p-2 rounded bg-neutral-800 text-neutral-50 border border-neutral-700 text-sm min-w-0"
             />
             {errors.fees && (

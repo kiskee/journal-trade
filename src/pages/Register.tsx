@@ -71,7 +71,7 @@ export const Register = () => {
         );
 
         const user = userInfo.data;
-        console.log(user);
+       
         //Enviar el registro con Google y obtener el JWT
         const login = await apiService.post("/auth/login-google", user);
 

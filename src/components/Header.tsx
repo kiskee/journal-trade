@@ -26,7 +26,6 @@ export default function Header(): JSX.Element {
   }
 
   const { setUserDetail, userDetail } = context;
-  //console.log(userDetail)
 
   const toggleMenu = (): void => {
     setIsMenuOpen(!isMenuOpen);
