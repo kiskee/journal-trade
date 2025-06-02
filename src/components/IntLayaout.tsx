@@ -11,7 +11,7 @@ export default function IntLayaout({ children }: LayoutProps) {
     <>
       <div className="flex flex-col items-center bg-neutral-900 min-h-screen w-screen">
         <Header />
-        <div className="pt-26">{children}</div>
+        <div className="pt-16">{children}</div>
         <Footer />
       </div>
     </>

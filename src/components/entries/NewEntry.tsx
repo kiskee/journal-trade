@@ -1,6 +1,6 @@
 import { useState, type ReactElement } from "react";
 import BasicData from "./BasicData";
-import { Check } from "lucide-react";
+import StepsVisual from "./StepsVisual";
 
 // Tipos para los props que recibirá cada componente de formulario
 interface FormStepProps {
@@ -20,21 +20,6 @@ interface CompleteFormData {
   step4?: any;
   step5?: any;
 }
-
-// Props del wrapper principal
-// interface MultiStepWrapperProps {
-//   // Tus componentes de formulario
-//   Step1Component: React.ComponentType<FormStepProps>;
-//   Step2Component: React.ComponentType<FormStepProps>;
-//   Step3Component: React.ComponentType<FormStepProps>;
-//   Step4Component: React.ComponentType<FormStepProps>;
-//   Step5Component: React.ComponentType<FormStepProps>;
-
-//   // Configuración opcional
-//   stepTitles?: string[];
-//   onComplete?: (data: CompleteFormData) => void;
-//   className?: string;
-// }
 
 const NewEntry = () => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -88,58 +73,6 @@ const NewEntry = () => {
     return formData[`step${currentStep}` as keyof CompleteFormData];
   };
 
-  const stepsVisual = () => {
-    return (
-      <div className="mb-2 bg-neutral-800 rounded-2xl p-4 border border-neutral-700">
-        <div className="flex justify-between items-center mb-2">
-          <h1 className="text-2xl font-bold text-blue-400">
-            Formulario Multi-paso
-          </h1>
-          <span className="text-sm text-neutral-400">
-            Paso {currentStep} de {totalSteps}
-          </span>
-        </div>
-
-        {/* Barra de progreso */}
-        <div className="mb-4">
-          <div className="w-full bg-neutral-700 rounded-full h-2">
-            <div
-              className="bg-blue-600 h-2 rounded-full transition-all duration-500"
-              style={{ width: `${(currentStep / totalSteps) * 100}%` }}
-            />
-          </div>
-        </div>
-
-        {/* Indicadores de pasos */}
-        <div className="flex justify-between">
-          {stepTitles.map((title, index) => (
-            <div
-              key={index}
-              className={`flex flex-col items-center ${
-                index + 1 <= currentStep ? "text-blue-400" : "text-neutral-500"
-              }`}
-            >
-              <div
-                className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium mb-2 ${
-                  index + 1 < currentStep
-                    ? "bg-blue-600 text-white"
-                    : index + 1 === currentStep
-                    ? "bg-blue-500 text-white"
-                    : "bg-neutral-600 text-neutral-400"
-                }`}
-              >
-                {index + 1 < currentStep ? <Check size={16} /> : index + 1}
-              </div>
-              <span className="text-xs text-center hidden sm:block max-w-20">
-                {title}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  };
-
   // Renderizar el componente del paso actual
   const renderCurrentStep = () => {
     const commonProps: FormStepProps = {
@@ -148,7 +81,11 @@ const NewEntry = () => {
       initialData: getCurrentStepData(),
       isFirst: currentStep === 1,
       isLast: currentStep === totalSteps,
-      header: stepsVisual(),
+      header: StepsVisual({
+        currentStep,
+        totalSteps,
+        stepTitles,
+      }),
     };
 
     switch (currentStep) {
