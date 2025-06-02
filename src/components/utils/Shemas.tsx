@@ -81,3 +81,34 @@ export const formShemaBasicData = z.object({
     .number({ invalid_type_error: "El apalancamiento debe ser un número" })
     .min(1, "Debe ser al menos 1"),
 });
+
+
+export const tradeResultSchema = z.object({
+  entryPrice: z
+    .number({ invalid_type_error: "El precio de entrada debe ser un número" })
+    .min(1, "Debe ser al menos 1"),
+
+  exitPrice: z
+    .number({ invalid_type_error: "El precio de salida debe ser un número" })
+    .min(1, "Debe ser al menos 1"),
+
+  stopLoss: z
+    .number({ invalid_type_error: "El Stop Loss debe ser un número" })
+   .min(1, "Debe ser al menos 1"),
+
+  takeProfit: z
+    .number({ invalid_type_error: "El Take Profit debe ser un número" })
+    .min(1, "Debe ser al menos 1"),
+
+  resultUsd: z
+    .number({ invalid_type_error: "El resultado ($) debe ser un número" })
+    .min(1, "Debe ser al menos 1"),
+
+  resultPercent: z
+    .number({ invalid_type_error: "El resultado (%) debe ser un número" })
+    .min(1, "Debe ser al menos 1"),
+
+  fees: z
+    .number({ invalid_type_error: "Las comisiones deben ser un número" })
+    .nonnegative("Debe ser 0 o más"),
+});

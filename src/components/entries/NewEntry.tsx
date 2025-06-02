@@ -1,6 +1,7 @@
 import { useState, type ReactElement } from "react";
 import BasicData from "./BasicData";
 import StepsVisual from "./StepsVisual";
+import ResultsData from "./ResultsData";
 
 // Tipos para los props que recibirá cada componente de formulario
 interface FormStepProps {
@@ -56,7 +57,7 @@ const NewEntry = () => {
         [`step${currentStep}`]: stepData,
       };
 
-      console.log("Datos completos:", finalData);
+     // console.log("Datos completos:", finalData);
       handleFormComplete?.(finalData);
     }
   };
@@ -92,7 +93,7 @@ const NewEntry = () => {
       case 1:
         return <BasicData {...commonProps} />;
       case 2:
-        return <BasicData {...commonProps} />;
+        return <ResultsData {...commonProps} />;
       case 3:
         return <BasicData {...commonProps} />;
       case 4:

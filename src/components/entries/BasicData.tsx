@@ -47,10 +47,10 @@ const BasicData = (props: FormStepProps) => {
   } = form;
 
   const onSubmit = (data: FormSchema) => {
-    console.log("Form submitted:", data);
+   // console.log("Form submitted:", data);
     props.onNext(data);
   };
-  console.log(props);
+
   return (
     <>
       <Card className="p-6 bg-neutral-800 rounded-2xl shadow-lg border-blue-600 shadow-blue-700 w-full max-w-full">
