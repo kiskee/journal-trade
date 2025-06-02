@@ -2,6 +2,8 @@ import { useEffect, useState, type ReactElement } from "react";
 import BasicData from "./BasicData";
 import StepsVisual from "./StepsVisual";
 import ResultsData from "./ResultsData";
+import EmotionsData from "./EmotionsData";
+import MediaTagsData from "./MediaTagsData";
 
 // Tipos para los props que recibirá cada componente de formulario
 interface FormStepProps {
@@ -15,28 +17,28 @@ interface FormStepProps {
 
 // Tipo para almacenar todos los datos del formulario
 interface CompleteFormData {
-  step1?: any;
-  step2?: any;
-  step3?: any;
-  step4?: any;
-  step5?: any;
+  basic?: any;
+  results?: any;
+  emotions?: any;
+  media?: any;
 }
 
 const NewEntry = () => {
    
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState<CompleteFormData>({});
-  const totalSteps = 5;
+  const totalSteps = 4;
   const stepTitles = [
     "Datos Básicos",
-    "Gestión Riesgo",
-    "Ejecución",
-    "Análisis",
     "Resultados",
+    "Emociones",
+    "Media&tags",
   ];
 useEffect(() => {
     window.scrollTo(0, 0);
   }, [currentStep]);
+
+
   const handleFormComplete = (data: CompleteFormData) => {
     console.log("Formulario completado:", data);
     // Aquí puedes enviar los datos a tu API
@@ -98,11 +100,9 @@ useEffect(() => {
       case 2:
         return <ResultsData {...commonProps} />;
       case 3:
-        return <BasicData {...commonProps} />;
+        return <EmotionsData {...commonProps} />;
       case 4:
-        return <BasicData {...commonProps} />;
-      case 5:
-        return <BasicData {...commonProps} />;
+        return <MediaTagsData {...commonProps} />;
       default:
         return <div>Paso no encontrado</div>;
     }

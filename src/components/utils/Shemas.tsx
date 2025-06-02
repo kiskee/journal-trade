@@ -82,7 +82,6 @@ export const formShemaBasicData = z.object({
     .min(1, "Debe ser al menos 1"),
 });
 
-
 export const tradeResultSchema = z.object({
   entryPrice: z
     .number({ invalid_type_error: "El precio de entrada debe ser un número" })
@@ -94,7 +93,7 @@ export const tradeResultSchema = z.object({
 
   stopLoss: z
     .number({ invalid_type_error: "El Stop Loss debe ser un número" })
-   .min(1, "Debe ser al menos 1"),
+    .min(1, "Debe ser al menos 1"),
 
   takeProfit: z
     .number({ invalid_type_error: "El Take Profit debe ser un número" })
@@ -111,5 +110,75 @@ export const tradeResultSchema = z.object({
   fees: z
     .number({ invalid_type_error: "Las comisiones deben ser un número" })
     .nonnegative("Debe ser 0 o más")
+    .optional(),
+});
+
+const emotionBeforeOptions = [
+  "Confianza",
+  "Ansiedad",
+  "Duda",
+  "Impaciencia",
+  "Euforia",
+  "Miedo",
+  "Seguridad",
+  "Tensión",
+  "Apatía",
+  "Motivación",
+] as const;
+
+const emotionAfterOptions = [
+  "Satisfacción",
+  "Frustración",
+  "Alivio",
+  "Enojo",
+  "Desilusión",
+  "Orgullo",
+  "Remordimiento",
+  "Indiferencia",
+  "Euforia",
+] as const;
+
+export const tradeEmotionsSchema = z.object({
+  emotionBefore: z.enum(emotionBeforeOptions, {
+    errorMap: () => ({
+      message: "Selecciona una emoción válida antes del trade",
+    }),
+  }),
+
+  emotionAfter: z.enum(emotionAfterOptions, {
+    errorMap: () => ({
+      message: "Selecciona una emoción válida después del trade",
+    }),
+  }),
+
+  confidenceLevel: z
+    .number({ invalid_type_error: "Nivel de confianza debe ser un número" })
+    .min(1, "El nivel mínimo es 1")
+    .max(10, "El nivel máximo es 10"),
+
+  disciplineLevel: z
+    .number({ invalid_type_error: "Nivel de disciplina debe ser un número" })
+    .min(1, "El nivel mínimo es 1")
+    .max(10, "El nivel máximo es 10"),
+});
+
+export const tradeTagsMediaSchema = z.object({
+  notes: z.string().max(1000, "Máximo 1000 caracteres").optional(),
+
+  tags: z
+    .array(z.string().min(1, "Etiqueta vacía no válida"))
+    .max(10, "Máximo 10 etiquetas")
+    .optional(),
+
+  followedPlan: z.boolean().optional().default(false),
+
+  mediaUrl: z.string().url("Ingresa una URL válida").optional(),
+
+  mediaFile: z
+    .any()
+    .refine(
+      (file) => !file || file instanceof File,
+      "Debe ser un archivo válido"
+    )
     .optional(),
 });
