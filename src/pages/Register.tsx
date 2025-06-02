@@ -12,35 +12,13 @@ import {
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { UserDetailContext } from "../context/UserDetailContext";
 import { apiService } from "../services/apiService";
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
-
-const formSchema = z.object({
-  email: z
-    .string()
-    .min(1, "El email es requerido")
-    .email("Debe ser un email válido"),
-  nombre: z.string().min(2, "El nombre debe tener al menos 2 caracteres"),
-  apellidos: z
-    .string()
-    .min(2, "Los apellidos deben tener al menos 2 caracteres"),
-  usuario: z
-    .string()
-    .min(3, "El usuario debe tener al menos 3 caracteres")
-    .max(20, "El usuario no puede tener más de 20 caracteres"),
-  password: z
-    .string()
-    .min(8, "La contraseña debe tener al menos 8 caracteres")
-    .max(50, "La contraseña no puede tener más de 50 caracteres")
-    .regex(/(?=.*[a-z])/, "Debe incluir al menos una letra minúscula")
-    .regex(/(?=.*[A-Z])/, "Debe incluir al menos una letra mayúscula")
-    .regex(/(?=.*\d)/, "Debe incluir al menos un número")
-    .regex(/(?=.*[@$!%*?&])/, "Debe incluir al menos un carácter especial"),
-});
+import { formSchemaRegister } from "../components/utils/Shemas";
+import Loading from "../components/utils/Loading";
 
 interface UserData {
   email: string;
@@ -65,7 +43,7 @@ export const Register = () => {
   const { setUserDetail } = context;
 
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(formSchemaRegister),
     defaultValues: {
       email: "",
       nombre: "",
@@ -98,7 +76,7 @@ export const Register = () => {
         const login = await apiService.post("/auth/login-google", user);
 
         // Guardar en el estado
-       setUserDetail({
+        setUserDetail({
           ...login.user,
           token: login.accessToken, // Suponiendo que tu API devuelve el token como `jwtToken`
         });
@@ -177,15 +155,7 @@ export const Register = () => {
           </div>
 
           {isLoading ? (
-            <div className="text-center p-4">
-              <h1 className="text-4xl font-bold text-white mb-4 animate-pulse pb-8">
-                Creando tu cuenta, gracias por tu paciencia...
-              </h1>
-              <div className="flex justify-center">
-                {/* Spinner animado con Tailwind */}
-                <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-12"></div>
-              </div>
-            </div>
+            <Loading text=" Creando tu cuenta, gracias por tu paciencia..." />
           ) : (
             <>
               {/* Formulario */}

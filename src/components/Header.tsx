@@ -52,9 +52,9 @@ export default function Header(): JSX.Element {
                 <TrendingUp className="w-3 h-3 sm:w-5 sm:h-5 text-white" />
               </div>
               <h1 className="text-base sm:text-xl font-bold text-white truncate">
-                <span className="hidden sm:inline">Journal </span>
+                <span className="hidden sm:inline">J </span>
                 <span className="sm:hidden">J</span>
-                <span className="text-blue-400">- Kiss</span>
+                <span className="text-blue-400"> - Kiss</span>
               </h1>
             </div>
           </div>

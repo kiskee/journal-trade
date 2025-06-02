@@ -11,36 +11,13 @@ import {
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { UserDetailContext } from "../context/UserDetailContext";
 import { apiService } from "../services/apiService";
 import { useNavigate } from "react-router-dom";
 import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
-
-const formSchema = z.object({
-  email: z
-    .string()
-    .min(1, { message: "El email es requerido" })
-    .email({ message: "Debe ser un email válido" }),
-  password: z
-    .string()
-    .min(8, { message: "La contraseña debe tener al menos 8 caracteres" })
-    .max(50, { message: "La contraseña no puede tener más de 50 caracteres" })
-    .regex(/^(?=.*[a-z])/, {
-      message: "La contraseña debe incluir al menos una letra minúscula",
-    })
-    .regex(/^(?=.*[A-Z])/, {
-      message: "La contraseña debe incluir al menos una letra mayúscula",
-    })
-    .regex(/^(?=.*\d)/, {
-      message: "La contraseña debe incluir al menos un número",
-    })
-    .regex(/^(?=.*[@$!%*?&])/, {
-      message:
-        "La contraseña debe incluir al menos un carácter especial (@$!%*?&)",
-    }),
-});
+import { formSchemaLogin } from "./utils/Shemas";
+import Loading from "./utils/Loading";
 
 interface UserData {
   email: string;
@@ -62,7 +39,7 @@ export const Login = () => {
   const { setUserDetail } = context;
 
   const form = useForm({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(formSchemaLogin),
     defaultValues: {
       email: "",
       password: "",
@@ -121,11 +98,11 @@ export const Login = () => {
       const user = data;
 
       const login = await apiService.post("/auth/login", user);
-      console.log(login)
-      // setUserDetail({
-      //   ...login.user,
-      //   token: login.accessToken,
-      // });
+      console.log(login);
+      setUserDetail({
+        ...login.user,
+        token: login.accessToken,
+      });
     } catch (error) {
       // Si hay error de la API, mostrar el error
       setError("root", {
@@ -163,15 +140,7 @@ export const Login = () => {
           </div>
 
           {isLoading ? (
-            <div className="text-center p-4">
-              <h1 className="text-4xl font-bold text-white mb-4 animate-pulse pb-8">
-                Cargando tu perfil, gracias por tu paciencia...
-              </h1>
-              <div className="flex justify-center">
-                {/* Spinner animado con Tailwind */}
-                <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-12"></div>
-              </div>
-            </div>
+            <Loading text=" Cargando tu perfil, gracias por tu paciencia..."/>
           ) : (
             <>
               {/* Formulario */}

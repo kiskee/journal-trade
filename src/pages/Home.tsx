@@ -1,8 +1,9 @@
-export default function Home(){
+import NewEntry from "../components/entries/NewEntry";
 
-    return(
-        <>
-       <h1 className="text-center text-white text-7xl">Home Journal Kiss</h1>
-        </>
-    )
+export default function Home() {
+  return (
+    <>
+      <NewEntry />
+    </>
+  );
 }
