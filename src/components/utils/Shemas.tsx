@@ -170,15 +170,26 @@ export const tradeTagsMediaSchema = z.object({
     .max(10, "Máximo 10 etiquetas")
     .optional(),
 
-  followedPlan: z.boolean().optional().default(false),
+  followedPlan: z.boolean().default(false),
 
-  mediaUrl: z.string().url("Ingresa una URL válida").optional(),
+  // Hacer mediaUrl más permisivo - acepta string vacío o URL válida
+  mediaUrl: z
+    .union([z.string().url("URL inválida"), z.literal(""), z.undefined()])
+    .optional(),
 
+  // Hacer mediaFile completamente opcional y aceptar FileList o undefined
   mediaFile: z
     .any()
-    .refine(
-      (file) => !file || file instanceof File,
-      "Debe ser un archivo válido"
-    )
+    .refine((fileList) => {
+      if (!fileList) return true; // undefined es válido
+      if (fileList instanceof FileList) {
+        if (fileList.length === 0) return true; // FileList vacío es válido
+        const file = fileList[0];
+        // Validaciones opcionales del archivo si existe
+        const maxSize = 10 * 1024 * 1024; // 10MB
+        return file.size <= maxSize;
+      }
+      return fileList instanceof File; // También acepta File directo
+    }, "Archivo demasiado grande (máx. 10MB)")
     .optional(),
 });
