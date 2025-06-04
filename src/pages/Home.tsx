@@ -8,7 +8,7 @@ export default function Home() {
         <div className="col-span-2 shadow-sm shadow-blue-400 flex items-center justify-center h-full">
           <Link
             to="/trade"
-            className="px-6 py-3 bg-blue-600 text-white rounded-2xl shadow-lg text-lg font-semibold hover:bg-blue-700 transition duration-300"
+            className="px-6 py-3 bg-blue-600 text-white rounded-2xl shadow-lg text-lg font-semibold hover:bg-blue-700 transition duration-300 shadow-blue-400"
           >
             Registra tu primera operación
           </Link>
