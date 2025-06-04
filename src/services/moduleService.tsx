@@ -31,7 +31,13 @@ interface ModuleServiceType {
 //   };
   trades: {
     create: (data: any) => Promise<AxiosResponse<any, any>>;
+    byUser: (key: string, value: string) => Promise<TradeResponse>;
   }
+}
+
+interface TradeResponse {
+  count: number;
+  results: any[];
 }
 
 const apiClient: AxiosInstance = axios.create({
@@ -63,7 +69,13 @@ const ModuleService: ModuleServiceType = {
         create: async(data:any) =>{
             const response = await apiClient.post('/trades', data)
             return response
-        }
+        },
+        byUser: async (key: string, value: string): Promise<TradeResponse> => {
+          const response: AxiosResponse<TradeResponse> = await apiClient.get('/trades/search/find', {
+          params: { key, value },
+        });
+        return response.data;
+    },
     }
 //   password: {
 //     find: async (email: string): Promise<any> => {
