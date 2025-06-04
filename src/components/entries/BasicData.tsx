@@ -123,8 +123,6 @@ const BasicData = (props: FormStepProps) => {
             >
               <option value="compra">Compra</option>
               <option value="venta">Venta</option>
-              <option value="largo">Largo</option>
-              <option value="corto">Corto</option>
             </select>
             {errors.tradeType && (
               <p className="text-rose-500 text-xs mt-1">

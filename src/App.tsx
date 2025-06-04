@@ -6,6 +6,7 @@ import Home from "./pages/Home";
 import { Register } from "./pages/Register";
 import DesprotectedRoute from "./components/utils/DesprotectedRoute";
 import IntLayaout from "./components/IntLayaout";
+import CreateTrade from "./pages/CreateTrade"
 
 function App() {
   return (
@@ -31,6 +32,18 @@ function App() {
                   element={
                     <IntLayaout>
                       <Home />
+                    </IntLayaout>
+                  }
+                />
+              }
+            />
+             <Route
+              path="/trade"
+              element={
+                <ProtectedRoute
+                  element={
+                    <IntLayaout>
+                      <CreateTrade />
                     </IntLayaout>
                   }
                 />

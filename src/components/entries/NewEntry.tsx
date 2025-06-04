@@ -1,9 +1,13 @@
-import { useEffect, useState, type ReactElement } from "react";
+import { useContext, useEffect, useState, type ReactElement } from "react";
 import BasicData from "./BasicData";
 import StepsVisual from "./StepsVisual";
 import ResultsData from "./ResultsData";
 import EmotionsData from "./EmotionsData";
 import MediaTagsData from "./MediaTagsData";
+import { UserDetailContext } from "@/context/UserDetailContext";
+import ModuleService from "@/services/moduleService";
+import { Card } from "../ui/card";
+import { useNavigate } from "react-router-dom";
 
 // Tipos para los props que recibirá cada componente de formulario
 interface FormStepProps {
@@ -24,25 +28,40 @@ interface CompleteFormData {
 }
 
 const NewEntry = () => {
-   
   const [currentStep, setCurrentStep] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
   const [formData, setFormData] = useState<CompleteFormData>({});
   const totalSteps = 4;
-  const stepTitles = [
-    "Datos Básicos",
-    "Resultados",
-    "Emociones",
-    "Media&tags",
-  ];
-useEffect(() => {
+  const stepTitles = ["Datos Básicos", "Resultados", "Emociones", "Media&tags"];
+  const navigate = useNavigate();
+  useEffect(() => {
     window.scrollTo(0, 0);
   }, [currentStep]);
 
+  const context = useContext(UserDetailContext);
+  if (!context) {
+    throw new Error(
+      "UserDetailContext debe usarse dentro de un UserDetailProvider"
+    );
+  }
+  const { userDetail } = context;
 
-  const handleFormComplete = (data: CompleteFormData) => {
-    console.log("Formulario completado:", data);
-    // Aquí puedes enviar los datos a tu API
-    // api.saveTradeData(data);
+  const handleFormComplete = async (data: CompleteFormData) => {
+    try {
+      setIsLoading(true);
+      const newData: any = { ...data };
+      newData.user = userDetail?.id;
+      newData.date = new Date().toISOString();
+      //if (!newData.step4.mediaFile) delete newData.step4.mediaFile
+      delete newData.step4.mediaFile;
+
+      await ModuleService.trades.create(newData);
+
+      setIsLoading(false);
+      navigate("/inicio", { replace: true });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // Función para avanzar al siguiente paso
@@ -62,7 +81,7 @@ useEffect(() => {
         [`step${currentStep}`]: stepData,
       };
 
-     // console.log("Datos completos:", finalData);
+      // console.log("Datos completos:", finalData);
       handleFormComplete?.(finalData);
     }
   };
@@ -111,7 +130,21 @@ useEffect(() => {
   return (
     <div className=" bg-neutral-900 flex items-center justify-center p-4 sm:p-6 lg:p-8">
       <div className="relative w-full max-w-sm sm:max-w-md lg:max-w-lg xl:max-w-xl">
-        <div className="max-w-4xl mx-auto px-4">{renderCurrentStep()}</div>
+        {isLoading ? (
+          <Card className="p-6 bg-neutral-800 rounded-2xl shadow-lg border-blue-600 shadow-blue-700 w-full max-w-full">
+            <div className="text-center py-20">
+              <h1 className="text-4xl font-bold text-blue-500 mb-4 animate-pulse">
+                Guardando tu trade, gracias por tu paciencia...
+              </h1>
+              <div className="flex justify-center">
+                {/* Spinner animado con Tailwind */}
+                <div className="w-16 h-16 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin"></div>
+              </div>
+            </div>
+          </Card>
+        ) : (
+          <div className="max-w-4xl mx-auto px-4">{renderCurrentStep()}</div>
+        )}
       </div>
     </div>
   );
