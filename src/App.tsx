@@ -7,6 +7,7 @@ import { Register } from "./pages/Register";
 import DesprotectedRoute from "./components/utils/DesprotectedRoute";
 import IntLayaout from "./components/IntLayaout";
 import CreateTrade from "./pages/CreateTrade"
+import Analytics from "./pages/Analytics";
 
 function App() {
   return (
@@ -44,6 +45,18 @@ function App() {
                   element={
                     <IntLayaout>
                       <CreateTrade />
+                    </IntLayaout>
+                  }
+                />
+              }
+            />
+            <Route
+              path="/analytics"
+              element={
+                <ProtectedRoute
+                  element={
+                    <IntLayaout>
+                      <Analytics />
                     </IntLayaout>
                   }
                 />

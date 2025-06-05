@@ -95,7 +95,12 @@ const dataAnalisis = (data: TradeResponse): TradingMetrics => {
 
   // Métricas financieras
   const totalPnL = results.reduce((sum, trade) => sum + trade.step2.resultUsd, 0);
-  const totalFees = results.reduce((sum, trade) => sum + trade.step2.fees, 0);
+ 
+  let totalFees = results.reduce((sum, trade) => sum + trade.step2.fees, 0);
+  if (Number.isNaN(totalFees)){
+    totalFees = 0
+  }
+
   const netPnL = totalPnL - totalFees;
 
   const winningTrades = results.filter(trade => trade.step2.resultUsd > 0);
