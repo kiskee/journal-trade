@@ -96,16 +96,16 @@ export const tradeResultSchema = z.object({
     .min(1, "Debe ser al menos 1"),
 
   takeProfit: z
-    .number({ invalid_type_error: "El Take Profit debe ser un número" })
-    .min(1, "Debe ser al menos 1"),
+    .number({ invalid_type_error: "El Take Profit debe ser un número" }),
+    //.min(1, "Debe ser al menos 1"),
 
   resultUsd: z
-    .number({ invalid_type_error: "El resultado ($) debe ser un número" })
-    .min(1, "Debe ser al menos 1"),
+    .number({ invalid_type_error: "El resultado ($) debe ser un número" }),
+    //.min(1, "Debe ser al menos 1"),
 
   resultPercent: z
-    .number({ invalid_type_error: "El resultado (%) debe ser un número" })
-    .min(1, "Debe ser al menos 1"),
+    .number({ invalid_type_error: "El resultado (%) debe ser un número" }),
+    //.min(1, "Debe ser al menos 1"),
 
   fees: z
     .number({ invalid_type_error: "Las comisiones deben ser un número" })

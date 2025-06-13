@@ -38,7 +38,7 @@ const Analytics = () => {
     };
     init();
   }, []);
-  console.log(data);
+  
   return (
     <>
       <div className="grid grid-cols-4 grid-rows-4 gap-4 w-screen h-screen px-8 pt-2 pb-19">
