@@ -54,7 +54,7 @@ const NewEntry = () => {
       newData.date = new Date().toISOString();
       //if (!newData.step4.mediaFile) delete newData.step4.mediaFile
       delete newData.step4.mediaFile;
-
+      console.log(newData)
       await ModuleService.trades.create(newData);
 
       setIsLoading(false);

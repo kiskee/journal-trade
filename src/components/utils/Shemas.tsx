@@ -79,7 +79,9 @@ export const formShemaBasicData = z.object({
 
   leverage: z
     .number({ invalid_type_error: "El apalancamiento debe ser un número" })
-    .min(1, "Debe ser al menos 1"),
+    .nonnegative("Debe ser 0 o más")
+    .optional(),
+    //.min(1, "Debe ser al menos 1"),
 });
 
 export const tradeResultSchema = z.object({

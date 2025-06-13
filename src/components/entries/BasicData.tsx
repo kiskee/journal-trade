@@ -31,10 +31,10 @@ const BasicData = (props: FormStepProps) => {
       asset: "",
       tradeType: "compra",
       setup: "",
-      duration: 1,
+      duration: "",
       durationUnit: "min",
-      positionSize: 1,
-      leverage: 1,
+      positionSize: "",
+      leverage: "",
     },
   });
 
@@ -219,7 +219,10 @@ const BasicData = (props: FormStepProps) => {
             </label>
             <input
               type="number"
-              {...register("leverage", { valueAsNumber: true })}
+              {...register("leverage", {
+                setValueAs: (value) =>
+                  value === "" ? undefined : parseFloat(value) || 0,
+              })}
               className="w-full p-2 rounded bg-neutral-800 text-neutral-50 border border-neutral-700 text-sm min-w-0"
             />
             {errors.leverage && (
