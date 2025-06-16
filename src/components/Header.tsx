@@ -1,14 +1,5 @@
 import { useContext, useState, type JSX } from "react";
-import {
-  // Bell,
-  Search,
-  Settings,
-  Menu,
-  X,
-  TrendingUp,
-  Wallet,
-  BarChart3,
-} from "lucide-react";
+import { Menu, X, TrendingUp, Wallet, BarChart3 } from "lucide-react";
 import { Link, useNavigate } from "react-router-dom";
 import { googleLogout } from "@react-oauth/google";
 import { UserDetailContext } from "../context/UserDetailContext";
@@ -62,27 +53,27 @@ export default function Header(): JSX.Element {
 
           {/* Navegación desktop */}
           <nav className="hidden lg:flex items-center space-x-4 xl:space-x-6">
-           <Link to="/inicio">
-            <button className="flex items-center space-x-2 px-2 xl:px-3 py-2 rounded-lg text-neutral-200 hover:text-white hover:bg-neutral-800 transition-colors text-sm cursor-pointer">
-              <BarChart3 className="w-4 h-4" />
-              <span className="hidden xl:inline">Dashboard</span>
-            </button>
+            <Link to="/inicio">
+              <button className="flex items-center space-x-2 px-2 xl:px-3 py-2 rounded-lg text-neutral-200 hover:text-white hover:bg-neutral-800 transition-colors text-sm cursor-pointer">
+                <BarChart3 className="w-4 h-4" />
+                <span className="hidden xl:inline">Dashboard</span>
+              </button>
             </Link>
             <button className="flex items-center space-x-2 px-2 xl:px-3 py-2 rounded-lg text-neutral-200 hover:text-white hover:bg-neutral-800 transition-colors text-sm cursor-pointer">
               <Wallet className="w-4 h-4" />
               <span className="hidden xl:inline">Portfolio</span>
             </button>
             <Link to="/analytics">
-            <button className="flex items-center space-x-2 px-2 xl:px-3 py-2 rounded-lg text-neutral-200 hover:text-white hover:bg-neutral-800 transition-colors text-sm cursor-pointer">
-              <TrendingUp className="w-4 h-4" />
-              <span className="hidden xl:inline">Analytics</span>
-            </button>
+              <button className="flex items-center space-x-2 px-2 xl:px-3 py-2 rounded-lg text-neutral-200 hover:text-white hover:bg-neutral-800 transition-colors text-sm cursor-pointer">
+                <TrendingUp className="w-4 h-4" />
+                <span className="hidden xl:inline">Analytics</span>
+              </button>
             </Link>
             <Link to="/trade">
-            <button className="px-3 xl:px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors text-sm cursor-pointer">
-              <span className="hidden xl:inline">New Entry</span>
-              <span className="xl:hidden">New</span>
-            </button>
+              <button className="px-3 xl:px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors text-sm cursor-pointer">
+                <span className="hidden xl:inline">New Entry</span>
+                <span className="xl:hidden">New</span>
+              </button>
             </Link>
             <button
               className="px-3 xl:px-4 py-2 bg-red-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors text-sm cursor-pointer"
@@ -152,29 +143,27 @@ export default function Header(): JSX.Element {
         {isMenuOpen && (
           <div className="lg:hidden border-t border-neutral-800 py-3 sm:py-4">
             <nav className="flex flex-col space-y-1 sm:space-y-2">
-              <button className="flex items-center space-x-3 px-3 py-2.5 sm:py-3 rounded-lg text-neutral-200 hover:text-white hover:bg-neutral-800 transition-colors">
-                <BarChart3 className="w-5 h-5" />
-                <span>Dashboard</span>
-              </button>
+              <Link to="/inicio">
+                <button className="flex items-center space-x-3 px-3 py-2.5 sm:py-3 rounded-lg text-neutral-200 hover:text-white hover:bg-neutral-800 transition-colors">
+                  <BarChart3 className="w-5 h-5" />
+                  <span>Dashboard</span>
+                </button>
+              </Link>
               <button className="flex items-center space-x-3 px-3 py-2.5 sm:py-3 rounded-lg text-neutral-200 hover:text-white hover:bg-neutral-800 transition-colors">
                 <Wallet className="w-5 h-5" />
                 <span>Portfolio</span>
               </button>
-              <button className="flex items-center space-x-3 px-3 py-2.5 sm:py-3 rounded-lg text-neutral-200 hover:text-white hover:bg-neutral-800 transition-colors">
-                <TrendingUp className="w-5 h-5" />
-                <span>Analytics</span>
-              </button>
-              <button className="flex items-center space-x-3 px-3 py-2.5 sm:py-3 rounded-lg text-neutral-200 hover:text-white hover:bg-neutral-800 transition-colors sm:hidden">
-                <Search className="w-5 h-5" />
-                <span>Search</span>
-              </button>
-              <button className="flex items-center space-x-3 px-3 py-2.5 sm:py-3 rounded-lg text-neutral-200 hover:text-white hover:bg-neutral-800 transition-colors md:hidden">
-                <Settings className="w-5 h-5" />
-                <span>Settings</span>
-              </button>
-              <button className="mx-3 mt-2 px-4 py-2.5 sm:py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors">
-                New Entry
-              </button>
+              <Link to="/analytics">
+                <button className="flex items-center space-x-3 px-3 py-2.5 sm:py-3 rounded-lg text-neutral-200 hover:text-white hover:bg-neutral-800 transition-colors">
+                  <TrendingUp className="w-5 h-5" />
+                  <span>Analytics</span>
+                </button>
+              </Link>
+              <Link to="/trade">
+                <button className="mx-3 mt-2 px-4 py-2.5 sm:py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors">
+                  New Entry
+                </button>
+              </Link>
               <button
                 className="mx-3 mt-2 px-4 py-2.5 sm:py-3 bg-red-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
                 onClick={onLogOut}
