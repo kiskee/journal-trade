@@ -1,54 +1,31 @@
+import Calculator from "@/components/calculator/Calculator";
+
 import { Link } from "react-router-dom";
 
 export default function Home() {
   return (
     <>
-      <div className="grid grid-cols-5 grid-rows-6 gap-4 w-screen h-screen px-6 pb-20 pt-4">
-        <div className="col-span-2 inset-0 bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 text-center text-white">Lista de trades realizados</div>
-        <div className="col-span-2 col-start-4 row-start-1 inset-0 bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 text-center text-white">
-          calculadora here
-        </div>
-        <div className="col-span-5 col-start-1 row-start-2 inset-0 bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 text-center">
-          3
-        </div>
-        <div className="row-span-2 col-start-1 row-start-3 inset-0 bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 text-center">
-          4
-        </div>
-        <div className="row-span-2 col-start-2 row-start-3 inset-0 bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 text-center">
-          5
-        </div>
-        <div className="row-span-2 col-start-3 row-start-3 inset-0 bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 text-center">
-          6
-        </div>
-        <div className="row-span-2 col-start-4 row-start-3 inset-0 bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 text-center">
-          7
-        </div>
-        <div className="row-span-2 col-start-5 row-start-3 inset-0 bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 text-center">
-          8
-        </div>
-        <div className="row-span-2 col-start-1 row-start-5 inset-0 bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 text-center">
-          9
-        </div>
-        <div className="row-span-2 col-start-2 row-start-5 inset-0 bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 text-center">
-          10
-        </div>
-        <div className="row-span-2 col-start-3 row-start-5 inset-0 bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 text-center">
-          11
-        </div>
-        <div className="row-span-2 col-start-4 row-start-5 inset-0 bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 text-center">
-          12
-        </div>
-        <div className="row-span-2 col-start-5 row-start-5 inset-0 bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900 text-center">
-          13
-        </div>
-        <div className="col-start-3 row-start-1  flex items-center justify-center p-6 bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900">
-          {/* <div className="absolute inset-0 bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900"></div> */}
-          <Link
-            to="/trade"
-            className="px-8 py-4 bg-blue-700 text-white rounded-md text-lg font-semibold shadow-md shadow-emerald-400 hover:bg-violet-700 hover:shadow-lg hover:shadow-blue-400 transition duration-300 ease-in-out text-center"
-          >
-            Registra tu primera operación
-          </Link>
+      <div className="flex flex-col items-center gap-6 p-4 pt-8">
+        <h1 className="text-5xl text-white text-center">
+          {" "}
+          Resgistra tus operaciones en tu journal personal{" "}
+        </h1>
+        <Link
+          to="/trade"
+          className="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-6 py-3 rounded-lg text-lg font-semibold text-center transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5"
+        >
+          Registra tu primera operación
+        </Link>
+        <div className=" border-blue-600 p-8 rounded-md border-4 shadow-xl shadow-blue-800 flex flex-col items-center">
+          <h1 className="text-3xl text-blue-600 text-center pb-6">
+            {" "}
+            Calculadora de Lotajes{" "}
+          </h1>
+          <h1 className="text-2xl text-white text-center">
+            {" "}
+            Calcula Rapidamente tus lotajes{" "}
+          </h1>
+          <Calculator />
         </div>
       </div>
     </>
