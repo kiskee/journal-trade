@@ -52,7 +52,7 @@ const MediaTagsData = (props: FormStepProps) => {
   };
 
   return (
-    <div className="flex justify-center mt-10 w-full items-center">
+    <div className="flex justify-center w-full items-center">
       <div className="flex flex-col p-4 border-4 border-blue-600 text-center shadow-2xl shadow-blue-800 rounded-md items-center w-full max-w-4xl">
         {props.header}
         <h1 className="text-center font-semibold text-blue-600 text-2xl">
