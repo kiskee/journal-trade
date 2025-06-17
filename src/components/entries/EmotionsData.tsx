@@ -3,7 +3,6 @@ import { tradeEmotionsSchema } from "../utils/Shemas";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import type z from "zod";
-import { Card, CardFooter, CardHeader, CardTitle } from "../ui/card";
 import { ChevronLeft, Check, ChevronRight } from "lucide-react";
 
 // Opciones emocionales
@@ -46,17 +45,17 @@ const EmotionsData = (props: FormStepProps) => {
   const form = useForm<FormSchema>({
     resolver: zodResolver(tradeEmotionsSchema),
     defaultValues: props.initialData || {
-     emotionBefore: "",
-     emotionAfter: "",
-     confidenceLevel: "",
-     disciplineLevel: "",
+      emotionBefore: "",
+      emotionAfter: "",
+      confidenceLevel: "",
+      disciplineLevel: "",
     },
   });
 
   const {
     register,
     handleSubmit,
-    formState: { errors }, 
+    formState: { errors },
   } = form;
 
   const onSubmit = (data: FormSchema) => {
@@ -66,118 +65,113 @@ const EmotionsData = (props: FormStepProps) => {
 
   return (
     <>
-      <Card className="p-6 bg-neutral-800 rounded-2xl shadow-lg border-blue-600 shadow-blue-700 w-full max-w-full">
-        <CardHeader>
+      <div className="flex justify-center mt-10 w-full items-center">
+        <div className="flex flex-col p-4 border-4 border-blue-600 text-center shadow-2xl shadow-blue-800 rounded-md items-center w-full max-w-xl">
           {props.header}
-          <CardTitle className="text-xl sm:text-2xl lg:text-3xl text-center font-semibold text-blue-600 mb-6">
+          <h1 className="text-center font-semibold text-blue-600 text-2xl">
             Formulario de Emociones de la Operación
-          </CardTitle>
-        </CardHeader>
-        <form
-          onSubmit={handleSubmit(onSubmit)}
-          className="w-full max-w-xl mx-auto p-6  shadow-md rounded-xl space-y-6"
-        >
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block mb-1 font-medium text-white">
-                Emoción antes del trade
+          </h1>
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="flex flex-col sm:flex-row gap-4 w-full items-center mb-6">
+              {/* Emoción antes del trade */}
+              <div className="w-full sm:w-1/2">
+                <label className="block mb-1 text-neutral-200 text-sm">
+                  Emoción antes del trade
+                </label>
+                <select
+                  {...register("emotionBefore")}
+                  className="w-full p-2 rounded bg-neutral-800 text-neutral-50 border border-neutral-700 text-sm"
+                >
+                  <option value="">Selecciona una emoción</option>
+                  {emotionBeforeOptions.map((emotion) => (
+                    <option key={emotion} value={emotion}>
+                      {emotion}
+                    </option>
+                  ))}
+                </select>
+                {errors.emotionBefore && (
+                  <p className="text-rose-500 text-xs mt-1">
+                    {errors.emotionBefore.message}
+                  </p>
+                )}
+              </div>
+
+              {/* Emoción después del trade */}
+              <div className="w-full sm:w-1/2">
+                <label className="block mb-1 text-neutral-200 text-sm">
+                  Emoción después del trade
+                </label>
+                <select
+                  {...register("emotionAfter")}
+                  className="w-full p-2 rounded bg-neutral-800 text-neutral-50 border border-neutral-700 text-sm"
+                >
+                  <option value="">Selecciona una emoción</option>
+                  {emotionAfterOptions.map((emotion) => (
+                    <option key={emotion} value={emotion}>
+                      {emotion}
+                    </option>
+                  ))}
+                </select>
+                {errors.emotionAfter && (
+                  <p className="text-rose-500 text-xs mt-1">
+                    {errors.emotionAfter.message}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            {/* Nivel de confianza */}
+            <div className="w-full mb-6">
+              <label className="block mb-1 text-neutral-200 text-sm">
+                Nivel de confianza:
               </label>
-              <select
-                {...register("emotionBefore")}
-                className="w-full border rounded px-3 py-2 bg-white"
-              >
-                <option value="">Selecciona una emoción</option>
-                {emotionBeforeOptions.map((emotion) => (
-                  <option key={emotion} value={emotion}>
-                    {emotion}
-                  </option>
+              <input
+                type="range"
+                min="1"
+                max="10"
+                {...register("confidenceLevel", { valueAsNumber: true })}
+                className="w-full"
+              />
+              {/* Línea con valores del 1 al 10 */}
+              <div className="flex justify-between text-xs text-blue-400 mt-1 px-1">
+                {[...Array(10)].map((_, i) => (
+                  <span key={i}>{i + 1}</span>
                 ))}
-              </select>
-              {errors.emotionBefore && (
-                <p className="text-red-600 text-sm mt-1">
-                  {errors.emotionBefore.message}
+              </div>
+              {errors.confidenceLevel && (
+                <p className="text-rose-500 text-xs mt-1">
+                  {errors.confidenceLevel.message}
                 </p>
               )}
             </div>
 
-            <div>
-              <label className="block mb-1 font-medium text-white">
-                Emoción después del trade
+            {/* Nivel de disciplina */}
+            <div className="w-full mb-6">
+              <label className="block mb-1 text-neutral-200 text-sm">
+                Nivel de disciplina:
               </label>
-              <select
-                {...register("emotionAfter")}
-                className="w-full border rounded px-3 py-2  bg-white"
-              >
-                <option value="">Selecciona una emoción</option>
-                {emotionAfterOptions.map((emotion) => (
-                  <option key={emotion} value={emotion}>
-                    {emotion}
-                  </option>
+              <input
+                type="range"
+                min="1"
+                max="10"
+                {...register("disciplineLevel", { valueAsNumber: true })}
+                className="w-full"
+              />
+              {/* Línea con valores del 1 al 10 */}
+              <div className="flex justify-between text-xs text-blue-400 mt-1 px-1">
+                {[...Array(10)].map((_, i) => (
+                  <span key={i}>{i + 1}</span>
                 ))}
-              </select>
-              {errors.emotionAfter && (
-                <p className="text-red-600 text-sm mt-1">
-                  {errors.emotionAfter.message}
+              </div>
+              {errors.disciplineLevel && (
+                <p className="text-rose-500 text-xs mt-1">
+                  {errors.disciplineLevel.message}
                 </p>
               )}
             </div>
-          </div>
 
-          <div>
-            <label className="block mb-1 font-medium text-white">
-              Nivel de confianza:
-            </label>
-
-            <input
-              type="range"
-              min="1"
-              max="10"
-              {...register("confidenceLevel", { valueAsNumber: true })}
-              className="w-full"
-            />
-
-            {/* Línea con valores del 1 al 10 */}
-            <div className="flex justify-between text-xs text-blue-400 mt-1 px-1">
-              {[...Array(10)].map((_, i) => (
-                <span key={i}>{i + 1}</span>
-              ))}
-            </div>
-
-            {errors.confidenceLevel && (
-              <p className="text-red-600 text-sm mt-1">
-                {errors.confidenceLevel.message}
-              </p>
-            )}
-          </div>
-
-          <div>
-            <label className="block mb-1 font-medium text-white">
-              Nivel de disciplina:{" "}
-            </label>
-
-            {/* <Slider defaultValue={[0]} max={100} step={1} /> */}
-            <input
-              type="range"
-              min="1"
-              max="10"
-              {...register("disciplineLevel", { valueAsNumber: true })}
-              className="w-full"
-            />
-            {/* Línea con valores del 1 al 10 */}
-            <div className="flex justify-between text-xs text-blue-400 mt-1 px-1">
-              {[...Array(10)].map((_, i) => (
-                <span key={i}>{i + 1}</span>
-              ))}
-            </div>
-            {errors.disciplineLevel && (
-              <p className="text-red-600 text-sm mt-1">
-                {errors.disciplineLevel.message}
-              </p>
-            )}
-          </div>
-
-          <div className="col-span-2 row-start-5">
-            <CardFooter className="sm:col-span-2 mt-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4 p-0">
+            {/* Botones */}
+            <div className="flex flex-col sx:flex-row items-stretch sm:items-center justify-between gap-4 w-full">
               {!props.isFirst && (
                 <button
                   type="button"
@@ -209,10 +203,10 @@ const EmotionsData = (props: FormStepProps) => {
                   </>
                 )}
               </button>
-            </CardFooter>
-          </div>
-        </form>
-      </Card>
+            </div>
+          </form>
+        </div>
+      </div>
     </>
   );
 };

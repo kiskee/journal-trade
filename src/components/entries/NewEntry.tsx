@@ -143,7 +143,7 @@ const NewEntry = () => {
             </div>
           </Card>
         ) : (
-          <div className="max-w-4xl mx-auto px-4">{renderCurrentStep()}</div>
+          <div className=" ">{renderCurrentStep()}</div>
         )}
       </div>
     </div>
