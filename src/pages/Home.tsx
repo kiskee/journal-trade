@@ -1,11 +1,14 @@
 import Calculator from "@/components/calculator/Calculator";
+import LivePrices from "@/components/livePrices/LivePrices";
 
 import { Link } from "react-router-dom";
 
 export default function Home() {
   return (
     <>
+    <LivePrices />
       <div className="flex flex-col items-center gap-6 p-4 pt-8">
+        
         <h1 className="text-5xl text-white text-center">
           {" "}
           Resgistra tus operaciones en tu journal personal{" "}
@@ -27,6 +30,7 @@ export default function Home() {
           </h1>
           <Calculator />
         </div>
+        
       </div>
     </>
   );
