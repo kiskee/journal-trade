@@ -135,16 +135,3 @@ body {
   overflow-x: hidden !important;
 }
 
-@keyframes scroll {
-  0% {
-    transform: translateX(0%);
-  }
-  100% {
-    transform: translateX(-33.333%);
-  }
-}
-
-.animate-scroll {
-  display: inline-block;
-  animation: scroll 20s linear infinite;
-}

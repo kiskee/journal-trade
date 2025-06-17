@@ -9,19 +9,13 @@ const LivePrices = () => {
   ];
   return (
     <>
-      <div className="w-full overflow-hidden whitespace-nowrap ">
-        <div className="animate-scroll inline-block">
-          {[...Array(3)].flatMap((_, i) =>
-            pairs.map(({ coin }, idx) => (
-              <span
-                key={`${coin}-${i}-${idx}`}
-                className="inline-flex items-center mx-6 text-blue-600 text-lg sx:text-xl font-semibold"
-              >
-                {coin}: <SingleSocket coin={coin} />
-              </span>
-            ))
-          )}
-        </div>
+      <div className="grid grid-cols-2 grid-rows-2  justify-items-center ss:flex  ss:flex-row ss:gap-4 sm:gap-8 items-center w-full content-center justify-center px-2">
+        {pairs.map(({ coin }) => (
+          <div key={coin} className="">
+            <span className="text-blue-600 text-sm ss:text-xl text-center">{coin}: </span>
+            <SingleSocket coin={coin} />
+          </div>
+        ))}
       </div>
     </>
   );
