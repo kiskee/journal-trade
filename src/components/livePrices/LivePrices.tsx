@@ -9,10 +9,10 @@ const LivePrices = () => {
   ];
   return (
     <>
-      <div className="grid grid-cols-2 grid-rows-2  justify-items-center ss:flex  ss:flex-row ss:gap-4 sm:gap-8 items-center w-full content-center justify-center px-2">
+      <div className="grid grid-cols-2 grid-rows-2  justify-items-center ss:flex  ss:flex-row ss:gap-4 sm:gap-8 items-center w-screen content-center justify-center px-2 border-b-2  border-blue-800 shadow-md shadow-blue-800 py-1">
         {pairs.map(({ coin }) => (
           <div key={coin} className="">
-            <span className="text-blue-600 text-sm ss:text-xl text-center">{coin}: </span>
+            <span className="text-blue-600 text-sm ss:text-xl text-center">{coin}:  </span>
             <SingleSocket coin={coin} />
           </div>
         ))}
