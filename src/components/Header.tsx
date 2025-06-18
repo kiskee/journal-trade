@@ -151,10 +151,12 @@ export default function Header(): JSX.Element {
                   <span>Dashboard</span>
                 </button>
               </Link>
+              <Link to="/portfolio">
               <button className="flex items-center space-x-3 px-3 py-2.5 sm:py-3 rounded-lg text-neutral-200 hover:text-white hover:bg-neutral-800 transition-colors">
                 <Wallet className="w-5 h-5" />
                 <span>Portfolio</span>
               </button>
+              </Link>
               <Link to="/analytics">
                 <button className="flex items-center space-x-3 px-3 py-2.5 sm:py-3 rounded-lg text-neutral-200 hover:text-white hover:bg-neutral-800 transition-colors">
                   <TrendingUp className="w-5 h-5" />
