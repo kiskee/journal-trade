@@ -59,10 +59,12 @@ export default function Header(): JSX.Element {
                 <span className="hidden xl:inline">Dashboard</span>
               </button>
             </Link>
+            <Link to="/portfolio">
             <button className="flex items-center space-x-2 px-2 xl:px-3 py-2 rounded-lg text-neutral-200 hover:text-white hover:bg-neutral-800 transition-colors text-sm cursor-pointer">
               <Wallet className="w-4 h-4" />
               <span className="hidden xl:inline">Portfolio</span>
             </button>
+            </Link>
             <Link to="/analytics">
               <button className="flex items-center space-x-2 px-2 xl:px-3 py-2 rounded-lg text-neutral-200 hover:text-white hover:bg-neutral-800 transition-colors text-sm cursor-pointer">
                 <TrendingUp className="w-4 h-4" />

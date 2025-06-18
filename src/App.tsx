@@ -8,6 +8,7 @@ import DesprotectedRoute from "./components/utils/DesprotectedRoute";
 import IntLayaout from "./components/IntLayaout";
 import CreateTrade from "./pages/CreateTrade"
 import Analytics from "./pages/Analytics";
+import Portfolio from "./pages/Portfolio";
 
 function App() {
   return (
@@ -57,6 +58,18 @@ function App() {
                   element={
                     <IntLayaout>
                       <Analytics />
+                    </IntLayaout>
+                  }
+                />
+              }
+            />
+            <Route
+              path="/portfolio"
+              element={
+                <ProtectedRoute
+                  element={
+                    <IntLayaout>
+                      <Portfolio />
                     </IntLayaout>
                   }
                 />
