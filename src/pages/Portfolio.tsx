@@ -15,7 +15,8 @@ const Portfolio = () => {
   useEffect(() => {
     const initials = async () => {
       const results = await ModuleService.trades.byUser("user", userDetail?.id);
-      setTrades(results.results);
+      const sorted = results.results.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      setTrades(sorted);
     };
     initials();
   }, []);
