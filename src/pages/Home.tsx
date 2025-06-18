@@ -1,4 +1,5 @@
 import Calculator from "@/components/calculator/Calculator";
+import CreateStrategyForm from "@/components/CreateStrategyForm";
 import LivePrices from "@/components/livePrices/LivePrices";
 import { TrendingUp } from "lucide-react";
 import { Link } from "react-router-dom";
@@ -14,6 +15,7 @@ export default function Home() {
             Lleva el control de tus trades como un pro
           </h1>
         </div>
+        <CreateStrategyForm />
         <Link
           to="/trade"
           className="bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white px-6 py-3 rounded-lg text-lg font-semibold text-center transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 inline-block"
@@ -31,6 +33,8 @@ export default function Home() {
           </h1>
           <Calculator />
         </div>
+        
+        
       </div>
     </>
   );
