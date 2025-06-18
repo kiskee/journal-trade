@@ -11,14 +11,14 @@ export default function Footer() {
             <Link to="/inicio" className="hover:text-gray-300 transition">
               Inicio
             </Link>
-            <Link to="/about" className="hover:text-gray-300 transition">
-              Acerca
+            <Link to="/portfolio" className="hover:text-gray-300 transition">
+              Portfolio
             </Link>
-            <Link to="/services" className="hover:text-gray-300 transition">
-              Servicios
+            <Link to="/analytics" className="hover:text-gray-300 transition">
+              Analytics
             </Link>
-            <Link to="/contact" className="hover:text-gray-300 transition">
-              Contacto
+            <Link to="/trade" className="hover:text-gray-300 transition">
+              New Trade
             </Link>
           </div>
 
