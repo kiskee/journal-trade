@@ -1,9 +1,12 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Check } from "lucide-react";
 import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import ModuleService from "@/services/moduleService";
+import { UserDetailContext } from "@/context/UserDetailContext";
+import Loading from "@/components/Loading";
 
 const strategySchema = z.object({
   strategyName: z.string().min(1, "Nombre requerido"),
@@ -15,7 +18,14 @@ type StrategyForm = z.infer<typeof strategySchema>;
 
 const SimpleStrategyForm = () => {
   const [open, setOpen] = useState(false); // 1. Estado para el diálogo
-
+  const [isLoading, setIsLoading] = useState(false);
+  const context = useContext(UserDetailContext);
+  if (!context) {
+    throw new Error(
+      "UserDetailContext debe usarse dentro de un UserDetailProvider"
+    );
+  }
+  const { userDetail } = context;
   const {
     register,
     handleSubmit,
@@ -30,11 +40,19 @@ const SimpleStrategyForm = () => {
     },
   });
 
-  const onSubmit = (data: StrategyForm) => {
-    console.log("Form submitted:", data);
-    // Aquí pondrías la lógica real para guardar la estrategia
-    setOpen(false); // 2. Cierra el diálogo
-    reset();        // 3. Limpia el formulario si deseas
+  const onSubmit = async (data: any) => {
+    try {
+      setIsLoading(true);
+      data.user = userDetail?.id;
+      data.date = new Date().toISOString();
+      await ModuleService.strategies.create(data);
+    } catch (error) {
+      console.log(error);
+    } finally {
+      setIsLoading(false);
+      setOpen(false); // 2. Cierra el diálogo
+      reset(); // 3. Limpia el formulario si deseas
+    }
   };
 
   return (
@@ -46,74 +64,81 @@ const SimpleStrategyForm = () => {
       </DialogTrigger>
 
       <DialogContent className="bg-black">
-        <div className="flex justify-center w-full items-center">
-          <div className="flex flex-col p-4 border-4 border-blue-600 text-center shadow-2xl shadow-blue-800 rounded-md items-center w-full max-w-md">
-            <h1 className="text-blue-600 text-xl font-bold mb-4">
-              Nueva Estrategia
-            </h1>
+        {isLoading ? (
+          <Loading text="Guardando Estrategia" />
+        ) : (
+          <div className="flex justify-center w-full items-center">
+            <div className="flex flex-col p-4 border-4 border-blue-600 text-center shadow-2xl shadow-blue-800 rounded-md items-center w-full max-w-md">
+              <h1 className="text-blue-600 text-xl font-bold mb-4">
+                Nueva Estrategia
+              </h1>
 
-            <form onSubmit={handleSubmit(onSubmit)} className="w-full space-y-4">
-              {/* Nombre */}
-              <div>
-                <label className="block text-neutral-200 text-sm mb-1">
-                  Nombre:
-                </label>
-                <input
-                  {...register("strategyName")}
-                  className="w-full p-2 rounded bg-neutral-800 text-neutral-50 border border-neutral-700 text-sm"
-                />
-                {errors.strategyName && (
-                  <p className="text-rose-500 text-xs">
-                    {errors.strategyName.message}
-                  </p>
-                )}
-              </div>
-
-              {/* Entrada */}
-              <div>
-                <label className="block text-neutral-200 text-sm mb-1">
-                  Requisitos de entrada:
-                </label>
-                <textarea
-                  {...register("entryType")}
-                  rows={3}
-                  className="w-full p-2 rounded bg-neutral-800 text-neutral-50 border border-neutral-700 text-sm resize-none"
-                />
-                {errors.entryType && (
-                  <p className="text-rose-500 text-xs">
-                    {errors.entryType.message}
-                  </p>
-                )}
-              </div>
-
-              {/* Salida */}
-              <div>
-                <label className="block text-neutral-200 text-sm mb-1">
-                  Requisitos de salida:
-                </label>
-                <textarea
-                  {...register("exitType")}
-                  rows={3}
-                  className="w-full p-2 rounded bg-neutral-800 text-neutral-50 border border-neutral-700 text-sm resize-none"
-                />
-                {errors.exitType && (
-                  <p className="text-rose-500 text-xs">
-                    {errors.exitType.message}
-                  </p>
-                )}
-              </div>
-
-              {/* Botón */}
-              <button
-                type="submit"
-                className="w-full flex items-center justify-center px-4 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition duration-300"
+              <form
+                onSubmit={handleSubmit(onSubmit)}
+                className="w-full space-y-4"
               >
-                <Check size={18} className="mr-1" />
-                Guardar Estrategia
-              </button>
-            </form>
+                {/* Nombre */}
+                <div>
+                  <label className="block text-neutral-200 text-sm mb-1">
+                    Nombre:
+                  </label>
+                  <input
+                    {...register("strategyName")}
+                    className="w-full p-2 rounded bg-neutral-800 text-neutral-50 border border-neutral-700 text-sm"
+                  />
+                  {errors.strategyName && (
+                    <p className="text-rose-500 text-xs">
+                      {errors.strategyName.message}
+                    </p>
+                  )}
+                </div>
+
+                {/* Entrada */}
+                <div>
+                  <label className="block text-neutral-200 text-sm mb-1">
+                    Requisitos de entrada:
+                  </label>
+                  <textarea
+                    {...register("entryType")}
+                    rows={3}
+                    className="w-full p-2 rounded bg-neutral-800 text-neutral-50 border border-neutral-700 text-sm resize-none"
+                  />
+                  {errors.entryType && (
+                    <p className="text-rose-500 text-xs">
+                      {errors.entryType.message}
+                    </p>
+                  )}
+                </div>
+
+                {/* Salida */}
+                <div>
+                  <label className="block text-neutral-200 text-sm mb-1">
+                    Requisitos de salida:
+                  </label>
+                  <textarea
+                    {...register("exitType")}
+                    rows={3}
+                    className="w-full p-2 rounded bg-neutral-800 text-neutral-50 border border-neutral-700 text-sm resize-none"
+                  />
+                  {errors.exitType && (
+                    <p className="text-rose-500 text-xs">
+                      {errors.exitType.message}
+                    </p>
+                  )}
+                </div>
+
+                {/* Botón */}
+                <button
+                  type="submit"
+                  className="w-full flex items-center justify-center px-4 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition duration-300"
+                >
+                  <Check size={18} className="mr-1" />
+                  Guardar Estrategia
+                </button>
+              </form>
+            </div>
           </div>
-        </div>
+        )}
       </DialogContent>
     </Dialog>
   );

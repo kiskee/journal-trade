@@ -32,6 +32,10 @@ interface ModuleServiceType {
   trades: {
     create: (data: any) => Promise<AxiosResponse<any, any>>;
     byUser: (key: string, value: string) => Promise<TradeResponse>;
+  },
+  strategies: {
+    create: (data: any) => Promise<AxiosResponse<any, any>>;
+    byUser: (key: string, value: string) => Promise<TradeResponse>;
   }
 }
 
@@ -75,7 +79,20 @@ const ModuleService: ModuleServiceType = {
           params: { key, value },
         });
         return response.data;
+    }
+    
     },
+    strategies: {
+      create: async(data:any) =>{
+            const response = await apiClient.post('/strategies', data)
+            return response
+        },
+        byUser: async (key: string, value: string): Promise<TradeResponse> => {
+          const response: AxiosResponse<TradeResponse> = await apiClient.get('/strategies/search/find', {
+          params: { key, value },
+        });
+        return response.data;
+    }
     }
 //   password: {
 //     find: async (email: string): Promise<any> => {
