@@ -80,7 +80,7 @@ const SimpleStrategyForm = ({ onlyForm = false, onStrategyCreated }: SimpleStrat
       {!onlyForm && (
         <DialogTrigger asChild>
           <div className="bg-gradient-to-r from-neutral-600 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-black px-6 py-3 rounded-lg text-lg font-semibold text-center transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 inline-block">
-            Crea tu Primera estrategia
+            Nueva Estrategia
           </div>
         </DialogTrigger>
       )}

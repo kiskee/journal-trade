@@ -32,6 +32,7 @@ interface ModuleServiceType {
     create: (data: any) => Promise<AxiosResponse<any, any>>;
     byUser: (key: string, value: string) => Promise<TradeResponse>;
     lastTrade: (key: string, value: string) => Promise<TradeResponse>;
+    delete: (id: string) => Promise<AxiosResponse<any, any>>;
   };
   strategies: {
     create: (data: any) => Promise<AxiosResponse<any, any>>;
@@ -90,6 +91,10 @@ const ModuleService: ModuleServiceType = {
         }
       );
       return response.data;
+    },
+    delete: async (id: string) => {
+      const response = await apiClient.delete(`/trades/${id}`);
+      return response;
     },
   },
   strategies: {

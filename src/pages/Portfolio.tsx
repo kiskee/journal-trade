@@ -1,6 +1,18 @@
 import { useContext, useEffect, useState } from "react";
 import ModuleService from "@/services/moduleService";
 import { UserDetailContext } from "@/context/UserDetailContext";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog";
+import { Button } from "@/components/ui/button";
 
 const Portfolio = () => {
   const [trades, setTrades] = useState(null as any);
@@ -15,15 +27,30 @@ const Portfolio = () => {
   useEffect(() => {
     const initials = async () => {
       const results = await ModuleService.trades.byUser("user", userDetail?.id);
-      const sorted = results.results.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
+      const sorted = results.results.sort(
+        (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
+      );
       setTrades(sorted);
     };
     initials();
-  }, []);
+  }, [trades]);
+
+  const onHabdleDelete = async (id: string) => {
+    try {
+      const result = await ModuleService.trades.delete(id);
+      console.log(result);
+      const newTrades = trades.filter((trade: any) => trade.id !== 2);
+      setTrades(newTrades);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="min-h-screen w-full bg-neutral-900 p-6 text-blue-600 overflow-auto">
-      <h1 className="text-2xl font-bold mb-6 text-center">Portfolio - Trades</h1>
+      <h1 className="text-2xl font-bold mb-6 text-center">
+        Portfolio - Trades
+      </h1>
 
       {trades && trades.length > 0 ? (
         <div className="space-y-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6 justify-items-center">
@@ -32,6 +59,7 @@ const Portfolio = () => {
               key={trade.id}
               className="bg-neutral-800 text-white rounded-lg shadow-md p-6 border border-neutral-700 w-full h-full"
             >
+              <div>
               {/* Header */}
               <div className="flex justify-between items-start mb-4">
                 <div>
@@ -163,6 +191,36 @@ const Portfolio = () => {
                     </a>
                   )}
                 </div>
+              </div>
+              </div>
+              <div className="pt-4">
+                <AlertDialog>
+                  <AlertDialogTrigger asChild>
+                    <Button className="bg-red-500 text-black">
+                      Eliminar Trade
+                    </Button>
+                  </AlertDialogTrigger>
+                  <AlertDialogContent className="bg-neutral-900 border-2 border-red-600">
+                    <AlertDialogHeader>
+                      <AlertDialogTitle className="text-red-500 text-center">
+                        Estas complemante segur@??
+                      </AlertDialogTitle>
+                      <AlertDialogDescription className="text-white text-center">
+                        Esta accion no se puedo devolver. Borraremos el trade
+                        permanentemente de nuestra base de datos.
+                      </AlertDialogDescription>
+                    </AlertDialogHeader>
+                    <AlertDialogFooter>
+                      <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                      <AlertDialogAction
+                        className="bg-red-500 text-black"
+                        onClick={() => onHabdleDelete(trade.id)}
+                      >
+                        Borrar
+                      </AlertDialogAction>
+                    </AlertDialogFooter>
+                  </AlertDialogContent>
+                </AlertDialog>
               </div>
             </div>
           ))}
