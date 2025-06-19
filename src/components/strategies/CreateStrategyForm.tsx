@@ -6,7 +6,7 @@ import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
 import ModuleService from "@/services/moduleService";
 import { UserDetailContext } from "@/context/UserDetailContext";
 import Loading from "@/components/Loading";
-import StrategyForm from "./strategyForm";
+import StrategyForm from "./StrategyForm";
 
 const strategySchema = z.object({
   strategyName: z.string().min(1, "Nombre requerido"),
