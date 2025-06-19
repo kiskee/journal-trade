@@ -87,8 +87,8 @@ const BasicData = (props: FormStepProps) => {
   } = form;
 
   const onSubmit = (data: FormSchema) => {
-     console.log("Form submitted:", data);
-    //props.onNext(data);
+     //console.log("Form submitted:", data);
+    props.onNext(data);
   };
 
    const handleStrategyResult = (success: any) => {
