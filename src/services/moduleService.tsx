@@ -4,7 +4,6 @@ import axios, {
   type InternalAxiosRequestConfig,
 } from "axios";
 
-
 // interface ResetPasswordData {
 //   email: string;
 //   password: string;
@@ -19,24 +18,25 @@ import axios, {
 // }
 
 interface ModuleServiceType {
-//   password: {
-//     find: (email: string) => Promise<any>;
-//     reset: (data: ResetPasswordData) => Promise<any>;
-//   };
-//   users: {
-//     getAll: () => Promise<User[]>;
-//     getById: (id: string) => Promise<User>;
-//     update: (id: string, data: Partial<User>) => Promise<User>;
-//     remove: (id: string) => Promise<{ success: boolean }>;
-//   };
+  //   password: {
+  //     find: (email: string) => Promise<any>;
+  //     reset: (data: ResetPasswordData) => Promise<any>;
+  //   };
+  //   users: {
+  //     getAll: () => Promise<User[]>;
+  //     getById: (id: string) => Promise<User>;
+  //     update: (id: string, data: Partial<User>) => Promise<User>;
+  //     remove: (id: string) => Promise<{ success: boolean }>;
+  //   };
   trades: {
     create: (data: any) => Promise<AxiosResponse<any, any>>;
     byUser: (key: string, value: string) => Promise<TradeResponse>;
-  },
+    lastTrade: (key: string, value: string) => Promise<TradeResponse>;
+  };
   strategies: {
     create: (data: any) => Promise<AxiosResponse<any, any>>;
     byUser: (key: string, value: string) => Promise<TradeResponse>;
-  }
+  };
 }
 
 interface TradeResponse {
@@ -68,60 +68,73 @@ apiClient.interceptors.request.use(
 );
 
 const ModuleService: ModuleServiceType = {
-
-    trades: {
-        create: async(data:any) =>{
-            const response = await apiClient.post('/trades', data)
-            return response
-        },
-        byUser: async (key: string, value: string): Promise<TradeResponse> => {
-          const response: AxiosResponse<TradeResponse> = await apiClient.get('/trades/search/find', {
-          params: { key, value },
-        });
-        return response.data;
-    }
-    
+  trades: {
+    create: async (data: any) => {
+      const response = await apiClient.post("/trades", data);
+      return response;
     },
-    strategies: {
-      create: async(data:any) =>{
-            const response = await apiClient.post('/strategies', data)
-            return response
-        },
-        byUser: async (key: string, value: string): Promise<TradeResponse> => {
-          const response: AxiosResponse<TradeResponse> = await apiClient.get('/strategies/search/find', {
+    byUser: async (key: string, value: string): Promise<TradeResponse> => {
+      const response: AxiosResponse<TradeResponse> = await apiClient.get(
+        "/trades/search/find",
+        {
           params: { key, value },
-        });
-        return response.data;
-    }
-    }
-//   password: {
-//     find: async (email: string): Promise<any> => {
-//       const response = await apiClient.post(`/auth/forgot-password/${email}`);
-//       return response.data;
-//     },
-//     reset: async (data: ResetPasswordData): Promise<any> => {
-//       const response = await apiClient.post(`/auth/reset-password`, data);
-//       return response.data;
-//     },
-//   },
-//   users: {
-//     getAll: async (): Promise<User[]> => {
-//       const response = await apiClient.get("/users");
-//       return response.data;
-//     },
-//     getById: async (id: string): Promise<User> => {
-//       const response = await apiClient.get(`/users/${id}`);
-//       return response.data;
-//     },
-//     update: async (id: string, data: Partial<User>): Promise<User> => {
-//       const response = await apiClient.put(`/users/${id}`, data);
-//       return response.data;
-//     },
-//     remove: async (id: string): Promise<{ success: boolean }> => {
-//       await apiClient.delete(`/users/${id}`);
-//       return { success: true };
-//     },
-//   },
+        }
+      );
+      return response.data;
+    },
+    lastTrade: async (key: string, value: string): Promise<TradeResponse> => {
+      const response: AxiosResponse<TradeResponse> = await apiClient.get(
+        "/trades/search/latest",
+        {
+          params: { key, value },
+        }
+      );
+      return response.data;
+    },
+  },
+  strategies: {
+    create: async (data: any) => {
+      const response = await apiClient.post("/strategies", data);
+      return response;
+    },
+    byUser: async (key: string, value: string): Promise<TradeResponse> => {
+      const response: AxiosResponse<TradeResponse> = await apiClient.get(
+        "/strategies/search/find",
+        {
+          params: { key, value },
+        }
+      );
+      return response.data;
+    },
+  },
+  //   password: {
+  //     find: async (email: string): Promise<any> => {
+  //       const response = await apiClient.post(`/auth/forgot-password/${email}`);
+  //       return response.data;
+  //     },
+  //     reset: async (data: ResetPasswordData): Promise<any> => {
+  //       const response = await apiClient.post(`/auth/reset-password`, data);
+  //       return response.data;
+  //     },
+  //   },
+  //   users: {
+  //     getAll: async (): Promise<User[]> => {
+  //       const response = await apiClient.get("/users");
+  //       return response.data;
+  //     },
+  //     getById: async (id: string): Promise<User> => {
+  //       const response = await apiClient.get(`/users/${id}`);
+  //       return response.data;
+  //     },
+  //     update: async (id: string, data: Partial<User>): Promise<User> => {
+  //       const response = await apiClient.put(`/users/${id}`, data);
+  //       return response.data;
+  //     },
+  //     remove: async (id: string): Promise<{ success: boolean }> => {
+  //       await apiClient.delete(`/users/${id}`);
+  //       return { success: true };
+  //     },
+  //   },
 };
 
 export default ModuleService;
