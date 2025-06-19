@@ -33,7 +33,7 @@ const LastTrade = () => {
           <div className="w-full max-w-4xl mx-auto p-4 bg-neutral-900 text-white rounded-xl border border-green-400 shadow-md shadow-green-400">
             <div className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-2">
               <div>
-                <h2 className="text-lg font-semibold text-blue-500">
+                <h2 className="text-lg font-semibold text-blue-500  ">
                   Último Trade -{" "}
                   {new Date(tradeData.step1.date).toLocaleDateString()}
                 </h2>
@@ -45,7 +45,13 @@ const LastTrade = () => {
               <div className="text-sm text-right sm:text-left">
                 <p>
                   <span className="text-neutral-400">Resultado:</span>{" "}
-                  <span className="text-green-400 font-medium">
+                  <span
+                    className={`font-medium ${
+                      tradeData.step2.resultUsd >= 0
+                        ? "text-green-400"
+                        : "text-red-400"
+                    }`}
+                  >
                     ${tradeData.step2.resultUsd}
                   </span>
                 </p>
