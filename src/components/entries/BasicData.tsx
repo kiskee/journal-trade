@@ -7,8 +7,25 @@ import {
   TooltipContent,
   TooltipTrigger,
 } from "@/components/ui/tooltip";
-import { Check, ChevronRight } from "lucide-react";
-import type { ReactElement } from "react";
+import { Check, ChevronRight, ChevronsUpDown } from "lucide-react";
+import { useEffect, useState, type ReactElement } from "react";
+import ModuleService from "@/services/moduleService";
+import { Button } from "@/components/ui/button";
+import {
+  Command,
+  CommandEmpty,
+  CommandGroup,
+  CommandInput,
+  CommandItem,
+  CommandList,
+} from "@/components/ui/command";
+import {
+  Popover,
+  PopoverContent,
+  PopoverTrigger,
+} from "@/components/ui/popover";
+import { cn } from "@/lib/utils";
+import CreateStrategyForm from "../strategies/CreateStrategyForm";
 
 interface FormStepProps {
   onNext: (data: any) => void;
@@ -17,9 +34,32 @@ interface FormStepProps {
   isFirst: boolean;
   isLast: boolean;
   header: ReactElement<any, any>;
+  userId: string;
 }
 
 const BasicData = (props: FormStepProps) => {
+  const [strategyDate, setStrategyDate] = useState(null as any);
+  const [open, setOpen] = useState(false);
+  const [localValue, setLocalValue] = useState("");
+  const [strategyCreated, setStrategyCreated] = useState(null as any)
+
+  useEffect(() => {
+    const strategiesDate = async () => {
+      try {
+        const results = await ModuleService.strategies.byUser(
+          "user",
+          props.userId
+        );
+        console.log(results.results);
+        setStrategyDate(results.results);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    strategiesDate();
+  }, [strategyCreated]);
+
   type FormSchema = z.infer<typeof formShemaBasicData>;
 
   const form = useForm<FormSchema>({
@@ -40,14 +80,26 @@ const BasicData = (props: FormStepProps) => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors }, //isSubmitting
     // setError,
     // clearErrors,
   } = form;
 
   const onSubmit = (data: FormSchema) => {
-    // console.log("Form submitted:", data);
-    props.onNext(data);
+     console.log("Form submitted:", data);
+    //props.onNext(data);
+  };
+
+   const handleStrategyResult = (success: any) => {
+    if (success) {
+      console.log('¡Estrategia creada con éxito!');
+      // Aquí puedes recargar tu lista de estrategias
+      // o hacer cualquier otra acción
+      setStrategyCreated(false)
+    } else {
+      console.log('Error al crear la estrategia');
+    }
   };
 
   return (
@@ -148,10 +200,66 @@ const BasicData = (props: FormStepProps) => {
                 </Tooltip>
 
                 <input
-                  type="text"
-                  {...register("setup")}
-                  className="w-full p-2 rounded bg-neutral-800 text-neutral-50 border border-neutral-700 text-sm"
+                  type="hidden"
+                  {...register("setup", { value: localValue })}
+                  
                 />
+                {strategyDate ? (
+                  <Popover open={open} onOpenChange={setOpen}>
+                    <PopoverTrigger asChild>
+                      <Button
+                        variant="outline"
+                        role="combobox"
+                        aria-expanded={open}
+                        className="w-full justify-between bg-neutral-800 text-neutral-50 border-neutral-700 hover:bg-neutral-700 text-sm h-10"
+                      >
+                        {localValue || "Selecciona una estrategia..."}
+                        <ChevronsUpDown className="opacity-50" />
+                      </Button>
+                    </PopoverTrigger>
+                    <PopoverContent className="w-full p-0 bg-neutral-800 border-neutral-700">
+                      <Command className="bg-neutral-800">
+                        <CommandInput
+                          placeholder="Buscar estrategia..."
+                          className="h-9 bg-neutral-800 text-neutral-50 border-neutral-700"
+                        />
+                        <CommandList>
+                          <CommandEmpty className="text-neutral-400">
+                            No se encontró ninguna estrategia.
+                          </CommandEmpty>
+                          <CommandGroup>
+                            {strategyDate.map((strategy: any) => (
+                              <CommandItem
+                                key={strategy.id}
+                                value={strategy.strategyName}
+                                onSelect={(currentValue) => {
+                                  const newValue =
+                                    currentValue === localValue ? "" : currentValue;
+                                  setLocalValue(newValue);
+                                  setValue("setup", newValue);
+                                  setOpen(false);
+                                }}
+                                className="text-neutral-50 hover:bg-neutral-700"
+                              >
+                                {strategy.strategyName}
+                                <Check
+                                  className={cn(
+                                    "ml-auto",
+                                    localValue === strategy.strategyName
+                                      ? "opacity-100"
+                                      : "opacity-0"
+                                  )}
+                                />
+                              </CommandItem>
+                            ))}
+                          </CommandGroup>
+                        </CommandList>
+                      </Command>
+                    </PopoverContent>
+                  </Popover>
+                ): (<div className="w-full h-full">
+                <CreateStrategyForm onlyForm={false} onStrategyCreated={handleStrategyResult}/>
+                </div>)}
                 {errors.setup && (
                   <p className="text-rose-500 text-xs mt-1">
                     {errors.setup.message}

@@ -12,6 +12,7 @@ interface FormStepProps {
   isFirst: boolean;
   isLast: boolean;
   header: ReactElement<any, any>;
+  userId: string
 }
 
 const ResultsData = (props: FormStepProps) => {

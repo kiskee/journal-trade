@@ -17,6 +17,7 @@ interface FormStepProps {
   isFirst: boolean;
   isLast: boolean;
   header: ReactElement<any, any>;
+  userId: string
 }
 
 // Tipo para almacenar todos los datos del formulario
@@ -111,6 +112,7 @@ const NewEntry = () => {
         totalSteps,
         stepTitles,
       }),
+      userId: userDetail?.id,
     };
 
     switch (currentStep) {

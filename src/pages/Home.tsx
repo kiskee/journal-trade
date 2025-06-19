@@ -1,5 +1,5 @@
 import Calculator from "@/components/calculator/Calculator";
-import CreateStrategyForm from "@/components/CreateStrategyForm";
+import CreateStrategyForm from "@/components/strategies/CreateStrategyForm";
 import LastTrade from "@/components/LastTrade";
 import LivePrices from "@/components/livePrices/LivePrices";
 import { TrendingUp } from "lucide-react";
@@ -17,7 +17,7 @@ export default function Home() {
             Lleva el control de tus trades como un pro
           </h1>
         </div>
-        <CreateStrategyForm />
+        <CreateStrategyForm onlyForm={false}/>
         <Link
           to="/trade"
           className="bg-gradient-to-r from-emerald-500 to-blue-600 hover:from-emerald-600 hover:to-blue-700 text-white px-6 py-3 rounded-lg text-lg font-semibold text-center transition-all duration-200 shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 inline-block"
