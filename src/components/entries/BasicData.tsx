@@ -50,7 +50,6 @@ const BasicData = (props: FormStepProps) => {
           "user",
           props.userId
         );
-        console.log(results.results);
         setStrategyDate(results.results);
       } catch (error) {
         console.log(error);

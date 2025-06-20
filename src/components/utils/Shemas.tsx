@@ -81,7 +81,7 @@ export const formShemaBasicData = z.object({
     .number({ invalid_type_error: "El apalancamiento debe ser un número" })
     .nonnegative("Debe ser 0 o más")
     .optional(),
-    //.min(1, "Debe ser al menos 1"),
+  //.min(1, "Debe ser al menos 1"),
 });
 
 export const tradeResultSchema = z.object({
@@ -97,17 +97,20 @@ export const tradeResultSchema = z.object({
     .number({ invalid_type_error: "El Stop Loss debe ser un número" })
     .min(1, "Debe ser al menos 1"),
 
-  takeProfit: z
-    .number({ invalid_type_error: "El Take Profit debe ser un número" }),
-    //.min(1, "Debe ser al menos 1"),
+  takeProfit: z.number({
+    invalid_type_error: "El Take Profit debe ser un número",
+  }),
+  //.min(1, "Debe ser al menos 1"),
 
-  resultUsd: z
-    .number({ invalid_type_error: "El resultado ($) debe ser un número" }),
-    //.min(1, "Debe ser al menos 1"),
+  resultUsd: z.number({
+    invalid_type_error: "El resultado ($) debe ser un número",
+  }),
+  //.min(1, "Debe ser al menos 1"),
 
-  resultPercent: z
-    .number({ invalid_type_error: "El resultado (%) debe ser un número" }),
-    //.min(1, "Debe ser al menos 1"),
+  resultPercent: z.number({
+    invalid_type_error: "El resultado (%) debe ser un número",
+  }),
+  //.min(1, "Debe ser al menos 1"),
 
   fees: z
     .number({ invalid_type_error: "Las comisiones deben ser un número" })
@@ -186,12 +189,18 @@ export const tradeTagsMediaSchema = z.object({
       if (!fileList) return true; // undefined es válido
       if (fileList instanceof FileList) {
         if (fileList.length === 0) return true; // FileList vacío es válido
-        const file = fileList[0];
-        // Validaciones opcionales del archivo si existe
+
+        // Validar cada archivo en la lista
         const maxSize = 10 * 1024 * 1024; // 10MB
-        return file.size <= maxSize;
+        for (let i = 0; i < fileList.length; i++) {
+          const file = fileList[i];
+          if (file.size > maxSize) {
+            return false; // Si algún archivo es muy grande, falla
+          }
+        }
+        return true;
       }
       return fileList instanceof File; // También acepta File directo
-    }, "Archivo demasiado grande (máx. 10MB)")
+    }, "Uno o más archivos son demasiado grandes (máx. 10MB cada uno)")
     .optional(),
 });

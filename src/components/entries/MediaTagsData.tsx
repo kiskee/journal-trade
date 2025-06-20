@@ -1,5 +1,5 @@
 import { zodResolver } from "@hookform/resolvers/zod";
-import type { ReactElement } from "react";
+import { useState, type ReactElement } from "react";
 import { useForm } from "react-hook-form";
 import type z from "zod";
 import { tradeTagsMediaSchema } from "../utils/Shemas";
@@ -12,10 +12,13 @@ interface FormStepProps {
   isFirst: boolean;
   isLast: boolean;
   header: ReactElement<any, any>;
-  userId: string
+  userId: string;
 }
 
 const MediaTagsData = (props: FormStepProps) => {
+  const [selectedFiles, setSelectedFiles] = useState<File[]>(
+    props.initialData?.mediaFiles || []
+  );
   type FormData = z.infer<typeof tradeTagsMediaSchema>;
 
   const {
@@ -29,27 +32,48 @@ const MediaTagsData = (props: FormStepProps) => {
       tags: props.initialData?.tags || [],
       followedPlan: props.initialData?.followedPlan ?? false,
       mediaUrl: props.initialData?.mediaUrl || "",
-      mediaFile: undefined,
+      //mediaFiles: undefined,
     },
   });
 
   const onSubmit = (data: FormData) => {
-    // Procesar los datos antes de enviarlos
-    const processedData = {
+    //console.log(data)
+    const dataWithFiles = {
       ...data,
-      // Convertir FileList a File o null
-      mediaFile:
-        data.mediaFile && data.mediaFile.length > 0 ? data.mediaFile[0] : null,
-      // Asegurar que tags sea un array (puede estar vacío)
-      tags: Array.isArray(data.tags) ? data.tags : [],
-      // Limpiar mediaUrl si está vacía o solo espacios
       mediaUrl: data.mediaUrl?.trim() || undefined,
-      // Limpiar notes si está vacía
       notes: data.notes?.trim() || undefined,
+      mediaFiles: selectedFiles.length > 0 ? selectedFiles : undefined,
     };
+    //console.log(dataWithFiles);
+    // const processedData = {
+    //   ...data,
+    //   // Convertir FileList a File o null
+    //   mediaFile:
+    //     data.mediaFile && data.mediaFile.length > 0 ? data.mediaFile[0] : null,
+    //   // Asegurar que tags sea un array (puede estar vacío)
+    //   tags: Array.isArray(data.tags) ? data.tags : [],
+    //   // Limpiar mediaUrl si está vacía o solo espacios
+    //   mediaUrl: data.mediaUrl?.trim() || undefined,
+    //   // Limpiar notes si está vacía
+    //   notes: data.notes?.trim() || undefined,
+    // };
 
     //console.log("Form submitted:", processedData);
-    props.onNext(processedData);
+    props.onNext(dataWithFiles);
+  };
+
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const fileList = event.target.files;
+    if (fileList && fileList.length > 0) {
+      const newFiles = Array.from(fileList);
+      setSelectedFiles((prev) => [...prev, ...newFiles]);
+      // Limpiar el input para poder seleccionar el mismo archivo otra vez
+      event.target.value = "";
+    }
+  };
+
+  const removeFile = (index: number) => {
+    setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
   };
 
   return (
@@ -154,32 +178,50 @@ const MediaTagsData = (props: FormStepProps) => {
           {/* Subir archivo */}
           <div className="w-full mb-6">
             <label className="block mb-1 text-neutral-200 text-sm">
-              Subir archivo (opcional)
+              Subir archivos (opcional)
             </label>
+
             <input
-              {...register("mediaFile", {
-                setValueAs: (fileList) => {
-                  if (!fileList || fileList.length === 0) return undefined;
-                  return fileList;
-                },
-              })}
               type="file"
               accept="image/*,video/*"
+              onChange={handleFileSelect}
               className="w-full text-sm text-neutral-300 
-            file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 
-            file:text-sm file:font-semibold file:bg-blue-600 file:text-white 
-            hover:file:bg-blue-700 file:cursor-pointer file:transition-colors
-            cursor-pointer bg-neutral-700/50 rounded-lg p-3 border border-neutral-600
-            hover:bg-neutral-700/70 transition-colors duration-200"
+        file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 
+        file:text-sm file:font-semibold file:bg-blue-600 file:text-white 
+        hover:file:bg-blue-700 file:cursor-pointer file:transition-colors
+        cursor-pointer bg-neutral-700/50 rounded-lg p-3 border border-neutral-600
+        hover:bg-neutral-700/70 transition-colors duration-200"
             />
-            {errors.mediaFile && (
-              <p className="text-rose-500 text-xs mt-1">
-                {/* {errors.mediaFile.message} */}
-              </p>
-            )}
+
             <p className="text-neutral-400 text-xs mt-1">
-              Completamente opcional. Acepta imágenes y videos.
+              Puedes seleccionar archivos uno por uno. Acepta imágenes y videos.
             </p>
+
+            {/* Lista de archivos seleccionados */}
+            {selectedFiles.length > 0 && (
+              <div className="mt-3 space-y-2">
+                <p className="text-sm font-medium text-neutral-200">
+                  Archivos seleccionados ({selectedFiles.length}):
+                </p>
+                {selectedFiles.map((file, index) => (
+                  <div
+                    key={index}
+                    className="flex items-center justify-between bg-neutral-800 p-2 rounded"
+                  >
+                    <span className="text-sm text-neutral-300 truncate">
+                      {file.name} ({(file.size / 1024 / 1024).toFixed(2)} MB)
+                    </span>
+                    <button
+                      type="button"
+                      onClick={() => removeFile(index)}
+                      className="text-rose-400 hover:text-rose-300 text-sm ml-2 px-2"
+                    >
+                      ✕
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
           </div>
 
           {/* Botones */}
