@@ -3,7 +3,8 @@ import { useState, type ReactElement } from "react";
 import { useForm } from "react-hook-form";
 import type z from "zod";
 import { tradeTagsMediaSchema } from "../utils/Shemas";
-import { ChevronLeft, Check, ChevronRight } from "lucide-react";
+import { ChevronLeft, Check, ChevronRight, Upload, X } from "lucide-react";
+import { uploadMultipleFiles } from "../utils/fileUpload";
 
 interface FormStepProps {
   onNext: (data: any) => void;
@@ -15,10 +16,26 @@ interface FormStepProps {
   userId: string;
 }
 
+interface UploadedFile {
+  file: File;
+  url?: string;
+  key?: string;
+  uploading: boolean;
+  error?: string;
+}
+
 const MediaTagsData = (props: FormStepProps) => {
-  const [selectedFiles, setSelectedFiles] = useState<File[]>(
-    props.initialData?.mediaFiles || []
+  const [selectedFiles, setSelectedFiles] = useState<UploadedFile[]>(
+    props.initialData?.mediaFiles?.map((file: File) => ({
+      file,
+      uploading: false,
+    })) || []
   );
+  const [uploadProgress, setUploadProgress] = useState<{
+    current: number;
+    total: number;
+  } | null>(null);
+
   type FormData = z.infer<typeof tradeTagsMediaSchema>;
 
   const {
@@ -32,48 +49,103 @@ const MediaTagsData = (props: FormStepProps) => {
       tags: props.initialData?.tags || [],
       followedPlan: props.initialData?.followedPlan ?? false,
       mediaUrl: props.initialData?.mediaUrl || "",
-      //mediaFiles: undefined,
     },
   });
 
-  const onSubmit = (data: FormData) => {
-    //console.log(data)
+  const onSubmit = async (data: FormData) => {
+    // Subir archivos si hay alguno pendiente
+    const filesToUpload = selectedFiles.filter((f) => !f.url && !f.uploading);
+    let dataToSendInFiles: any;
+    if (filesToUpload.length > 0) {
+      dataToSendInFiles = await handleFileUpload(
+        filesToUpload.map((f) => f.file)
+      );
+    }
+
     const dataWithFiles = {
       ...data,
       mediaUrl: data.mediaUrl?.trim() || undefined,
       notes: data.notes?.trim() || undefined,
-      mediaFiles: selectedFiles.length > 0 ? selectedFiles : undefined,
+      uploadedFiles: dataToSendInFiles,
     };
-    //console.log(dataWithFiles);
-    // const processedData = {
-    //   ...data,
-    //   // Convertir FileList a File o null
-    //   mediaFile:
-    //     data.mediaFile && data.mediaFile.length > 0 ? data.mediaFile[0] : null,
-    //   // Asegurar que tags sea un array (puede estar vacío)
-    //   tags: Array.isArray(data.tags) ? data.tags : [],
-    //   // Limpiar mediaUrl si está vacía o solo espacios
-    //   mediaUrl: data.mediaUrl?.trim() || undefined,
-    //   // Limpiar notes si está vacía
-    //   notes: data.notes?.trim() || undefined,
-    // };
 
-    //console.log("Form submitted:", processedData);
+    //console.log("Form submitted:", dataWithFiles);
     props.onNext(dataWithFiles);
   };
 
   const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = event.target.files;
     if (fileList && fileList.length > 0) {
-      const newFiles = Array.from(fileList);
+      const newFiles = Array.from(fileList).map((file) => ({
+        file,
+        uploading: false,
+      }));
       setSelectedFiles((prev) => [...prev, ...newFiles]);
-      // Limpiar el input para poder seleccionar el mismo archivo otra vez
       event.target.value = "";
+    }
+  };
+
+  const handleFileUpload = async (files: File[]) => {
+    if (files.length === 0) return;
+
+    // Marcar archivos como "subiendo"
+    setSelectedFiles((prev) =>
+      prev.map((f) =>
+        files.includes(f.file) ? { ...f, uploading: true, error: undefined } : f
+      )
+    );
+
+    try {
+      const result = await uploadMultipleFiles(
+        files,
+        "trades", // carpeta específica para trades
+        props.userId,
+        (current, total) => setUploadProgress({ current, total })
+      );
+
+      if (!result.success) {
+        const errors = result.results
+          .filter((r) => !r.success)
+          .map((r) => r.error)
+          .join(", ");
+        alert(`Error subiendo algunos archivos: ${errors}`);
+      }
+      const results = result.results.map((r) => ({
+        file: r.file,
+        url: r.data.url,
+        key: r.data.key,
+        uploading: false,
+      }));
+      return results;
+    } catch (error) {
+      console.error("Error en upload:", error);
+      setSelectedFiles((prev) =>
+        prev.map((f) =>
+          files.includes(f.file)
+            ? { ...f, uploading: false, error: "Error de conexión" }
+            : f
+        )
+      );
+      setUploadProgress(null);
     }
   };
 
   const removeFile = (index: number) => {
     setSelectedFiles((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  const getFileStatusColor = (file: UploadedFile) => {
+    if (file.uploading) return "border-yellow-500 bg-yellow-900/20";
+    if (file.error) return "border-red-500 bg-red-900/20";
+    if (file.url) return "border-green-500 bg-green-900/20";
+    return "border-neutral-600 bg-neutral-800";
+  };
+
+  const getFileStatusIcon = (file: UploadedFile) => {
+    if (file.uploading) return <Upload className="animate-spin" size={16} />;
+    if (file.error) return <X size={16} className="text-red-400" />;
+    if (file.url) return <Check size={16} className="text-green-400" />;
+    return null;
   };
 
   return (
@@ -184,6 +256,7 @@ const MediaTagsData = (props: FormStepProps) => {
             <input
               type="file"
               accept="image/*,video/*"
+              multiple
               onChange={handleFileSelect}
               className="w-full text-sm text-neutral-300 
         file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 
@@ -193,9 +266,51 @@ const MediaTagsData = (props: FormStepProps) => {
         hover:bg-neutral-700/70 transition-colors duration-200"
             />
 
-            <p className="text-neutral-400 text-xs mt-1">
-              Puedes seleccionar archivos uno por uno. Acepta imágenes y videos.
-            </p>
+            <div className="flex justify-between items-center mt-2">
+              <p className="text-neutral-400 text-xs">
+                Acepta imágenes y videos. Máximo 5MB por archivo.
+              </p>
+
+              {selectedFiles.some(
+                (f) => !f.url && !f.uploading && !f.error
+              ) && (
+                <button
+                  type="button"
+                  onClick={() =>
+                    handleFileUpload(
+                      selectedFiles
+                        .filter((f) => !f.url && !f.uploading && !f.error)
+                        .map((f) => f.file)
+                    )
+                  }
+                  className="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white text-xs rounded-md transition-colors"
+                >
+                  Subir archivos
+                </button>
+              )}
+            </div>
+
+            {/* Progreso de upload */}
+            {uploadProgress && (
+              <div className="mt-3 p-3 bg-neutral-800 rounded-lg">
+                <div className="flex justify-between text-sm text-neutral-300 mb-2">
+                  <span>Subiendo archivos...</span>
+                  <span>
+                    {uploadProgress.current} / {uploadProgress.total}
+                  </span>
+                </div>
+                <div className="w-full bg-neutral-700 rounded-full h-2">
+                  <div
+                    className="bg-blue-600 h-2 rounded-full transition-all"
+                    style={{
+                      width: `${
+                        (uploadProgress.current / uploadProgress.total) * 100
+                      }%`,
+                    }}
+                  />
+                </div>
+              </div>
+            )}
 
             {/* Lista de archivos seleccionados */}
             {selectedFiles.length > 0 && (
@@ -203,18 +318,37 @@ const MediaTagsData = (props: FormStepProps) => {
                 <p className="text-sm font-medium text-neutral-200">
                   Archivos seleccionados ({selectedFiles.length}):
                 </p>
-                {selectedFiles.map((file, index) => (
+                {selectedFiles.map((fileObj, index) => (
                   <div
                     key={index}
-                    className="flex items-center justify-between bg-neutral-800 p-2 rounded"
+                    className={`flex items-center justify-between p-2 rounded border-2 ${getFileStatusColor(
+                      fileObj
+                    )}`}
                   >
-                    <span className="text-sm text-neutral-300 truncate">
-                      {file.name} ({(file.size / 1024 / 1024).toFixed(2)} MB)
-                    </span>
+                    <div className="flex items-center gap-2 flex-1">
+                      {getFileStatusIcon(fileObj)}
+                      <div className="flex-1">
+                        <span className="text-sm text-neutral-300 truncate block">
+                          {fileObj.file.name} (
+                          {(fileObj.file.size / 1024 / 1024).toFixed(2)} MB)
+                        </span>
+                        {fileObj.error && (
+                          <span className="text-xs text-red-400 block">
+                            Error: {fileObj.error}
+                          </span>
+                        )}
+                        {fileObj.url && (
+                          <span className="text-xs text-green-400 block">
+                            ✓ Subido correctamente
+                          </span>
+                        )}
+                      </div>
+                    </div>
                     <button
                       type="button"
                       onClick={() => removeFile(index)}
-                      className="text-rose-400 hover:text-rose-300 text-sm ml-2 px-2"
+                      disabled={fileObj.uploading}
+                      className="text-rose-400 hover:text-rose-300 disabled:opacity-50 disabled:cursor-not-allowed text-sm ml-2 px-2"
                     >
                       ✕
                     </button>
@@ -239,7 +373,8 @@ const MediaTagsData = (props: FormStepProps) => {
 
             <button
               type="submit"
-              className={`w-full sm:w-auto flex items-center justify-center px-6 py-3 font-semibold rounded-lg transition duration-300 text-sm sm:text-base ${
+              disabled={selectedFiles.some((f) => f.uploading)}
+              className={`w-full sm:w-auto flex items-center justify-center px-6 py-3 font-semibold rounded-lg transition duration-300 text-sm sm:text-base disabled:opacity-50 disabled:cursor-not-allowed ${
                 props.isLast
                   ? "bg-green-600 hover:bg-green-700 text-white"
                   : "bg-blue-600 hover:bg-blue-700 text-white"
