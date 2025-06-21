@@ -60,7 +60,7 @@ const Portfolio = () => {
           {trades.map((trade: any) => (
             <div
               key={trade.id}
-              className="bg-neutral-800 text-white rounded-lg shadow-md p-6 border border-neutral-700 w-full h-full"
+              className="bg-neutral-800 text-white rounded-lg shadow-md p-6 border border-neutral-700 w-full h-full sm:min-w-xs min-w-xs "
             >
               <div>
                 {/* Header */}
