@@ -32,7 +32,7 @@ const Portfolio = () => {
       const sorted = results.results.sort(
         (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
       );
-      console.log(sorted)
+      
       setTrades(sorted);
     };
     initials();
@@ -40,8 +40,8 @@ const Portfolio = () => {
 
   const onHabdleDelete = async (id: string) => {
     try {
-      const result = await ModuleService.trades.delete(id);
-     // console.log(result);
+      await ModuleService.trades.delete(id);
+      // console.log(result);
       const newTrades = trades.filter((trade: any) => trade.id !== id); // <- corregido: id !== id, no id !== 2
       setTrades(newTrades);
     } catch (error) {
@@ -177,6 +177,35 @@ const Portfolio = () => {
                             {tag}
                           </span>
                         ))}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* Imágenes subidas */}
+                  {trade.step4.uploadedFiles?.length > 0 && (
+                    <div className="mb-3">
+                      <h4 className="font-medium text-blue-400 mb-2">
+                        Imágenes
+                      </h4>
+                      <div className="flex flex-wrap gap-2">
+                        {trade.step4.uploadedFiles.map(
+                          (file: any, index: number) => (
+                            <a
+                              key={file.key || index}
+                              href={file.url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="block hover:opacity-80 transition-opacity"
+                            >
+                              <img
+                                src={file.url}
+                                alt={`Imagen ${index + 1}`}
+                                className="w-16 h-16 object-cover rounded border border-neutral-600 hover:border-blue-400"
+                                loading="lazy"
+                              />
+                            </a>
+                          )
+                        )}
                       </div>
                     </div>
                   )}
