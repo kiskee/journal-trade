@@ -1,3 +1,4 @@
+import { lazy, Suspense } from "react";
 import {
   Dialog,
   DialogClose,
@@ -8,6 +9,9 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
+const LotajeResumen = lazy(() => import("./LotajeResumen"));
+const InformacionGrid = lazy(() => import("./InformacionGrid"));
+const DetallesCalculo = lazy(() => import("./DetallesCalculo"));
 
 interface CalculoLotajeResult {
   lotaje: number;
@@ -58,90 +62,18 @@ const ResultDialog = ({
         </DialogHeader>
 
         <div className="space-y-4">
-          {/* Resultado Principal */}
-          <div className="p-4 sm:p-6 bg-gradient-to-r from-green-50 to-blue-50 rounded-lg border-l-4 border-green-500">
-            <div className="text-center">
-              <p className="text-sm sm:text-base text-gray-600 mb-1">
-                Lotaje Calculado
-              </p>
-              <p className="text-2xl sm:text-3xl lg:text-4xl font-bold text-green-600">
-                {result.lotaje}
-              </p>
-              <p className="text-sm text-gray-500">lotes</p>
-            </div>
-          </div>
+          <Suspense fallback={<div>Cargando resumen...</div>}>
+            <LotajeResumen lotaje={result.lotaje} />
+          </Suspense>
 
-          {/* Grid de información */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-            <div className="bg-gray-50 p-3 sm:p-4 rounded-lg">
-              <p className="text-xs sm:text-sm text-gray-600">Stop Loss</p>
-              <p className="text-lg sm:text-xl font-semibold text-gray-800">
-                {result.stopLossPips}{" "}
-                <span className="text-sm font-normal">pips</span>
-              </p>
-            </div>
+          <Suspense fallback={<div>Cargando información...</div>}>
+            <InformacionGrid result={result} />
+          </Suspense>
 
-            <div className="bg-gray-50 p-3 sm:p-4 rounded-lg">
-              <p className="text-xs sm:text-sm text-gray-600">Riesgo</p>
-              <p className="text-lg sm:text-xl font-semibold text-gray-800">
-                ${result.riesgoUSD}{" "}
-                <span className="text-sm font-normal">USD</span>
-              </p>
-            </div>
+          <Suspense fallback={<div>Cargando detalles...</div>}>
+            <DetallesCalculo result={result} />
+          </Suspense>
 
-            <div className="bg-gray-50 p-3 sm:p-4 rounded-lg">
-              <p className="text-xs sm:text-sm text-gray-600">Valor por Pip</p>
-              <p className="text-lg sm:text-xl font-semibold text-gray-800">
-                ${result.pipValue}
-              </p>
-            </div>
-
-            <div className="bg-gray-50 p-3 sm:p-4 rounded-lg">
-              <p className="text-xs sm:text-sm text-gray-600">Riesgo por Pip</p>
-              <p className="text-lg sm:text-xl font-semibold text-gray-800">
-                ${result.detalles.riesgoPorPip}
-              </p>
-            </div>
-          </div>
-
-          {/* Detalles adicionales */}
-          <div className="bg-gray-50 p-4 sm:p-5 rounded-lg">
-            <h4 className="text-sm sm:text-base font-semibold text-gray-700 mb-3">
-              💡 Detalles del Cálculo
-            </h4>
-            <div className="space-y-2">
-              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-0">
-                <span className="text-sm text-gray-600">
-                  Riesgo Total Real:
-                </span>
-                <span className="text-sm font-medium text-gray-800">
-                  ${result.detalles.riesgoTotal.toFixed(2)} USD
-                </span>
-              </div>
-              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-0">
-                <span className="text-sm text-gray-600">
-                  Lotaje Redondeado:
-                </span>
-                <span className="text-sm font-medium text-gray-800">
-                  {result.detalles.lotajeRedondeado} lotes
-                </span>
-              </div>
-              <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-0">
-                <span className="text-sm text-gray-600">
-                  Diferencia de Riesgo:
-                </span>
-                <span className="text-sm font-medium text-orange-600">
-                  $
-                  {Math.abs(
-                    result.riesgoUSD - result.detalles.riesgoTotal
-                  ).toFixed(2)}{" "}
-                  USD
-                </span>
-              </div>
-            </div>
-          </div>
-
-          {/* Nota informativa */}
           <div className="p-3 sm:p-4 bg-blue-50 border border-blue-200 rounded-lg">
             <p className="text-xs sm:text-sm text-blue-700">
               💡 <strong>Nota:</strong> El riesgo real puede diferir ligeramente

@@ -1,14 +1,4 @@
-import { Check, ChevronsUpDown } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import {
-  Command,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-} from "@/components/ui/command";
 import {
   Form,
   FormControl,
@@ -17,14 +7,11 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+
 import type { UseFormReturn } from "react-hook-form";
 import { Input } from "../ui/input";
-import { useState } from "react";
+import { lazy, Suspense } from "react";
+const SelectPair = lazy(() => import("./SelectPair"));
 
 type FormValues = {
   par: string;
@@ -39,7 +26,6 @@ type Props = {
 };
 
 const CalForm = ({ form, tradingPairs, onSubmit }: Props) => {
-  const [open, setOpen] = useState(false);
   return (
     <Form {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6 pt-4">
@@ -49,67 +35,19 @@ const CalForm = ({ form, tradingPairs, onSubmit }: Props) => {
             control={form.control}
             name="par"
             render={({ field }) => (
-              <FormItem className="flex flex-col items-center">
-                <FormLabel className="text-blue-600 text-2xl">Pares</FormLabel>
-                <Popover open={open} onOpenChange={setOpen}>
-                  <PopoverTrigger asChild>
-                    <FormControl>
-                      <Button
-                        variant="outline"
-                        role="combobox"
-                        aria-expanded={open}
-                        className={cn(
-                          "w-[200px] justify-between",
-                          !field.value && "text-muted-foreground",
-                          "text-black"
-                        )}
-                      >
-                        {field.value
-                          ? tradingPairs.find(
-                              (pair) => pair.value === field.value
-                            )?.label
-                          : "Selecciona un Par"}
-                        <ChevronsUpDown className="opacity-50" />
-                      </Button>
-                    </FormControl>
-                  </PopoverTrigger>
-                  <PopoverContent className="w-[200px] p-0">
-                    <Command>
-                      <CommandInput placeholder="Buscar..." className="h-9" />
-                      <CommandList>
-                        <CommandEmpty>No se encontró el par.</CommandEmpty>
-                        <CommandGroup>
-                          {tradingPairs.map((pair) => (
-                            <CommandItem
-                              value={pair.label}
-                              key={pair.value}
-                              onSelect={() => {
-                                form.setValue("par", pair.value, {
-                                  shouldValidate: true,
-                                  shouldDirty: true,
-                                  shouldTouch: true,
-                                });
-                                setOpen(false);
-                              }}
-                            >
-                              {pair.label}
-                              <Check
-                                className={cn(
-                                  "ml-auto",
-                                  pair.value === field.value
-                                    ? "opacity-100"
-                                    : "opacity-0"
-                                )}
-                              />
-                            </CommandItem>
-                          ))}
-                        </CommandGroup>
-                      </CommandList>
-                    </Command>
-                  </PopoverContent>
-                </Popover>
-                <FormMessage />
-              </FormItem>
+              <Suspense fallback={<div>Cargando selector...</div>}>
+                <SelectPair
+                  value={field.value}
+                  onChange={(value) =>
+                    form.setValue("par", value, {
+                      shouldValidate: true,
+                      shouldDirty: true,
+                      shouldTouch: true,
+                    })
+                  }
+                  tradingPairs={tradingPairs}
+                />
+              </Suspense>
             )}
           />
           <div className="flex flex-row text-center gap-6">
