@@ -255,7 +255,7 @@ const MediaTagsData = (props: FormStepProps) => {
 
             <input
               type="file"
-              accept="image/*,video/*"
+              accept="image/*"
               multiple
               onChange={handleFileSelect}
               className="w-full text-sm text-neutral-300 
@@ -268,7 +268,7 @@ const MediaTagsData = (props: FormStepProps) => {
 
             <div className="flex justify-between items-center mt-2">
               <p className="text-neutral-400 text-xs">
-                Acepta imágenes y videos. Máximo 5MB por archivo.
+                Acepta imágenes. Máximo 5MB por archivo.
               </p>
 
               {selectedFiles.some(

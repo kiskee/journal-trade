@@ -61,6 +61,7 @@ apiClient.interceptors.request.use(
       const parsed = JSON.parse(tokenData) as { token: string };
       if (parsed.token) {
         config.headers.set("Authorization", `Bearer ${parsed.token}`);
+        //config.headers.set("Content-Type", "application/json")
       }
     }
 
@@ -117,11 +118,7 @@ const ModuleService: ModuleServiceType = {
   },
   images: {
     create: async (data: any) => {
-      const response = await apiClient.post("/images/upload", data, {
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+      const response = await apiClient.post("/images/upload", data);
       return response;
     },
   },
