@@ -47,7 +47,6 @@ const Calculator = () => {
     setResult(null);
     form.reset(); // Resetear tu formulario
   };
-  //console.log(result);
   return (
     <>
       <div className="pt-4">

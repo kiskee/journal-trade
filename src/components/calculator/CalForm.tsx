@@ -84,7 +84,6 @@ const CalForm = ({ form, tradingPairs, onSubmit }: Props) => {
                               value={pair.label}
                               key={pair.value}
                               onSelect={() => {
-                                console.log(pair.value);
                                 form.setValue("par", pair.value, {
                                   shouldValidate: true,
                                   shouldDirty: true,

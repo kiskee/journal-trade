@@ -40,7 +40,6 @@ const ResultsData = (props: FormStepProps) => {
   } = form;
 
   const onSubmit = (data: FormSchema) => {
-    // console.log("Form submitted:", data);
     props.onNext(data);
   };
 

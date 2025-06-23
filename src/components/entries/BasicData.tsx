@@ -86,13 +86,12 @@ const BasicData = (props: FormStepProps) => {
   } = form;
 
   const onSubmit = (data: FormSchema) => {
-     //console.log("Form submitted:", data);
     props.onNext(data);
   };
 
    const handleStrategyResult = (success: any) => {
     if (success) {
-      console.log('¡Estrategia creada con éxito!');
+      
       // Aquí puedes recargar tu lista de estrategias
       // o hacer cualquier otra acción
       setStrategyCreated(false)

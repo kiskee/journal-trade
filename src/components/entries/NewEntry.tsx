@@ -53,9 +53,6 @@ const NewEntry = () => {
       const newData: any = { ...data };
       newData.user = userDetail?.id;
       newData.date = new Date().toISOString();
-      //if (!newData.step4.mediaFile) delete newData.step4.mediaFile
-      //delete newData.step4.mediaFiles;
-      //console.log(newData)
       await ModuleService.trades.create(newData);
 
       setIsLoading(false);
@@ -81,8 +78,6 @@ const NewEntry = () => {
         ...formData,
         [`step${currentStep}`]: stepData,
       };
-
-      // console.log("Datos completos:", finalData);
       handleFormComplete?.(finalData);
     }
   };

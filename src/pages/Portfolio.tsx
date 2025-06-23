@@ -41,7 +41,6 @@ const Portfolio = () => {
   const onHabdleDelete = async (id: string) => {
     try {
       await ModuleService.trades.delete(id);
-      // console.log(result);
       const newTrades = trades.filter((trade: any) => trade.id !== id); // <- corregido: id !== id, no id !== 2
       setTrades(newTrades);
     } catch (error) {

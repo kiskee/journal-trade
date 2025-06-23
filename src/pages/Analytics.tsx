@@ -16,7 +16,6 @@ const Analytics = () => {
     );
   }
   const { userDetail } = context;
-  //console.log(userDetail)
   useEffect(() => {
     setIsLoading(true);
     const init = async () => {
@@ -28,7 +27,6 @@ const Analytics = () => {
 
         const result = dataAnalisis(results);
         setData(result);
-        //console.log(mostrarResumenMetricas(result));
         setIsLoading(false);
       } catch (error) {
         console.log(error);

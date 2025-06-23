@@ -255,8 +255,5 @@ const mostrarResumenMetricas = (metricas: TradingMetrics): string => {
   `;
 };
 
-// Ejemplo de uso:
-// const metricas = dataAnalisis(tusDatos);
-// console.log(mostrarResumenMetricas(metricas));
 
 export { dataAnalisis, mostrarResumenMetricas, type TradingMetrics, type TradeResponse };
