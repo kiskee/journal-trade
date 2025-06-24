@@ -25,7 +25,7 @@ export default function Home() {
         >
           Registrar Trade en Journal
         </Link>
-        <News/>
+       
         <LastTrade/>
         <div className=" border-blue-600 p-8 rounded-md border-4 shadow-xl shadow-blue-800 flex flex-col items-center">
           <h1 className="text-3xl text-blue-600 text-center pb-6">
@@ -38,7 +38,7 @@ export default function Home() {
           </h1>
           <Calculator />
         </div>
-        
+         <News/>
         
       </div>
     </>
