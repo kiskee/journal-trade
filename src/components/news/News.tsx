@@ -1,5 +1,3 @@
-
-// export default News;
 import { useEffect, useState, type JSX } from "react";
 import {
   Calendar,
@@ -52,13 +50,22 @@ const News = () => {
     initial();
   }, []);
 
-  const formatTime = (dateString: string): string => {
-    const date = new Date(dateString.replace(/\./g, "-").replace(" ", "T"));
-    return date.toLocaleTimeString("es-ES", {
-      hour: "2-digit",
-      minute: "2-digit",
-    });
-  };
+  // [...newsData]
+  //             .sort((a, b) => {
+  //               const dateA = new Date(
+  //                 new Date(
+  //                   a.Date.replace(/\./g, "-").replace(" ", "T")
+  //                 ).getTime() -
+  //                   8 * 60 * 60 * 1000
+  //               );
+  //               const dateB = new Date(
+  //                 new Date(
+  //                   b.Date.replace(/\./g, "-").replace(" ", "T")
+  //                 ).getTime() -
+  //                   8 * 60 * 60 * 1000
+  //               );
+  //               return dateA.getTime() - dateB.getTime(); // ascendente
+  //             })
 
   const getStrengthColor = (strength: string): string => {
     switch (strength as StrengthType) {
@@ -142,7 +149,17 @@ const News = () => {
                   </span>
                   <div className="flex items-center text-gray-600 text-sm">
                     <Clock className="w-4 h-4 mr-1" />
-                    {formatTime(item.Date)}
+                    {new Date(
+                      new Date(
+                        item.Date.replace(/\./g, "-").replace(" ", "T")
+                      ).getTime() -
+                        8 * 60 * 60 * 1000
+                    ).toLocaleTimeString("es-CO", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      hour12: true,
+                      timeZone: "America/Bogota",
+                    })}
                   </div>
                 </div>
                 <div className="flex items-center gap-2">
