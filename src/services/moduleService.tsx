@@ -41,6 +41,9 @@ interface ModuleServiceType {
   images: {
     create: (data: any) => Promise<AxiosResponse<any, any>>;
   };
+  news: {
+    today: () => Promise<AxiosResponse<any, any>>;
+  }
 }
 
 interface TradeResponse {
@@ -121,6 +124,12 @@ const ModuleService: ModuleServiceType = {
       const response = await apiClient.post("/images/upload", data);
       return response;
     },
+  },
+  news: {
+    today: async () => {
+      const response = await apiClient.get('/news/today');
+      return response;
+    }
   },
   //   password: {
   //     find: async (email: string): Promise<any> => {
