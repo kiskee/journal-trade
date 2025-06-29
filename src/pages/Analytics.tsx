@@ -3,290 +3,154 @@ import { useContext, useEffect, useState } from "react";
 import ModuleService from "@/services/moduleService";
 import Loading from "@/components/Loading";
 import { dataAnalisis, type TradingMetrics } from "@/services/dataAnalisis";
-
-
+import MetricCard from "@/components/analytics/MetricCard";
+import {
+  BarChart,
+  TrendingUp,
+  TrendingDown,
+  DollarSign,
+  Target,
+  Scale,
+  Percent,
+  Hash,
+  Heart,
+  Brain,
+  CheckCircle,
+  Award,
+  Shield,
+  Clock,
+  Zap,
+  PlusCircle,
+} from "lucide-react";
+import { Link } from "react-router-dom";
 
 const Analytics = () => {
-  const [data, setData] = useState<TradingMetrics>();
+  const [data, setData] = useState<TradingMetrics | null>(null);
+  const [isLoading, setIsLoading] = useState(true);
   const context = useContext(UserDetailContext);
-  const [isLoading, setIsLoading] = useState(false);
+
   if (!context) {
     throw new Error(
       "UserDetailContext debe usarse dentro de un UserDetailProvider"
     );
   }
   const { userDetail } = context;
+
   useEffect(() => {
-    setIsLoading(true);
     const init = async () => {
+      setIsLoading(true);
       try {
-        const results = await ModuleService.trades.byUser(
+        const response = await ModuleService.trades.byUser(
           "user",
           userDetail?.id
         );
-
-        const result = dataAnalisis(results);
-        setData(result);
-        setIsLoading(false);
+        if (response.results && response.results.length > 0) {
+          const result = dataAnalisis(response);
+          setData(result);
+        } else {
+          setData(null); // No hay trades
+        }
       } catch (error) {
-        console.log(error);
-        setData(undefined);
+        console.error("Error fetching analytics data:", error);
+        setData(null);
+      } finally {
         setIsLoading(false);
       }
     };
     init();
-  }, []);
-  
+  }, [userDetail?.id]);
+
+  if (isLoading) {
+    return (
+      <div className="w-screen h-screen flex items-center justify-center bg-neutral-900">
+        <Loading text="Analizando tus métricas..." />
+      </div>
+    );
+  }
+
+  if (!data) {
+    return (
+      <div className="w-screen h-screen flex flex-col items-center justify-center text-center text-white bg-neutral-900 p-8">
+        <Target size={64} className="text-blue-600 mb-4" />
+        <h2 className="text-3xl font-bold mb-2">Aún no hay datos que analizar</h2>
+        <p className="text-neutral-400 mb-6 max-w-md">
+          Parece que no has registrado ninguna operación. ¡Empieza ahora para ver
+          tus estadísticas y mejorar tu rendimiento!
+        </p>
+        <Link
+          to="/trade"
+          className="bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-6 rounded-lg transition-all duration-200 flex items-center gap-2"
+        >
+          <PlusCircle size={20} />
+          Registrar mi primer Trade
+        </Link>
+      </div>
+    );
+  }
+
   return (
-    <>
-      <div className="grid grid-cols-4 grid-rows-4 gap-4 w-screen h-screen px-8 pt-2 pb-19">
-        <div className="shadow-sm shadow-blue-400">
-          {isLoading ? (
-            <Loading text="loading" />
-          ) : (
-            <div className="flex flex-col items-center justify-center p-4 bg-neutral-950  shadow-lg w-full h-full shadow-blue-800">
-              <span className="text-lg font-medium text-white"># Trades</span>
-              <span className="text-4xl font-bold text-blue-600 mt-2">
-                {data?.totalTrades ?? 0}
-              </span>{" "}
-              {/* <- reemplaza el número dinámicamente */}
-            </div>
-          )}
-        </div>
-        <div className="col-span-2 w-full  h-full  bg-neutral-900">
-          <div className="grid grid-cols-2 grid-rows-1 gap-4 h-full">
-            <div className="shadow-sm shadow-blue-400">
-              {isLoading ? (
-                <Loading text="loading" />
-              ) : (
-                <div className="flex flex-col items-center justify-center p-4 bg-neutral-950  shadow-lg w-full h-full shadow-blue-800">
-                  <span className="text-lg font-medium text-white">
-                    # Trades
-                  </span>
-                  <span className="text-4xl font-bold text-blue-600 mt-2">
-                    {data?.totalTrades ?? 0}
-                  </span>{" "}
-                  {/* <- reemplaza el número dinámicamente */}
-                </div>
-              )}
-            </div>
-            <div className="shadow-sm shadow-blue-400">
-              {isLoading ? (
-                <Loading text="loading" />
-              ) : (
-                <div className="flex flex-col items-center justify-center p-4 bg-neutral-950  shadow-lg w-full h-full shadow-blue-800">
-                  <span className="text-lg font-medium text-white">
-                    # Trades
-                  </span>
-                  <span className="text-4xl font-bold text-blue-600 mt-2">
-                    {data?.totalTrades ?? 0}
-                  </span>{" "}
-                  {/* <- reemplaza el número dinámicamente */}
-                </div>
-              )}
-            </div>
-          </div>
-          {/* <Link
-            to="/trade"
-            className="px-6 py-3 bg-blue-600 text-white rounded-2xl shadow-lg text-lg font-semibold hover:bg-blue-700 transition duration-300 shadow-blue-400"
-          >
-            Registra tu primera operación
-          </Link> */}
+    <div className="min-h-screen w-full bg-neutral-900 text-white p-4 sm:p-6 lg:p-8">
+      <div className="max-w-7xl mx-auto">
+        <h1 className="text-4xl font-bold mb-2 flex items-center gap-3">
+          <BarChart className="w-10 h-10 text-blue-500" />
+          Dashboard de Analíticas
+        </h1>
+        <p className="text-neutral-400 mb-8">
+          Tu rendimiento de un vistazo. Usa estos datos para encontrar tus puntos fuertes y débiles.
+        </p>
+
+        {/* KPIs Principales */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+          <MetricCard
+            title="PnL Neto"
+            value={`$${data.netPnL}`}
+            icon={DollarSign}
+            color={data.netPnL >= 0 ? "text-green-400" : "text-red-400"}
+          />
+          <MetricCard
+            title="Tasa de Acierto (Win Rate)"
+            value={data.winRate}
+            unit="%"
+            icon={Target}
+            color="text-cyan-400"
+          />
+          <MetricCard
+            title="Total de Operaciones"
+            value={data.totalTrades}
+            icon={Hash}
+            color="text-indigo-400"
+          />
         </div>
 
-        <div className="col-start-4 shadow-sm shadow-blue-400">
-          {isLoading ? (
-            <Loading text="loading" />
-          ) : (
-            <div className="flex flex-col items-center justify-center p-4 bg-neutral-950  shadow-lg w-full h-full shadow-blue-800">
-              <span className="text-lg font-medium text-white">
-                Tasa de éxito:
-              </span>
-              <span className="text-4xl font-bold text-blue-600 mt-2">
-                {data?.winRate ?? 0}%
-              </span>{" "}
-              {/* <- reemplaza el número dinámicamente */}
+        {/* Secciones de Métricas */}
+        <div className="space-y-8">
+          {/* Rentabilidad */}
+          <div>
+            <h2 className="text-2xl font-semibold mb-4 border-l-4 border-green-500 pl-3">Rentabilidad</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
+              <MetricCard title="Ganancia Bruta" value={`$${data.totalPnL}`} icon={TrendingUp} color="text-green-500" />
+              <MetricCard title="Comisiones Pagadas" value={`$${data.totalFees}`} icon={Scale} color="text-amber-500" />
+              <MetricCard title="Ganancia Promedio" value={`$${data.averageWin}`} icon={Award} color="text-green-500" />
+              <MetricCard title="Pérdida Promedio" value={`$${data.averageLoss}`} icon={Shield} color="text-red-500" />
+              <MetricCard title="Mayor Ganancia" value={`$${data.largestWin}`} icon={Zap} color="text-green-500" />
+              <MetricCard title="Mayor Pérdida" value={`$${data.largestLoss}`} icon={TrendingDown} color="text-red-500" />
+              <MetricCard title="Factor de Beneficio" value={data.profitFactor} icon={Percent} />
             </div>
-          )}
-        </div>
-        <div className="row-start-2 shadow-sm shadow-blue-400">
-          {isLoading ? (
-            <Loading text="loading" />
-          ) : (
-            <div className="flex flex-col items-center justify-center p-4 bg-neutral-950  shadow-lg shadow-blue-800 w-full h-full">
-              <span className="text-lg font-medium text-white">
-                Trades ganadores:
-              </span>
-              <span className="text-4xl font-bold text-blue-600 mt-2">
-                {data?.profitableTrades ?? 0}
-              </span>{" "}
-              {/* <- reemplaza el número dinámicamente */}
+          </div>
+
+          {/* Psicología y Disciplina */}
+          <div>
+            <h2 className="text-2xl font-semibold mb-4 border-l-4 border-blue-500 pl-3">Psicología y Disciplina</h2>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
+              <MetricCard title="Confianza Promedio" value={`${data.averageConfidenceBefore}/10`} icon={Heart} />
+              <MetricCard title="Disciplina Promedio" value={`${data.averageDiscipline}/10`} icon={Brain} />
+              <MetricCard title="Plan Seguido" value={`${data.planFollowRate}%`} icon={CheckCircle} color={data.planFollowRate > 75 ? "text-green-400" : "text-amber-400"} />
+              <MetricCard title="Duración Promedio" value={`${data.averageDuration} min`} icon={Clock} />
             </div>
-          )}
-        </div>
-        <div className="row-start-2 shadow-sm shadow-blue-400">
-          {isLoading ? (
-            <Loading text="loading" />
-          ) : (
-            <div className="flex flex-col items-center justify-center p-4 bg-neutral-950  shadow-lg shadow-blue-800 w-full h-full">
-              <span className="text-lg font-medium text-white">PnL Total:</span>
-              <span className="text-4xl font-bold text-blue-600 mt-2">
-                {data?.totalPnL ?? 0}
-              </span>{" "}
-              {/* <- reemplaza el número dinámicamente */}
-            </div>
-          )}
-        </div>
-        <div className="row-start-2 shadow-sm shadow-blue-400">
-          {isLoading ? (
-            <Loading text="loading" />
-          ) : (
-            <div className="flex flex-col items-center justify-center p-4 bg-neutral-950  shadow-lg shadow-blue-800 w-full h-full">
-              <span className="text-lg font-medium text-white">PnL Neto:</span>
-              <span className="text-4xl font-bold text-blue-600 mt-2">
-                {data?.netPnL ?? 0}
-              </span>{" "}
-              {/* <- reemplaza el número dinámicamente */}
-            </div>
-          )}
-        </div>
-        <div className="row-start-2 shadow-sm shadow-blue-400">
-          {isLoading ? (
-            <Loading text="loading" />
-          ) : (
-            <div className="flex flex-col items-center justify-center p-4 bg-neutral-950  shadow-lg shadow-blue-800 w-full h-full">
-              <span className="text-lg font-medium text-white">
-                Trades perdedores:
-              </span>
-              <span className="text-4xl font-bold text-blue-600 mt-2">
-                {data?.losingTrades ?? 0}
-              </span>{" "}
-              {/* <- reemplaza el número dinámicamente */}
-            </div>
-          )}
-        </div>
-        <div className="shadow-sm shadow-blue-400">
-          {isLoading ? (
-            <Loading text="loading" />
-          ) : (
-            <div className="flex flex-col items-center justify-center p-4 bg-neutral-950  shadow-lg shadow-blue-800 w-full h-full">
-              <span className="text-lg font-medium text-white">
-                Comisiones:
-              </span>
-              <span className="text-4xl font-bold text-blue-600 mt-2">
-                {data?.totalFees ?? 0}
-              </span>{" "}
-              {/* <- reemplaza el número dinámicamente */}
-            </div>
-          )}
-        </div>
-        <div className="shadow-sm shadow-blue-400">
-          {isLoading ? (
-            <Loading text="loading" />
-          ) : (
-            <div className="flex flex-col items-center justify-center p-4 bg-neutral-950  shadow-lg shadow-blue-800 w-full h-full">
-              <span className="text-lg font-medium text-white">
-                Ganancia promedio:
-              </span>
-              <span className="text-4xl font-bold text-blue-600 mt-2">
-                {data?.averageWin ?? 0}
-              </span>{" "}
-              {/* <- reemplaza el número dinámicamente */}
-            </div>
-          )}
-        </div>
-        <div className="row-start-3 shadow-sm shadow-blue-400">
-          {isLoading ? (
-            <Loading text="loading" />
-          ) : (
-            <div className="flex flex-col items-center justify-center p-4 bg-neutral-950  shadow-lg shadow-blue-800 w-full h-full">
-              <span className="text-lg font-medium text-white">
-                Confianza promedio:
-              </span>
-              <span className="text-4xl font-bold text-blue-600 mt-2">
-                {data?.averageConfidenceBefore ?? 0}/10
-              </span>{" "}
-              {/* <- reemplaza el número dinámicamente */}
-            </div>
-          )}
-        </div>
-        <div className="shadow-sm shadow-blue-400">
-          {isLoading ? (
-            <Loading text="loading" />
-          ) : (
-            <div className="flex flex-col items-center justify-center p-4 bg-neutral-950  shadow-lg shadow-blue-800 w-full h-full">
-              <span className="text-lg font-medium text-white">
-                Disciplina promedio:
-              </span>
-              <span className="text-4xl font-bold text-blue-600 mt-2">
-                {data?.averageDiscipline ?? 0}/10
-              </span>{" "}
-              {/* <- reemplaza el número dinámicamente */}
-            </div>
-          )}
-        </div>
-        <div className="shadow-sm shadow-blue-400">
-          {isLoading ? (
-            <Loading text="loading" />
-          ) : (
-            <div className="flex flex-col items-center justify-center p-4 bg-neutral-950  shadow-lg shadow-blue-800 w-full h-full">
-              <span className="text-lg font-medium text-white">
-                Pérdida promedio:
-              </span>
-              <span className="text-4xl font-bold text-blue-600 mt-2">
-                {data?.averageLoss ?? 0}
-              </span>{" "}
-              {/* <- reemplaza el número dinámicamente */}
-            </div>
-          )}
-        </div>
-        <div className="shadow-sm shadow-blue-400">
-          {isLoading ? (
-            <Loading text="loading" />
-          ) : (
-            <div className="flex flex-col items-center justify-center p-4 bg-neutral-950  shadow-lg shadow-blue-800 w-full h-full">
-              <span className="text-lg font-medium text-white">
-                Factor de beneficio:
-              </span>
-              <span className="text-4xl font-bold text-blue-600 mt-2">
-                {data?.profitFactor ?? 0}
-              </span>{" "}
-              {/* <- reemplaza el número dinámicamente */}
-            </div>
-          )}
-        </div>
-        <div className="row-start-4 shadow-sm shadow-blue-400">
-          {isLoading ? (
-            <Loading text="loading" />
-          ) : (
-            <div className="flex flex-col items-center justify-center p-4 bg-neutral-950  shadow-lg shadow-blue-800 w-full h-full">
-              <span className="text-lg font-medium text-white">
-                Duración promedio:
-              </span>
-              <span className="text-4xl font-bold text-blue-600 mt-2">
-                {data?.averageDuration ?? 0} min
-              </span>{" "}
-              {/* <- reemplaza el número dinámicamente */}
-            </div>
-          )}
-        </div>
-        <div className="shadow-sm shadow-blue-400">
-          {isLoading ? (
-            <Loading text="loading" />
-          ) : (
-            <div className="flex flex-col items-center justify-center p-4 bg-neutral-950  shadow-lg shadow-blue-800 w-full h-full">
-              <span className="text-lg font-medium text-white">
-                Risk/Reward promedio:
-              </span>
-              <span className="text-4xl font-bold text-blue-600 mt-2">
-                {data?.averageRiskReward ?? 0}
-              </span>{" "}
-              {/* <- reemplaza el número dinámicamente */}
-            </div>
-          )}
+          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
 
