@@ -10,8 +10,8 @@ interface Propis {
 const StrategyForm = ({handleSubmit, onSubmit, register, errors }:Propis) => {
   return (
     <div className="flex justify-center w-full items-center">
-      <div className="flex flex-col p-4 border-4 border-blue-600 text-center shadow-2xl shadow-blue-800 rounded-md items-center w-full max-w-md">
-        <h1 className="text-blue-600 text-xl font-bold mb-4">
+      <div className="flex flex-col p-4  text-center rounded-md items-center w-full max-w-md">
+        <h1 className="text-yellow-500 text-2xl font-bold mb-4">
           Nueva Estrategia
         </h1>
 
@@ -67,7 +67,7 @@ const StrategyForm = ({handleSubmit, onSubmit, register, errors }:Propis) => {
           {/* Botón */}
           <button
             type="submit"
-            className="w-full flex items-center justify-center px-4 py-3 bg-green-600 hover:bg-green-700 text-white font-semibold rounded-lg transition duration-300"
+            className="w-full flex items-center justify-center px-3 xl:px-4 py-2 bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-400 hover:from-yellow-700 hover:via-yellow-600 hover:to-yellow-500 text-black rounded-lg font-medium transition-all duration-200 text-sm cursor-pointer shadow-lg hover:shadow-yellow-500/25"
           >
             <Check size={18} className="mr-1" />
             Guardar Estrategia

@@ -85,7 +85,7 @@ const SimpleStrategyForm = ({ onlyForm = false, onStrategyCreated }: SimpleStrat
         </DialogTrigger>
       )}
 
-      <DialogContent className="bg-black">
+      <DialogContent className="bg-black border-yellow-600 shadow-xl shadow-yellow-600">
         {isLoading ? (
           <Loading text="Guardando Estrategia" />
         ) : (
