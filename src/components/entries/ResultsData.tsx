@@ -12,7 +12,7 @@ interface FormStepProps {
   isFirst: boolean;
   isLast: boolean;
   header: ReactElement<any, any>;
-  userId: string
+  userId: string;
 }
 
 const ResultsData = (props: FormStepProps) => {
@@ -45,9 +45,9 @@ const ResultsData = (props: FormStepProps) => {
 
   return (
     <div className="flex justify-center w-full items-center">
-      <div className="flex flex-col p-4 border-4 border-blue-600 text-center shadow-2xl shadow-blue-800 rounded-md items-center w-full max-w-xl">
+      <div className="flex flex-col p-4 border-4 border-yellow-500 text-center shadow-2xl shadow-yellow-500/40 rounded-md items-center w-full max-w-xl">
         {props.header}
-        <h1 className="text-center font-semibold text-blue-600 text-2xl">
+        <h1 className="text-center font-semibold text-yellow-500 text-2xl">
           Formulario de Resultados de la Operación
         </h1>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -201,10 +201,10 @@ const ResultsData = (props: FormStepProps) => {
 
             <button
               type="submit"
-              className={`w-full sm:w-auto flex items-center justify-center px-6 py-3 font-semibold rounded-lg transition duration-300 text-sm sm:text-base ${
+              className={`w-full sm:w-auto flex items-center justify-center px-6 py-3 font-semibold rounded-2xl transition-all duration-300 text-sm sm:text-base ${
                 props.isLast
                   ? "bg-green-600 hover:bg-green-700 text-white"
-                  : "bg-blue-600 hover:bg-blue-700 text-white"
+                  : "bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-400 text-black hover:from-yellow-700 hover:via-yellow-600 hover:to-yellow-500 hover:scale-105 hover:shadow-2xl hover:shadow-yellow-500/30"
               }`}
             >
               {props.isLast ? (

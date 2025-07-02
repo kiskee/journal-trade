@@ -41,7 +41,7 @@ const BasicData = (props: FormStepProps) => {
   const [strategyDate, setStrategyDate] = useState(null as any);
   const [open, setOpen] = useState(false);
   const [localValue, setLocalValue] = useState("");
-  const [strategyCreated, setStrategyCreated] = useState(null as any)
+  const [strategyCreated, setStrategyCreated] = useState(null as any);
 
   useEffect(() => {
     const strategiesDate = async () => {
@@ -89,23 +89,22 @@ const BasicData = (props: FormStepProps) => {
     props.onNext(data);
   };
 
-   const handleStrategyResult = (success: any) => {
+  const handleStrategyResult = (success: any) => {
     if (success) {
-      
       // Aquí puedes recargar tu lista de estrategias
       // o hacer cualquier otra acción
-      setStrategyCreated(false)
+      setStrategyCreated(false);
     } else {
-      console.log('Error al crear la estrategia');
+      console.log("Error al crear la estrategia");
     }
   };
 
   return (
     <>
       <div className="flex justify-center  w-full items-center">
-        <div className="flex flex-col p-4 border-4 border-blue-600 text-center shadow-2xl shadow-blue-800 rounded-md items-center w-full max-w-xl">
+        <div className="flex flex-col p-4 border-4 border-yellow-500 text-center shadow-2xl shadow-yellow-500/40 rounded-md items-center w-full max-w-xl">
           {props.header}
-          <h1 className="text-center font-semibold text-blue-600 text-2xl">
+          <h1 className="text-center font-semibold text-yellow-500 text-2xl">
             Formulario de Datos Básicos de la Operación
           </h1>
           <form onSubmit={handleSubmit(onSubmit)}>
@@ -200,7 +199,6 @@ const BasicData = (props: FormStepProps) => {
                 <input
                   type="hidden"
                   {...register("setup", { value: localValue })}
-                  
                 />
                 {strategyDate ? (
                   <Popover open={open} onOpenChange={setOpen}>
@@ -232,7 +230,9 @@ const BasicData = (props: FormStepProps) => {
                                 value={strategy.strategyName}
                                 onSelect={(currentValue) => {
                                   const newValue =
-                                    currentValue === localValue ? "" : currentValue;
+                                    currentValue === localValue
+                                      ? ""
+                                      : currentValue;
                                   setLocalValue(newValue);
                                   setValue("setup", newValue);
                                   setOpen(false);
@@ -255,9 +255,14 @@ const BasicData = (props: FormStepProps) => {
                       </Command>
                     </PopoverContent>
                   </Popover>
-                ): (<div className="w-full h-full">
-                <CreateStrategyForm onlyForm={false} onStrategyCreated={handleStrategyResult}/>
-                </div>)}
+                ) : (
+                  <div className="w-full h-full">
+                    <CreateStrategyForm
+                      onlyForm={false}
+                      onStrategyCreated={handleStrategyResult}
+                    />
+                  </div>
+                )}
                 {errors.setup && (
                   <p className="text-rose-500 text-xs mt-1">
                     {errors.setup.message}
@@ -346,11 +351,11 @@ const BasicData = (props: FormStepProps) => {
 
             <button
               type="submit"
-              className={`w-full flex items-center justify-center px-4 py-3 font-semibold rounded-lg transition duration-300 text-sm sm:text-base ${
-                props.isLast
-                  ? "bg-green-600 hover:bg-green-700 text-white"
-                  : "bg-blue-600 hover:bg-blue-700 text-white"
-              } ${props.isFirst ? "ml-auto" : ""}`}
+              className={`w-full text-black p-6 rounded-2xl flex items-center justify-center gap-4 text-sm sm:text-base
+  bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-400
+  hover:from-yellow-700 hover:via-yellow-600 hover:to-yellow-500
+  hover:scale-105 hover:shadow-2xl hover:shadow-yellow-500/30
+  transition-all duration-300 ${props.isFirst ? "ml-auto" : ""}`}
             >
               {props.isLast ? (
                 <>

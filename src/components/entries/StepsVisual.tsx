@@ -12,9 +12,9 @@ export default function StepsVisual({
   stepTitles,
 }: VisualProps) {
   return (
-    <div className="mb-2 bg-neutral-800 rounded-2xl p-4 border border-neutral-700">
+    <div className="mb-2 bg-black rounded-2xl p-4 border border-yellow-700">
       <div className="flex justify-between items-center mb-2">
-        <h1 className="text-2xl font-bold text-blue-400">
+        <h1 className="text-2xl font-bold text-yellow-500">
           Formulario Multi-paso
         </h1>
         <span className="text-sm text-neutral-400">
@@ -26,7 +26,7 @@ export default function StepsVisual({
       <div className="mb-4">
         <div className="w-full bg-neutral-700 rounded-full h-2">
           <div
-            className="bg-blue-600 h-2 rounded-full transition-all duration-500"
+            className="bg-yellow-500 h-2 rounded-full transition-all duration-500"
             style={{ width: `${(currentStep / totalSteps) * 100}%` }}
           />
         </div>
@@ -38,15 +38,15 @@ export default function StepsVisual({
           <div
             key={index}
             className={`flex flex-col items-center ${
-              index + 1 <= currentStep ? "text-blue-400" : "text-neutral-500"
+              index + 1 <= currentStep ? "text-yellow-500" : "text-neutral-500"
             }`}
           >
             <div
               className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium mb-2 ${
                 index + 1 < currentStep
-                  ? "bg-blue-600 text-white"
+                  ? "bg-yellow-500 text-black"
                   : index + 1 === currentStep
-                  ? "bg-blue-500 text-white"
+                  ? "bg-yellow-500 text-black"
                   : "bg-neutral-600 text-neutral-400"
               }`}
             >

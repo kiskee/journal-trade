@@ -125,17 +125,17 @@ const NewEntry = () => {
   };
 
   return (
-    <div className=" bg-neutral-900 flex items-center justify-center p-4 sm:p-6 lg:p-8">
+    <div className=" bg-black flex items-center justify-center p-4 sm:p-6 lg:p-8">
       <div className="relative w-full max-w-sm sm:max-w-md lg:max-w-lg xl:max-w-xl">
         {isLoading ? (
-          <Card className="p-6 bg-neutral-800 rounded-2xl shadow-lg border-blue-600 shadow-blue-700 w-full max-w-full">
+          <Card className="p-6 bg-neutral-800 rounded-2xl shadow-lg border-yellow-600 shadow-yellow-500/40 w-full max-w-full">
             <div className="text-center py-20">
-              <h1 className="text-4xl font-bold text-blue-500 mb-4 animate-pulse">
+              <h1 className="text-4xl font-bold text-yellow-500 mb-4 animate-pulse">
                 Guardando tu trade, gracias por tu paciencia...
               </h1>
               <div className="flex justify-center">
                 {/* Spinner animado con Tailwind */}
-                <div className="w-16 h-16 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin"></div>
+                <div className="w-16 h-16 border-4 border-yellow-500 border-t-transparent rounded-full animate-spin"></div>
               </div>
             </div>
           </Card>

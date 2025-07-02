@@ -150,9 +150,9 @@ const MediaTagsData = (props: FormStepProps) => {
 
   return (
     <div className="flex justify-center w-full items-center">
-      <div className="flex flex-col p-4 border-4 border-blue-600 text-center shadow-2xl shadow-blue-800 rounded-md items-center w-full max-w-4xl">
+      <div className="flex flex-col p-4 border-4 border-yellow-500 text-center shadow-2xl shadow-yellow-500/40 rounded-md items-center w-full max-w-4xl">
         {props.header}
-        <h1 className="text-center font-semibold text-blue-600 text-2xl">
+        <h1 className="text-center font-semibold text-yellow-500 text-2xl">
           Formulario de Media y Tags de la Operación
         </h1>
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -260,7 +260,7 @@ const MediaTagsData = (props: FormStepProps) => {
               onChange={handleFileSelect}
               className="w-full text-sm text-neutral-300 
         file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 
-        file:text-sm file:font-semibold file:bg-blue-600 file:text-white 
+        file:text-sm file:font-semibold file:bg-yellow-600 file:text-white 
         hover:file:bg-blue-700 file:cursor-pointer file:transition-colors
         cursor-pointer bg-neutral-700/50 rounded-lg p-3 border border-neutral-600
         hover:bg-neutral-700/70 transition-colors duration-200"
