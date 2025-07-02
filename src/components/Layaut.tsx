@@ -12,7 +12,7 @@ export default function Layout({ children }: LayoutProps) {
   return (
     <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE}>
       <UserDetailProvider>
-        <div className="bg-neutral-900 min-h-screen w-screen">{children}</div>
+        <div className="bg-black min-h-screen w-screen">{children}</div>
       </UserDetailProvider>
     </GoogleOAuthProvider>
   );
