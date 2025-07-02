@@ -16,8 +16,8 @@ const LogTitle = () => {
         </Link>
         <Link to="/">
           <h1 className="text-base sm:text-xl font-bold text-white truncate hover:text-yellow-100 transition-colors">
-            <span className="hidden sm:inline">LØNNSOM </span>
-            <span className="sm:hidden">L</span>
+            <span className="">LØNNSOM </span>
+            {/* <span className="sm:hidden">L</span> */}
             <span className="text-yellow-400"> Journal</span>
           </h1>
         </Link>

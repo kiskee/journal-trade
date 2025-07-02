@@ -66,11 +66,11 @@ const News = () => {
   }, []);
 
   return (
-    <div className="bg-neutral-900/50 border-4 border-blue-600 shadow-2xl shadow-blue-800 rounded-2xl w-full max-w-2xl mx-auto p-6">
+    <div className="bg-black border-4 border-yellow-600 shadow-2xl shadow-yellow-600 rounded-2xl w-full max-w-2xl mx-auto p-6">
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-3">
-          <Newspaper className="w-8 h-8 text-blue-500" />
+          <Newspaper className="w-8 h-8 text-yellow-500" />
           <div>
             <h2 className="text-2xl font-bold text-white">Noticias Económicas</h2>
             <p className="text-sm text-neutral-400">Eventos clave del día</p>
