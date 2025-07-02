@@ -11,7 +11,7 @@ interface MetricCardProps {
 
 const MetricCard = ({ title, value, icon: Icon, color = "text-blue-500", unit = "" }: MetricCardProps) => {
   return (
-    <div className="bg-neutral-800/50 border border-neutral-700 rounded-2xl p-5 flex flex-col justify-between shadow-lg hover:shadow-blue-800/30 hover:border-blue-800/50 transition-all duration-300 h-full">
+    <div className="bg-black border border-yellow-700 rounded-2xl p-5 flex flex-col justify-between shadow-lg hover:shadow-yellow-800/30 hover:border-yellow-800/50 transition-all duration-300 h-full">
       <div className="flex items-center justify-between text-neutral-400">
         <span className="text-sm font-medium">{title}</span>
         <Icon className="w-5 h-5" />

@@ -10,7 +10,7 @@ export default function Loading({ text }: LoadingProps) {
       </h1>
       <div className="flex justify-center">
         {/* Spinner animado con Tailwind */}
-        <div className="w-16 h-16 border-4 border-blue-600 border-t-transparent rounded-full animate-spin mb-12"></div>
+        <div className="w-16 h-16 border-4 border-yellow-600 border-t-transparent rounded-full animate-spin mb-12"></div>
       </div>
     </div>
   );

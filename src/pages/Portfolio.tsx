@@ -32,7 +32,7 @@ const Portfolio = () => {
       const sorted = results.results.sort(
         (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
       );
-      
+
       setTrades(sorted);
     };
     initials();
@@ -49,7 +49,7 @@ const Portfolio = () => {
   };
 
   return (
-    <div className="min-h-screen w-full bg-neutral-900 p-6 text-blue-600 overflow-auto">
+    <div className="min-h-screen w-full bg-black p-6 text-yellow-500 overflow-auto">
       <h1 className="text-2xl font-bold mb-6 text-center">
         Portfolio - Trades
       </h1>
@@ -59,13 +59,13 @@ const Portfolio = () => {
           {trades.map((trade: any) => (
             <div
               key={trade.id}
-              className="bg-neutral-800 text-white rounded-lg shadow-md p-6 border border-neutral-700 w-full h-full sm:min-w-xs min-w-xs "
+              className="bg-neutral-950 text-white rounded-lg shadow-md shadow-yellow-500/10 p-6 border border-yellow-600/30 w-full h-full sm:min-w-xs min-w-xs backdrop-blur-sm"
             >
               <div>
                 {/* Header */}
                 <div className="flex justify-between items-start mb-4">
                   <div>
-                    <h3 className="text-lg font-semibold">
+                    <h3 className="text-lg font-semibold text-yellow-100">
                       {trade.step1.asset.toUpperCase()} - {trade.step1.setup}
                     </h3>
                     <p className="text-sm text-neutral-400">
@@ -90,25 +90,27 @@ const Portfolio = () => {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-4">
                   {/* Información */}
                   <div>
-                    <h4 className="font-medium text-blue-400 mb-2">
+                    <h4 className="font-medium text-yellow-400 mb-2">
                       Información
                     </h4>
-                    <p className="text-sm">
+                    <p className="text-sm text-yellow-100">
                       Duración: {trade.step1.duration}{" "}
                       {trade.step1.durationUnit}
                     </p>
-                    <p className="text-sm">
+                    <p className="text-sm text-yellow-100">
                       Tamaño: {trade.step1.positionSize}
                     </p>
-                    <p className="text-sm">
+                    <p className="text-sm text-yellow-100">
                       Entrada: ${trade.step2.entryPrice}
                     </p>
-                    <p className="text-sm">Salida: ${trade.step2.exitPrice}</p>
+                    <p className="text-sm text-yellow-100">
+                      Salida: ${trade.step2.exitPrice}
+                    </p>
                   </div>
 
                   {/* Resultados */}
                   <div>
-                    <h4 className="font-medium text-blue-400 mb-2">
+                    <h4 className="font-medium text-yellow-400 mb-2">
                       Resultados
                     </h4>
                     <p
@@ -129,36 +131,42 @@ const Portfolio = () => {
                     >
                       %: {trade.step2.resultPercent}%
                     </p>
-                    <p className="text-sm">TP: ${trade.step2.takeProfit}</p>
-                    <p className="text-sm">SL: ${trade.step2.stopLoss}</p>
+                    <p className="text-sm text-yellow-100">
+                      TP: ${trade.step2.takeProfit}
+                    </p>
+                    <p className="text-sm text-yellow-100">
+                      SL: ${trade.step2.stopLoss}
+                    </p>
                   </div>
 
                   {/* Psicología */}
                   <div>
-                    <h4 className="font-medium text-blue-400 mb-2">
+                    <h4 className="font-medium text-yellow-400 mb-2">
                       Psicología
                     </h4>
-                    <p className="text-sm">
+                    <p className="text-sm text-yellow-100">
                       Antes: {trade.step3.emotionBefore}
                     </p>
-                    <p className="text-sm">
+                    <p className="text-sm text-yellow-100">
                       Después: {trade.step3.emotionAfter}
                     </p>
-                    <p className="text-sm">
+                    <p className="text-sm text-yellow-100">
                       Confianza: {trade.step3.confidenceLevel}/10
                     </p>
-                    <p className="text-sm">
+                    <p className="text-sm text-yellow-100">
                       Disciplina: {trade.step3.disciplineLevel}/10
                     </p>
                   </div>
                 </div>
 
                 {/* Notas y Tags */}
-                <div className="border-t border-neutral-700 pt-4">
+                <div className="border-t border-yellow-600/30 pt-4">
                   {trade.step4.notes && (
                     <div className="mb-3">
-                      <h4 className="font-medium text-blue-400 mb-1">Notas</h4>
-                      <p className="text-sm text-neutral-300">
+                      <h4 className="font-medium text-yellow-400 mb-1">
+                        Notas
+                      </h4>
+                      <p className="text-sm text-yellow-100">
                         {trade.step4.notes}
                       </p>
                     </div>
@@ -166,12 +174,12 @@ const Portfolio = () => {
 
                   {trade.step4.tags?.length > 0 && (
                     <div className="mb-3">
-                      <h4 className="font-medium text-blue-400 mb-1">Tags</h4>
+                      <h4 className="font-medium text-yellow-400 mb-1">Tags</h4>
                       <div className="flex flex-wrap gap-2">
                         {trade.step4.tags.map((tag: any, index: number) => (
                           <span
                             key={index}
-                            className="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded"
+                            className="px-2 py-1 bg-yellow-500/20 text-yellow-300 text-xs rounded border border-yellow-600/30"
                           >
                             {tag}
                           </span>
@@ -183,7 +191,7 @@ const Portfolio = () => {
                   {/* Imágenes subidas */}
                   {trade.step4.uploadedFiles?.length > 0 && (
                     <div className="mb-3">
-                      <h4 className="font-medium text-blue-400 mb-2">
+                      <h4 className="font-medium text-yellow-400 mb-2">
                         Imágenes
                       </h4>
                       <div className="flex flex-wrap gap-2">
@@ -199,7 +207,7 @@ const Portfolio = () => {
                               <img
                                 src={file.url}
                                 alt={`Imagen ${index + 1}`}
-                                className="w-16 h-16 object-cover rounded border border-neutral-600 hover:border-blue-400"
+                                className="w-16 h-16 object-cover rounded border border-yellow-600/30 hover:border-yellow-400"
                                 loading="lazy"
                               />
                             </a>
@@ -219,7 +227,7 @@ const Portfolio = () => {
                             : "bg-red-500"
                         }`}
                       ></span>
-                      <span className="text-sm text-neutral-300">
+                      <span className="text-sm text-yellow-100">
                         {trade.step4.followedPlan
                           ? "Siguió el plan"
                           : "No siguió el plan"}
@@ -231,7 +239,7 @@ const Portfolio = () => {
                         href={trade.step4.mediaUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-sm underline hover:text-blue-400"
+                        className="text-sm underline text-yellow-400 hover:text-yellow-300 transition-colors"
                       >
                         Ver gráfico
                       </a>
@@ -242,24 +250,26 @@ const Portfolio = () => {
               <div className="pt-4">
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <Button className="bg-red-500 text-black">
+                    <Button className="bg-red-500 text-black hover:bg-red-600 transition-colors">
                       Eliminar Trade
                     </Button>
                   </AlertDialogTrigger>
-                  <AlertDialogContent className="bg-neutral-900 border-2 border-red-600">
+                  <AlertDialogContent className="bg-neutral-950 border-2 border-red-600">
                     <AlertDialogHeader>
                       <AlertDialogTitle className="text-red-500 text-center">
                         Estas complemante segur@??
                       </AlertDialogTitle>
-                      <AlertDialogDescription className="text-white text-center">
+                      <AlertDialogDescription className="text-yellow-100 text-center">
                         Esta accion no se puedo devolver. Borraremos el trade
                         permanentemente de nuestra base de datos.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
                     <AlertDialogFooter>
-                      <AlertDialogCancel>Cancelar</AlertDialogCancel>
+                      <AlertDialogCancel className="bg-neutral-800 text-yellow-100 border-yellow-600/30 hover:bg-neutral-700">
+                        Cancelar
+                      </AlertDialogCancel>
                       <AlertDialogAction
-                        className="bg-red-500 text-black"
+                        className="bg-red-500 text-black hover:bg-red-600"
                         onClick={() => onHabdleDelete(trade.id)}
                       >
                         Borrar

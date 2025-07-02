@@ -66,7 +66,7 @@ const News = () => {
   }, []);
 
   return (
-    <div className="bg-black border-4 border-yellow-600 shadow-2xl shadow-yellow-600 rounded-2xl w-full max-w-2xl mx-auto p-6">
+    <div className="bg-black border-4 border-yellow-600 shadow-xl shadow-yellow-500/20 rounded-2xl w-full max-w-2xl mx-auto p-6">
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <div className="flex items-center gap-3">

@@ -71,7 +71,7 @@ const Analytics = () => {
   if (!data) {
     return (
       <div className="w-screen h-screen flex flex-col items-center justify-center text-center text-white bg-neutral-900 p-8">
-        <Target size={64} className="text-blue-600 mb-4" />
+        <Target size={64} className="text-yellow-600 mb-4" />
         <h2 className="text-3xl font-bold mb-2">Aún no hay datos que analizar</h2>
         <p className="text-neutral-400 mb-6 max-w-md">
           Parece que no has registrado ninguna operación. ¡Empieza ahora para ver
@@ -89,10 +89,10 @@ const Analytics = () => {
   }
 
   return (
-    <div className="min-h-screen w-full bg-neutral-900 text-white p-4 sm:p-6 lg:p-8">
+    <div className="min-h-screen w-full bg-black text-white p-4 sm:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-4xl font-bold mb-2 flex items-center gap-3">
-          <BarChart className="w-10 h-10 text-blue-500" />
+        <h1 className="text-4xl font-bold mb-2 flex items-center gap-3 text-yellow-500">
+          <BarChart className="w-10 h-10 text-yellow-500" />
           Dashboard de Analíticas
         </h1>
         <p className="text-neutral-400 mb-8">
@@ -126,7 +126,7 @@ const Analytics = () => {
         <div className="space-y-8">
           {/* Rentabilidad */}
           <div>
-            <h2 className="text-2xl font-semibold mb-4 border-l-4 border-green-500 pl-3">Rentabilidad</h2>
+            <h2 className="text-2xl font-semibold mb-4 border-l-4 border-yellow-500 pl-3 text-yellow-500">Rentabilidad</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
               <MetricCard title="Ganancia Bruta" value={`$${data.totalPnL}`} icon={TrendingUp} color="text-green-500" />
               <MetricCard title="Comisiones Pagadas" value={`$${data.totalFees}`} icon={Scale} color="text-amber-500" />
@@ -140,7 +140,7 @@ const Analytics = () => {
 
           {/* Psicología y Disciplina */}
           <div>
-            <h2 className="text-2xl font-semibold mb-4 border-l-4 border-blue-500 pl-3">Psicología y Disciplina</h2>
+            <h2 className="text-2xl font-semibold mb-4 border-l-4 border-yellow-500 pl-3 text-yellow-500">Psicología y Disciplina</h2>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-5">
               <MetricCard title="Confianza Promedio" value={`${data.averageConfidenceBefore}/10`} icon={Heart} />
               <MetricCard title="Disciplina Promedio" value={`${data.averageDiscipline}/10`} icon={Brain} />
