@@ -14,7 +14,7 @@ export default function Home() {
   const userName = context?.userDetail?.name || 'Trader';
 
   return (
-    <div className="w-full min-h-screen bg-neutral-900">
+    <div className="w-full min-h-screen bg-black">
       <LivePrices />
 
       <main className="p-4 sm:p-6 lg:p-8 max-w-screen-2xl mx-auto">
