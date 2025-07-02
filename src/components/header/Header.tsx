@@ -33,7 +33,7 @@ export default function Header(): JSX.Element {
   };
 
   return (
-    <div className="w-full bg-neutral-900 border-b border-neutral-800 fixed top-0 left-0 right-0 z-50">
+    <div className="w-full bg-black border-b border-neutral-800 fixed top-0 left-0 right-0 z-50">
       <div className="w-full px-3 sm:px-4 md:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14 sm:h-16">
           {/* Logo y título */}

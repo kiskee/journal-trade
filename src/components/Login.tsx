@@ -18,6 +18,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { formSchemaLogin } from "./utils/Shemas";
 import Loading from "./utils/Loading";
+import toro from "../assets/toro.png";
 
 interface UserData {
   email: string;
@@ -124,13 +125,18 @@ export const Login = () => {
         {/* Tarjeta de login */}
         <div className="bg-neutral-950 rounded-2xl shadow-2xl border border-yellow-600/30 overflow-hidden backdrop-blur-sm">
           {/* Header con logo y título */}
+
           <div className="p-6 sm:p-8 text-center bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-400">
             <div className="flex items-center justify-center mb-4">
-              <div className="bg-black/20 p-3 rounded-full">
-                <TrendingUp className="w-6 h-6 sm:w-8 sm:h-8 text-black" />
+              <div className="bg-black/10 p-2 rounded-full shadow-lg">
+                <img
+                  src={toro}
+                  alt="LØNNSOM Logo"
+                  className="h-16 w-16 sm:h-20 sm:w-20 object-contain filter drop-shadow-md"
+                />
               </div>
             </div>
-            <h1 className="text-xl sm:text-2xl font-bold text-black mb-2">
+            <h1 className="text-xl sm:text-2xl font-bold text-black mb-2 drop-shadow-sm">
               LØNNSOM Journal
             </h1>
             <p className="text-black/80 text-xs sm:text-sm font-medium">

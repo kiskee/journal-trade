@@ -7,33 +7,33 @@ type Props = {
 
 const IsMenuOpen = ({ onLogOut }: Props) => {
   return (
-    <div className="lg:hidden border-t border-neutral-800 py-3 sm:py-4">
+    <div className="lg:hidden border-t border-yellow-600/30 py-3 sm:py-4">
       <nav className="flex flex-col space-y-1 sm:space-y-2">
         <Link to="/inicio">
-          <button className="flex items-center space-x-3 px-3 py-2.5 sm:py-3 rounded-lg text-neutral-200 hover:text-white hover:bg-neutral-800 transition-colors">
+          <button className="flex items-center space-x-3 px-3 py-2.5 sm:py-3 rounded-lg text-yellow-200 hover:text-yellow-100 hover:bg-yellow-600/20 transition-colors">
             <BarChart3 className="w-5 h-5" />
             <span>Dashboard</span>
           </button>
         </Link>
         <Link to="/portfolio">
-          <button className="flex items-center space-x-3 px-3 py-2.5 sm:py-3 rounded-lg text-neutral-200 hover:text-white hover:bg-neutral-800 transition-colors">
+          <button className="flex items-center space-x-3 px-3 py-2.5 sm:py-3 rounded-lg text-yellow-200 hover:text-yellow-100 hover:bg-yellow-600/20 transition-colors">
             <Wallet className="w-5 h-5" />
             <span>Portfolio</span>
           </button>
         </Link>
         <Link to="/analytics">
-          <button className="flex items-center space-x-3 px-3 py-2.5 sm:py-3 rounded-lg text-neutral-200 hover:text-white hover:bg-neutral-800 transition-colors">
+          <button className="flex items-center space-x-3 px-3 py-2.5 sm:py-3 rounded-lg text-yellow-200 hover:text-yellow-100 hover:bg-yellow-600/20 transition-colors">
             <TrendingUp className="w-5 h-5" />
             <span>Analytics</span>
           </button>
         </Link>
         <Link to="/trade">
-          <button className="mx-3 mt-2 px-4 py-2.5 sm:py-3 bg-blue-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors">
+          <button className="mx-3 mt-2 px-4 py-2.5 sm:py-3 bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-400 hover:from-yellow-700 hover:via-yellow-600 hover:to-yellow-500 text-black rounded-lg font-medium transition-all duration-200 shadow-lg hover:shadow-yellow-500/25">
             New Entry
           </button>
         </Link>
         <button
-          className="mx-3 mt-2 px-4 py-2.5 sm:py-3 bg-red-600 hover:bg-blue-700 text-white rounded-lg font-medium transition-colors"
+          className="mx-3 mt-2 px-4 py-2.5 sm:py-3 bg-neutral-800 hover:bg-red-600 text-yellow-200 hover:text-white rounded-lg font-medium transition-all duration-200 border border-yellow-600/30 hover:border-red-500"
           onClick={onLogOut}
         >
           LogOut
