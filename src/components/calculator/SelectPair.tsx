@@ -28,7 +28,7 @@ const SelectPair = ({ value, onChange, tradingPairs }: Props) => {
 
   return (
     <FormItem className="flex flex-col items-center">
-      <FormLabel className="text-blue-600 text-2xl">Pares</FormLabel>
+      <FormLabel className="text-yellow-400 text-2xl">Pares</FormLabel>
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
           <FormControl>

@@ -30,14 +30,14 @@ const LastTrade = () => {
     <>
       {tradeData && (
         <>
-          <div className="w-full max-w-4xl mx-auto p-4 bg-neutral-900 text-white rounded-xl border border-green-400 shadow-md shadow-green-400">
+          <div className="w-full max-w-4xl mx-auto p-4 bg-neutral-950 text-white rounded-xl border border-yellow-600/30 shadow-md shadow-yellow-500/20 backdrop-blur-sm">
             <div className="flex flex-col sm:flex-row sm:justify-between items-start sm:items-center gap-2">
               <div>
-                <h2 className="text-lg font-semibold text-blue-500  ">
+                <h2 className="text-lg font-semibold text-yellow-400">
                   Último Trade -{" "}
                   {new Date(tradeData.step1.date).toLocaleDateString()}
                 </h2>
-                <p className="text-sm text-neutral-300">
+                <p className="text-sm text-yellow-100">
                   {tradeData.step1.asset.toUpperCase()} -{" "}
                   {tradeData.step1.tradeType.toUpperCase()}
                 </p>
@@ -57,12 +57,14 @@ const LastTrade = () => {
                 </p>
                 <p>
                   <span className="text-neutral-400">Confianza:</span>{" "}
-                  {tradeData.step3.confidenceLevel}/10
+                  <span className="text-yellow-100">
+                    {tradeData.step3.confidenceLevel}/10
+                  </span>
                 </p>
               </div>
             </div>
 
-            <div className="mt-3 text-sm text-neutral-300 flex flex-wrap gap-4">
+            <div className="mt-3 text-sm text-yellow-100 flex flex-wrap gap-4">
               <p>
                 <span className="text-neutral-400">Antes:</span>{" "}
                 {tradeData.step3.emotionBefore}
