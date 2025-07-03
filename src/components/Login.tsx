@@ -136,7 +136,7 @@ export const Login = () => {
               </div>
             </div>
             <h1 className="text-xl sm:text-2xl font-bold text-black mb-2 drop-shadow-sm">
-              LØNNSOM Journal
+              LØNNSOM Tracker
             </h1>
             <p className="text-black/80 text-xs sm:text-sm font-medium">
               Desfragmentador de Traders
@@ -310,7 +310,7 @@ export const Login = () => {
         {/* Footer */}
         <div className="mt-8 text-center">
           <p className="text-xs text-neutral-500">
-            © 2025 LØNNSOM Journal. Todos los derechos reservados.
+            © 2025 LØNNSOM Tracker. Todos los derechos reservados.
           </p>
           <p className="text-xs text-yellow-600/60 mt-1">
             Desfragmentador de Traders

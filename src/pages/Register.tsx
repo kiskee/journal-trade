@@ -19,6 +19,7 @@ import { useGoogleLogin } from "@react-oauth/google";
 import axios from "axios";
 import { formSchemaRegister } from "../components/utils/Shemas";
 import Loading from "../components/utils/Loading";
+import toro from "../assets/toro.png";
 
 interface UserData {
   email: string;
@@ -71,7 +72,7 @@ export const Register = () => {
         );
 
         const user = userInfo.data;
-       
+
         //Enviar el registro con Google y obtener el JWT
         const login = await apiService.post("/auth/login-google", user);
 
@@ -131,26 +132,30 @@ export const Register = () => {
   };
 
   return (
-    <div className="min-h-screen bg-neutral-900 flex items-center justify-center p-4 sm:p-6 lg:p-8">
+    <div className="min-h-screen bg-black flex items-center justify-center p-4 sm:p-6 lg:p-8">
       {/* Fondo con gradiente sutil */}
-      <div className="absolute inset-0 bg-gradient-to-br from-neutral-900 via-neutral-800 to-neutral-900"></div>
+      <div className="absolute inset-0 bg-gradient-to-br from-yellow-900/20 via-black to-yellow-800/10"></div>
 
       {/* Contenedor principal */}
       <div className="relative w-full max-w-sm sm:max-w-md lg:max-w-lg xl:max-w-xl">
         {/* Tarjeta de registro */}
-        <div className="bg-neutral-800 rounded-2xl shadow-2xl border border-neutral-700 overflow-hidden">
+        <div className="bg-neutral-950 rounded-2xl shadow-2xl border border-yellow-600/30  overflow-hidden backdrop-blur-sm">
           {/* Header con logo y título */}
-          <div className="bg-gradient-to-r from-blue-600 to-blue-700 p-6 sm:p-8 text-center">
+          <div className="bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-400 p-6 sm:p-8 text-center">
             <div className="flex items-center justify-center mb-4">
-              <div className="bg-white/10 p-3 rounded-full">
-                <TrendingUp className="w-6 h-6 sm:w-8 sm:h-8 text-white" />
+              <div className="bg-black/10 p-2 rounded-full shadow-lg">
+                <img
+                  src={toro}
+                  alt="LØNNSOM Logo"
+                  className="h-16 w-16 sm:h-20 sm:w-20 object-contain filter drop-shadow-md"
+                />
               </div>
             </div>
-            <h1 className="text-xl sm:text-2xl font-bold text-white mb-2">
-              Journal Kiss
+            <h1 className="text-xl sm:text-2xl font-bold text-black mb-2 drop-shadow-sm">
+              LØNNSOM Tracker
             </h1>
-            <p className="text-blue-100 text-xs sm:text-sm">
-              Crea tu cuenta y comienza tu viaje financiero
+            <p className="text-black/80 text-xs sm:text-sm font-medium">
+              Desfragmentador de Traders
             </p>
           </div>
 
@@ -166,7 +171,7 @@ export const Register = () => {
                 >
                   {/* Error general del formulario */}
                   {errors.root && (
-                    <div className="bg-rose-500/10 border border-rose-500/20 text-rose-500 px-4 py-3 rounded-lg text-sm">
+                    <div className="bg-red-900/20 border border-red-500/30 text-red-400 px-4 py-3 rounded-lg text-sm">
                       <div className="flex items-center">
                         <AlertCircle className="h-4 w-4 mr-2" />
                         <span>{errors.root.message}</span>
@@ -186,16 +191,16 @@ export const Register = () => {
                       <input
                         {...register("email")}
                         type="email"
-                        className={`block w-full pl-9 sm:pl-10 pr-3 py-2.5 sm:py-3 border rounded-lg bg-neutral-100 text-neutral-700 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200 text-sm sm:text-base ${
+                        className={`block w-full pl-9 sm:pl-10 pr-3 py-2.5 sm:py-3 border rounded-lg bg-neutral-900 text-yellow-100 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200 text-sm sm:text-base ${
                           errors.email
-                            ? "border-rose-500 focus:ring-rose-500"
-                            : "border-neutral-700 focus:ring-blue-600"
+                            ? "border-red-500 focus:ring-red-500"
+                            : "border-yellow-600/30 focus:ring-yellow-500"
                         }`}
                         placeholder="usuario@financeapp.com"
                       />
                     </div>
                     {errors.email && (
-                      <p className="text-rose-500 text-xs mt-1 flex items-center">
+                      <p className="text-red-500 text-xs mt-1 flex items-center">
                         <AlertCircle className="h-3 w-3 mr-1" />
                         {errors.email.message}
                       </p>
@@ -216,16 +221,16 @@ export const Register = () => {
                         <input
                           {...register("nombre")}
                           type="text"
-                          className={`block w-full pl-9 sm:pl-10 pr-3 py-2.5 sm:py-3 border rounded-lg bg-neutral-100 text-neutral-700 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200 text-sm sm:text-base ${
+                          className={`block w-full pl-9 sm:pl-10 pr-3 py-2.5 sm:py-3 border rounded-lg bg-neutral-900 text-yellow-100 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200 text-sm sm:text-base ${
                             errors.nombre
-                              ? "border-rose-500 focus:ring-rose-500"
-                              : "border-neutral-700 focus:ring-blue-600"
+                              ? "border-red-500 focus:ring-red-500"
+                              : "border-yellow-600/30 focus:ring-yellow-500"
                           }`}
                           placeholder="Juan"
                         />
                       </div>
                       {errors.nombre && (
-                        <p className="text-rose-500 text-xs mt-1 flex items-center">
+                        <p className="text-red-500 text-xs mt-1 flex items-center">
                           <AlertCircle className="h-3 w-3 mr-1" />
                           {errors.nombre.message}
                         </p>
@@ -244,16 +249,16 @@ export const Register = () => {
                         <input
                           {...register("apellidos")}
                           type="text"
-                          className={`block w-full pl-9 sm:pl-10 pr-3 py-2.5 sm:py-3 border rounded-lg bg-neutral-100 text-neutral-700 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200 text-sm sm:text-base ${
+                          className={`block w-full pl-9 sm:pl-10 pr-3 py-2.5 sm:py-3 border rounded-lg bg-neutral-900 text-yellow-100 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200 text-sm sm:text-base ${
                             errors.apellidos
-                              ? "border-rose-500 focus:ring-rose-500"
-                              : "border-neutral-700 focus:ring-blue-600"
+                              ? "border-red-500 focus:ring-redd-500"
+                              : "border-yellow-600/30 focus:ring-yellow-500"
                           }`}
                           placeholder="Pérez"
                         />
                       </div>
                       {errors.apellidos && (
-                        <p className="text-rose-500 text-xs mt-1 flex items-center">
+                        <p className="text-red-500 text-xs mt-1 flex items-center">
                           <AlertCircle className="h-3 w-3 mr-1" />
                           {errors.apellidos.message}
                         </p>
@@ -273,16 +278,16 @@ export const Register = () => {
                       <input
                         {...register("usuario")}
                         type="text"
-                        className={`block w-full pl-9 sm:pl-10 pr-3 py-2.5 sm:py-3 border rounded-lg bg-neutral-100 text-neutral-700 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200 text-sm sm:text-base ${
+                        className={`block w-full pl-9 sm:pl-10 pr-3 py-2.5 sm:py-3 border rounded-lg bg-neutral-900 text-yellow-100 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200 text-sm sm:text-base ${
                           errors.usuario
-                            ? "border-rose-500 focus:ring-rose-500"
-                            : "border-neutral-700 focus:ring-blue-600"
+                            ? "border-red-500 focus:ring-red-500"
+                            : "border-yellow-600/30 focus:ring-yellow-500"
                         }`}
                         placeholder="mi_usuario"
                       />
                     </div>
                     {errors.usuario && (
-                      <p className="text-rose-500 text-xs mt-1 flex items-center">
+                      <p className="text-red-500 text-xs mt-1 flex items-center">
                         <AlertCircle className="h-3 w-3 mr-1" />
                         {errors.usuario.message}
                       </p>
@@ -301,10 +306,10 @@ export const Register = () => {
                       <input
                         {...register("password")}
                         type={showPassword ? "text" : "password"}
-                        className={`block w-full pl-9 sm:pl-10 pr-10 sm:pr-12 py-2.5 sm:py-3 border rounded-lg bg-neutral-100 text-neutral-700 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200 text-sm sm:text-base ${
+                        className={`block w-full pl-9 sm:pl-10 pr-10 sm:pr-12 py-2.5 sm:py-3 border rounded-lg bg-neutral-900 text-yellow-100 placeholder-neutral-500 focus:outline-none focus:ring-2 focus:border-transparent transition-all duration-200 text-sm sm:text-base ${
                           errors.password
-                            ? "border-rose-500 focus:ring-rose-500"
-                            : "border-neutral-700 focus:ring-blue-600"
+                            ? "border-red-500 focus:ring-red-500"
+                            : "border-yellow-600/30 focus:ring-yellow-600"
                         }`}
                         placeholder="••••••••"
                       />
@@ -327,7 +332,7 @@ export const Register = () => {
                           .map((msg, index) => (
                             <p
                               key={index}
-                              className="text-rose-500 text-xs flex items-center"
+                              className="text-red-500 text-xs flex items-center"
                             >
                               <AlertCircle className="h-3 w-3 mr-1 flex-shrink-0" />
                               {msg}
@@ -341,7 +346,7 @@ export const Register = () => {
                   <button
                     type="submit"
                     disabled={isLoading || isSubmitting}
-                    className="group relative w-full flex justify-center py-2.5 sm:py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-600 focus:ring-offset-neutral-800 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200"
+                    className="group relative bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-400 w-full flex justify-center py-2.5 sm:py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-black hover:from-yellow-700 hover:via-yellow-600 hover:to-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 focus:ring-offset-black disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-yellow-500/25"
                   >
                     <span className="absolute left-0 inset-y-0 flex items-center pl-3">
                       <Shield className="h-4 w-4 sm:h-5 sm:w-5 text-blue-100 group-hover:text-white transition-colors" />
@@ -382,7 +387,7 @@ export const Register = () => {
                     ¿Ya tienes una cuenta?
                     <a
                       href="/"
-                      className="font-medium text-blue-600 hover:text-blue-700 transition-colors ml-1"
+                      className="font-medium text-yellow-400 hover:text-yellow-300 transition-colors ml-1"
                     >
                       Inicia sesión aquí
                     </a>
@@ -396,7 +401,10 @@ export const Register = () => {
         {/* Footer */}
         <div className="mt-8 text-center">
           <p className="text-xs text-neutral-500">
-            © 2025 Journal Kiss. Todos los derechos reservados.
+            © 2025 LØNNSOM Tracker. Todos los derechos reservados.
+          </p>
+          <p className="text-xs text-yellow-600/60 mt-1">
+            Desfragmentador de Traders
           </p>
         </div>
       </div>
