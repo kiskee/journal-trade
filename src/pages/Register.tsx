@@ -1,5 +1,4 @@
 import {
-  TrendingUp,
   User,
   Lock,
   Eye,
