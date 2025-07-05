@@ -8,6 +8,7 @@ import CreateStrategyForm from "@/components/strategies/CreateStrategyForm";
 import LastTrade from "@/components/LastTrade";
 import LivePrices from "@/components/livePrices/LivePrices";
 import News from "@/components/news/News";
+import CreateNote from "@/components/notes/CreateNote";
 
 export default function Home() {
   const context = useContext(UserDetailContext);
@@ -87,6 +88,7 @@ export default function Home() {
             <News />
           </div>
         </div>
+        <CreateNote />
       </main>
     </div>
   );
