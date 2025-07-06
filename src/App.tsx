@@ -6,9 +6,10 @@ import Home from "./pages/Home";
 import { Register } from "./pages/Register";
 import DesprotectedRoute from "./components/utils/DesprotectedRoute";
 import IntLayaout from "./components/IntLayaout";
-import CreateTrade from "./pages/CreateTrade"
+import CreateTrade from "./pages/CreateTrade";
 import Analytics from "./pages/Analytics";
 import Portfolio from "./pages/Portfolio";
+import Notes from "./pages/Notes";
 
 function App() {
   return (
@@ -39,7 +40,7 @@ function App() {
                 />
               }
             />
-             <Route
+            <Route
               path="/trade"
               element={
                 <ProtectedRoute
@@ -70,6 +71,30 @@ function App() {
                   element={
                     <IntLayaout>
                       <Portfolio />
+                    </IntLayaout>
+                  }
+                />
+              }
+            />
+            <Route
+              path="/notes"
+              element={
+                <ProtectedRoute
+                  element={
+                    <IntLayaout>
+                      <Notes />
+                    </IntLayaout>
+                  }
+                />
+              }
+            />
+            <Route
+              path="/strategies"
+              element={
+                <ProtectedRoute
+                  element={
+                    <IntLayaout>
+                      <Notes />
                     </IntLayaout>
                   }
                 />

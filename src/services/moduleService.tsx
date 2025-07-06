@@ -43,7 +43,24 @@ interface ModuleServiceType {
   };
   news: {
     today: () => Promise<AxiosResponse<any, any>>;
-  }
+  };
+  notes: {
+    create: (data: any) => Promise<AxiosResponse<any, any>>;
+    byUser: (id: string) => Promise<NoteResponse[]>;
+    delete: (id: string) => Promise<AxiosResponse<any, any>>;
+    update: (id: string, data: any) => Promise<AxiosResponse<any, any>>;
+  };
+}
+
+interface NoteResponse {
+  content: string;
+  date: string;
+  id: string;
+  sentiment: string;
+  tags: string[];
+  title: string;
+  update: string;
+  user: string;
 }
 
 interface TradeResponse {
@@ -127,9 +144,29 @@ const ModuleService: ModuleServiceType = {
   },
   news: {
     today: async () => {
-      const response = await apiClient.get('/news/today');
+      const response = await apiClient.get("/news/today");
       return response;
-    }
+    },
+  },
+  notes: {
+    create: async (data: any) => {
+      const response = await apiClient.post("/notes", data);
+      return response;
+    },
+    byUser: async (id: string): Promise<any> => {
+      const response: AxiosResponse<any> = await apiClient.get(
+        `/notes/user/${id}`
+      );
+      return response.data;
+    },
+    delete: async (id: string) => {
+      const response = await apiClient.delete(`/notes/${id}`);
+      return response;
+    },
+    update:async (id: string, data: any) => {
+      const response = await apiClient.put(`/notes/${id}`, data);
+      return response;
+    },
   },
   //   password: {
   //     find: async (email: string): Promise<any> => {

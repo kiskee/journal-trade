@@ -1,4 +1,4 @@
-import { BarChart3, TrendingUp, Wallet } from "lucide-react";
+import { BarChart3, FileText, TrendingUp, Wallet } from "lucide-react";
 import { Link } from "react-router-dom";
 
 export default function Footer() {
@@ -26,6 +26,18 @@ export default function Footer() {
                 <span className="hidden xl:inline">Analytics</span>
               </button>
             </Link>
+            <Link to="/notes">
+              <button className="flex items-center space-x-2 px-2 xl:px-3 py-2 rounded-lg text-yellow-200 hover:text-yellow-100 hover:bg-yellow-600/20 transition-colors text-sm cursor-pointer">
+                <FileText className="w-4 h-4" />
+                <span className="hidden xl:inline">Notas</span>
+              </button>
+            </Link>
+            {/* <Link to="/strategies">
+              <button className="flex items-center space-x-2 px-2 xl:px-3 py-2 rounded-lg text-yellow-200 hover:text-yellow-100 hover:bg-yellow-600/20 transition-colors text-sm cursor-pointer">
+                <Brain className="w-4 h-4" />
+                <span className="hidden xl:inline">Estrategias</span>
+              </button>
+            </Link> */}
             <Link to="/trade" className="hover:text-gray-300 transition">
               <button className="px-3 xl:px-4 py-2 bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-400 hover:from-yellow-700 hover:via-yellow-600 hover:to-yellow-500 text-black rounded-lg font-medium transition-all duration-200 text-sm cursor-pointer shadow-lg hover:shadow-yellow-500/25">
                 <span className="hidden xl:inline">New Entry</span>
