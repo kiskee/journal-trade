@@ -32,7 +32,7 @@ const Portfolio = () => {
       const sorted = results.results.sort(
         (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
       );
-      console.log(sorted);
+      
       setTrades(sorted);
     };
     initials();
