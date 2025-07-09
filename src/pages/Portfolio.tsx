@@ -32,7 +32,7 @@ const Portfolio = () => {
       const sorted = results.results.sort(
         (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
       );
-
+      console.log(sorted);
       setTrades(sorted);
     };
     initials();
@@ -160,6 +160,10 @@ const Portfolio = () => {
                 </div>
 
                 {/* Notas y Tags */}
+                <p className="text-sm text-yellow-100">
+                  Fecha del trade: 
+                  <p className="text-yellow-500">{trade.step1.date}</p>
+                </p>
                 <div className="border-t border-yellow-600/30 pt-4">
                   {trade.step4.notes && (
                     <div className="mb-3">
