@@ -3,6 +3,7 @@ import React, {
   useRef,
   useEffect,
   type MouseEvent,
+  type TouchEvent,
   type ChangeEvent,
 } from "react";
 import {
@@ -19,7 +20,6 @@ import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 interface ContractData {
   nombres: string;
   apellidos: string;
-  //numeroDocumento: string;
   fecha: string;
 }
 
@@ -50,7 +50,6 @@ const PDFSignatureComponent: React.FC<PDFSignatureComponentProps> = ({
   const [contractData, setContractData] = useState<ContractData>({
     nombres: initialData?.nombres || "",
     apellidos: initialData?.apellidos || "",
-    //numeroDocumento: initialData?.numeroDocumento || "",
     fecha: initialData?.fecha || new Date().toLocaleDateString("es-CO"),
   });
 
@@ -74,13 +73,18 @@ const PDFSignatureComponent: React.FC<PDFSignatureComponentProps> = ({
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
 
+    // Limpiar canvas
+    ctx.fillStyle = "#fff";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
     // Restaurar estilo de firma
     ctx.strokeStyle = "#000";
     ctx.lineWidth = 2;
   };
 
-  const getMousePosition = (
-    e: MouseEvent<HTMLCanvasElement>
+  // Función unificada para obtener posición (mouse o touch)
+  const getPosition = (
+    e: MouseEvent<HTMLCanvasElement> | TouchEvent<HTMLCanvasElement>
   ): SignaturePosition => {
     const canvas = canvasRef.current;
     if (!canvas) return { x: 0, y: 0 };
@@ -89,13 +93,28 @@ const PDFSignatureComponent: React.FC<PDFSignatureComponentProps> = ({
     const scaleX = canvas.width / rect.width;
     const scaleY = canvas.height / rect.height;
 
+    let clientX: number, clientY: number;
+
+    if ('touches' in e) {
+      // Evento táctil
+      const touch = e.touches[0] || e.changedTouches[0];
+      clientX = touch.clientX;
+      clientY = touch.clientY;
+    } else {
+      // Evento de mouse
+      clientX = e.clientX;
+      clientY = e.clientY;
+    }
+
     return {
-      x: (e.clientX - rect.left) * scaleX,
-      y: (e.clientY - rect.top) * scaleY,
+      x: (clientX - rect.left) * scaleX,
+      y: (clientY - rect.top) * scaleY,
     };
   };
 
+  // Eventos de mouse
   const startDrawing = (e: MouseEvent<HTMLCanvasElement>): void => {
+    e.preventDefault();
     setIsDrawing(true);
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -103,7 +122,7 @@ const PDFSignatureComponent: React.FC<PDFSignatureComponentProps> = ({
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const pos = getMousePosition(e);
+    const pos = getPosition(e);
     setLastPosition(pos);
 
     ctx.beginPath();
@@ -111,6 +130,7 @@ const PDFSignatureComponent: React.FC<PDFSignatureComponentProps> = ({
   };
 
   const draw = (e: MouseEvent<HTMLCanvasElement>): void => {
+    e.preventDefault();
     if (!isDrawing) return;
 
     const canvas = canvasRef.current;
@@ -119,7 +139,7 @@ const PDFSignatureComponent: React.FC<PDFSignatureComponentProps> = ({
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
-    const pos = getMousePosition(e);
+    const pos = getPosition(e);
 
     ctx.lineTo(pos.x, pos.y);
     ctx.stroke();
@@ -128,6 +148,54 @@ const PDFSignatureComponent: React.FC<PDFSignatureComponentProps> = ({
   };
 
   const stopDrawing = (): void => {
+    if (!isDrawing) return;
+
+    setIsDrawing(false);
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    // Capturar la firma como data URL
+    const dataURL = canvas.toDataURL("image/png");
+    setSignatureData(dataURL);
+  };
+
+  // Eventos táctiles
+  const startTouchDrawing = (e: TouchEvent<HTMLCanvasElement>): void => {
+    e.preventDefault();
+    setIsDrawing(true);
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const pos = getPosition(e);
+    setLastPosition(pos);
+
+    ctx.beginPath();
+    ctx.moveTo(pos.x, pos.y);
+  };
+
+  const drawTouch = (e: TouchEvent<HTMLCanvasElement>): void => {
+    e.preventDefault();
+    if (!isDrawing) return;
+
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const pos = getPosition(e);
+
+    ctx.lineTo(pos.x, pos.y);
+    ctx.stroke();
+
+    setLastPosition(pos);
+  };
+
+  const stopTouchDrawing = (e: TouchEvent<HTMLCanvasElement>): void => {
+    e.preventDefault();
     if (!isDrawing) return;
 
     setIsDrawing(false);
@@ -196,8 +264,8 @@ const PDFSignatureComponent: React.FC<PDFSignatureComponentProps> = ({
       const fullName = `${contractData.nombres} ${contractData.apellidos}`;
 
       firstPage.drawText(fullName, {
-        x: 140, // ajusta según lo necesario
-        y: 565, // ajusta según la línea horizontal
+        x: 140,
+        y: 565,
         size: fontSize,
         font: font,
         color: rgb(0, 0, 0),
@@ -206,8 +274,8 @@ const PDFSignatureComponent: React.FC<PDFSignatureComponentProps> = ({
       const date = contractData.fecha.replace(/\//g, "         ");
 
       firstPage.drawText(date, {
-        x: 230, // ajusta según lo necesario
-        y: 475, // ajusta según la línea horizontal
+        x: 230,
+        y: 475,
         size: fontSize,
         font: font,
         color: rgb(0, 0, 0),
@@ -263,7 +331,6 @@ const PDFSignatureComponent: React.FC<PDFSignatureComponentProps> = ({
     return Boolean(
       contractData.nombres &&
         contractData.apellidos &&
-        //contractData.numeroDocumento &&
         signatureData &&
         !isSignatureEmpty()
     );
@@ -340,12 +407,22 @@ const PDFSignatureComponent: React.FC<PDFSignatureComponentProps> = ({
         </h3>
 
         <div className="border-2 border-dashed border-yellow-500 rounded-lg p-4 text-center">
+          <p className="text-sm text-gray-300 mb-4">
+            Dibuje su firma en el área blanca usando el mouse o su dedo en dispositivos móviles
+          </p>
+          
           <canvas
             ref={canvasRef}
+            // Eventos de mouse
             onMouseDown={startDrawing}
             onMouseMove={draw}
             onMouseUp={stopDrawing}
             onMouseLeave={stopDrawing}
+            // Eventos táctiles
+            onTouchStart={startTouchDrawing}
+            onTouchMove={drawTouch}
+            onTouchEnd={stopTouchDrawing}
+            onTouchCancel={stopTouchDrawing}
             className="w-full max-w-xs sm:max-w-md border border-yellow-500 rounded-md mx-auto cursor-crosshair bg-white touch-none"
             style={{ touchAction: "none" }}
           />
