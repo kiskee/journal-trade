@@ -251,6 +251,7 @@ const PDFSignatureComponent: React.FC<PDFSignatureComponentProps> = ({
     }
 
     try {
+      console.log(import.meta.env.VITE_UPSALA_PDF)
       const existingPdfBytes = await fetch(
         import.meta.env.VITE_UPSALA_PDF
       ).then((res) => res.arrayBuffer());
