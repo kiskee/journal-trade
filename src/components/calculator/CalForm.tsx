@@ -10,8 +10,9 @@ import {
 
 import type { UseFormReturn } from "react-hook-form";
 import { Input } from "../ui/input";
-import { lazy, Suspense } from "react";
-const SelectPair = lazy(() => import("./SelectPair"));
+import { Suspense } from "react";
+import SelectPair from "./SelectPair";
+
 
 type FormValues = {
   par: string;
