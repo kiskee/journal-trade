@@ -10,6 +10,7 @@ import CreateTrade from "./pages/CreateTrade";
 import Analytics from "./pages/Analytics";
 import Portfolio from "./pages/Portfolio";
 import Notes from "./pages/Notes";
+import Upsala from "./pages/Upsala";
 
 function App() {
   return (
@@ -83,6 +84,18 @@ function App() {
                   element={
                     <IntLayaout>
                       <Notes />
+                    </IntLayaout>
+                  }
+                />
+              }
+            />
+            <Route
+              path="/upsala"
+              element={
+                <ProtectedRoute
+                  element={
+                    <IntLayaout>
+                      <Upsala />
                     </IntLayaout>
                   }
                 />
