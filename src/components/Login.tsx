@@ -243,7 +243,7 @@ export const Login = () => {
                   <div className="flex flex-col sm:flex-row sm:items-center sm:justify-center space-y-3 sm:space-y-0">
                     <div className="text-sm">
                       <a
-                        href="#"
+                        href="/reset-password"
                         className="font-medium text-yellow-400 hover:text-yellow-300 transition-colors"
                       >
                         ¿Olvidaste tu contraseña?

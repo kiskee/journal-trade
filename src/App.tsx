@@ -11,6 +11,7 @@ import Analytics from "./pages/Analytics";
 import Portfolio from "./pages/Portfolio";
 import Notes from "./pages/Notes";
 import Upsala from "./pages/Upsala";
+import ResetPass from "./pages/ResetPass";
 
 function App() {
   return (
@@ -26,6 +27,10 @@ function App() {
             <Route
               path="/register"
               element={<DesprotectedRoute element={<Register />} />}
+            />
+            <Route
+              path="/reset-password"
+              element={<DesprotectedRoute element={<ResetPass />} />}
             />
 
             {/* Rutas protegidas con IntLayout */}
