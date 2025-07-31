@@ -55,7 +55,7 @@ const Notes = () => {
       }
     };
     inital();
-  }, [hasChange, userDetail?.id, notes]);
+  }, [hasChange, userDetail?.id]);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -106,6 +106,7 @@ const Notes = () => {
     setNotes(updatedNotes);
     setIsEditModalOpen(false);
     setEditingNote(null);
+    setHasChange(hasChange + 1);
   };
 
   if (isLoading) {

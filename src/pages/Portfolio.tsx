@@ -20,6 +20,7 @@ const Portfolio = () => {
   const [trades, setTrades] = useState(null as any);
   const [editingTrade, setEditingTrade] = useState(null as any);
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [hasChange, setHasChange] = useState(0);
   const context = useContext(UserDetailContext);
 
   if (!context) {
@@ -36,11 +37,10 @@ const Portfolio = () => {
       const sorted = results.results.sort(
         (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
       );
-      
       setTrades(sorted);
     };
     initials();
-  }, [trades]);
+  }, [hasChange]);
 
   const onHandleDelete = async (id: string) => {
     try {
@@ -64,6 +64,7 @@ const Portfolio = () => {
     setTrades(updatedTrades);
     setIsEditModalOpen(false);
     setEditingTrade(null);
+    setHasChange(hasChange + 1);
   };
 
   return (
