@@ -3,7 +3,6 @@ import axios, {
   type AxiosResponse,
   type InternalAxiosRequestConfig,
 } from "axios";
-import type { boolean } from "zod";
 
 interface ModuleServiceType {
   trades: {
