@@ -13,9 +13,13 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import EditTradeModal from "@/components/entries/EditTrade";
+
 
 const Portfolio = () => {
   const [trades, setTrades] = useState(null as any);
+  const [editingTrade, setEditingTrade] = useState(null as any);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const context = useContext(UserDetailContext);
 
   if (!context) {
@@ -36,16 +40,30 @@ const Portfolio = () => {
       setTrades(sorted);
     };
     initials();
-  }, []); // <- aquí el arreglo de dependencias vacío
+  }, [trades]);
 
-  const onHabdleDelete = async (id: string) => {
+  const onHandleDelete = async (id: string) => {
     try {
       await ModuleService.trades.delete(id);
-      const newTrades = trades.filter((trade: any) => trade.id !== id); // <- corregido: id !== id, no id !== 2
+      const newTrades = trades.filter((trade: any) => trade.id !== id);
       setTrades(newTrades);
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const onHandleEdit = (trade: any) => {
+    setEditingTrade(trade);
+    setIsEditModalOpen(true);
+  };
+
+  const onTradeUpdated = (updatedTrade: any) => {
+    const updatedTrades = trades.map((trade: any) => 
+      trade.id === updatedTrade.id ? updatedTrade : trade
+    );
+    setTrades(updatedTrades);
+    setIsEditModalOpen(false);
+    setEditingTrade(null);
   };
 
   return (
@@ -251,20 +269,29 @@ const Portfolio = () => {
                   </div>
                 </div>
               </div>
-              <div className="pt-4">
+              
+              {/* Botones de acción */}
+              <div className="pt-4 flex gap-3">
+                <Button 
+                  onClick={() => onHandleEdit(trade)}
+                  className="bg-blue-500 text-white hover:bg-blue-600 transition-colors flex-1"
+                >
+                  Editar Trade
+                </Button>
+                
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
-                    <Button className="bg-red-500 text-black hover:bg-red-600 transition-colors">
+                    <Button className="bg-red-500 text-black hover:bg-red-600 transition-colors flex-1">
                       Eliminar Trade
                     </Button>
                   </AlertDialogTrigger>
                   <AlertDialogContent className="bg-neutral-950 border-2 border-red-600">
                     <AlertDialogHeader>
                       <AlertDialogTitle className="text-red-500 text-center">
-                        Estas complemante segur@??
+                        ¿Estás completamente segur@?
                       </AlertDialogTitle>
                       <AlertDialogDescription className="text-yellow-100 text-center">
-                        Esta accion no se puedo devolver. Borraremos el trade
+                        Esta acción no se puede devolver. Borraremos el trade
                         permanentemente de nuestra base de datos.
                       </AlertDialogDescription>
                     </AlertDialogHeader>
@@ -274,7 +301,7 @@ const Portfolio = () => {
                       </AlertDialogCancel>
                       <AlertDialogAction
                         className="bg-red-500 text-black hover:bg-red-600"
-                        onClick={() => onHabdleDelete(trade.id)}
+                        onClick={() => onHandleDelete(trade.id)}
                       >
                         Borrar
                       </AlertDialogAction>
@@ -292,6 +319,17 @@ const Portfolio = () => {
           </p>
         </div>
       )}
+
+      {/* Modal de edición */}
+      <EditTradeModal
+        isOpen={isEditModalOpen}
+        onClose={() => {
+          setIsEditModalOpen(false);
+          setEditingTrade(null);
+        }}
+        trade={editingTrade}
+        onTradeUpdated={onTradeUpdated}
+      />
     </div>
   );
 };

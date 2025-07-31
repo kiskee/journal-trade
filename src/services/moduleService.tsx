@@ -3,36 +3,15 @@ import axios, {
   type AxiosResponse,
   type InternalAxiosRequestConfig,
 } from "axios";
-
-// interface ResetPasswordData {
-//   email: string;
-//   password: string;
-//   // Agrega otros campos si es necesario
-// }
-
-// interface User {
-//   id: string;
-//   name: string;
-//   email: string;
-//   // Agrega más campos si tu modelo de usuario los tiene
-// }
+import type { boolean } from "zod";
 
 interface ModuleServiceType {
-  //   password: {
-  //     find: (email: string) => Promise<any>;
-  //     reset: (data: ResetPasswordData) => Promise<any>;
-  //   };
-  //   users: {
-  //     getAll: () => Promise<User[]>;
-  //     getById: (id: string) => Promise<User>;
-  //     update: (id: string, data: Partial<User>) => Promise<User>;
-  //     remove: (id: string) => Promise<{ success: boolean }>;
-  //   };
   trades: {
     create: (data: any) => Promise<AxiosResponse<any, any>>;
     byUser: (key: string, value: string) => Promise<TradeResponse>;
     lastTrade: (key: string, value: string) => Promise<TradeResponse>;
     delete: (id: string) => Promise<AxiosResponse<any, any>>;
+    update: (id: string, data: any) => Promise<AxiosResponse<any, any>>;
   };
   strategies: {
     create: (data: any) => Promise<AxiosResponse<any, any>>;
@@ -50,6 +29,10 @@ interface ModuleServiceType {
     delete: (id: string) => Promise<AxiosResponse<any, any>>;
     update: (id: string, data: any) => Promise<AxiosResponse<any, any>>;
   };
+  upsala: {
+    create: (data: any) => Promise<AxiosResponse<any, any>>;
+    byUser: (id: string) => Promise<RegistryResponse>;
+  }
 }
 
 interface NoteResponse {
@@ -60,6 +43,17 @@ interface NoteResponse {
   tags: string[];
   title: string;
   update: string;
+  user: string;
+}
+
+interface RegistryResponse {
+  data: DataRegistry[];
+  error: boolean;
+  message: string;
+}
+
+interface DataRegistry {
+  date: string;
   user: string;
 }
 
@@ -120,6 +114,10 @@ const ModuleService: ModuleServiceType = {
       const response = await apiClient.delete(`/trades/${id}`);
       return response;
     },
+    update: async (id: string, data: any) => {
+      const response = await apiClient.put(`/trades/${id}`, data);
+      return response;
+    },
   },
   strategies: {
     create: async (data: any) => {
@@ -163,39 +161,23 @@ const ModuleService: ModuleServiceType = {
       const response = await apiClient.delete(`/notes/${id}`);
       return response;
     },
-    update:async (id: string, data: any) => {
+    update: async (id: string, data: any) => {
       const response = await apiClient.put(`/notes/${id}`, data);
       return response;
     },
   },
-  //   password: {
-  //     find: async (email: string): Promise<any> => {
-  //       const response = await apiClient.post(`/auth/forgot-password/${email}`);
-  //       return response.data;
-  //     },
-  //     reset: async (data: ResetPasswordData): Promise<any> => {
-  //       const response = await apiClient.post(`/auth/reset-password`, data);
-  //       return response.data;
-  //     },
-  //   },
-  //   users: {
-  //     getAll: async (): Promise<User[]> => {
-  //       const response = await apiClient.get("/users");
-  //       return response.data;
-  //     },
-  //     getById: async (id: string): Promise<User> => {
-  //       const response = await apiClient.get(`/users/${id}`);
-  //       return response.data;
-  //     },
-  //     update: async (id: string, data: Partial<User>): Promise<User> => {
-  //       const response = await apiClient.put(`/users/${id}`, data);
-  //       return response.data;
-  //     },
-  //     remove: async (id: string): Promise<{ success: boolean }> => {
-  //       await apiClient.delete(`/users/${id}`);
-  //       return { success: true };
-  //     },
-  //   },
+  upsala:{
+    create: async (data: any) => {
+      const response = await apiClient.post("/upsala", data);
+      return response;
+    },
+    byUser: async (id: string): Promise<any> => {
+      const response: AxiosResponse<any> = await apiClient.get(
+        `/upsala/${id}`
+      );
+      return response.data;
+    },
+  }
 };
 
 export default ModuleService;
