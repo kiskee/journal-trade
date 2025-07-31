@@ -525,11 +525,18 @@ export default function EditTradeModal({
             <h3 className="text-lg font-semibold text-yellow-400 border-b border-yellow-600/30 pb-2">
               Psicología
             </h3>
-            
+
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
               <div>
-                <Label htmlFor="emotionBefore" className="text-yellow-300 py-2">Emoción Antes</Label>
-                <Select value={formData.emotionBefore} onValueChange={(value) => handleInputChange("emotionBefore", value)}>
+                <Label htmlFor="emotionBefore" className="text-yellow-300 py-2">
+                  Emoción Antes
+                </Label>
+                <Select
+                  value={formData.emotionBefore}
+                  onValueChange={(value) =>
+                    handleInputChange("emotionBefore", value)
+                  }
+                >
                   <SelectTrigger className="bg-neutral-900 border-yellow-600/30 text-yellow-100">
                     <SelectValue placeholder="Seleccionar emoción" />
                   </SelectTrigger>
@@ -544,8 +551,15 @@ export default function EditTradeModal({
               </div>
 
               <div>
-                <Label htmlFor="emotionAfter" className="text-yellow-300 py-2">Emoción Después</Label>
-                <Select value={formData.emotionAfter} onValueChange={(value) => handleInputChange("emotionAfter", value)}>
+                <Label htmlFor="emotionAfter" className="text-yellow-300 py-2">
+                  Emoción Después
+                </Label>
+                <Select
+                  value={formData.emotionAfter}
+                  onValueChange={(value) =>
+                    handleInputChange("emotionAfter", value)
+                  }
+                >
                   <SelectTrigger className="bg-neutral-900 border-yellow-600/30 text-yellow-100">
                     <SelectValue placeholder="Seleccionar emoción" />
                   </SelectTrigger>
@@ -560,27 +574,41 @@ export default function EditTradeModal({
               </div>
 
               <div>
-                <Label htmlFor="confidenceLevel" className="text-yellow-300 py-2">Nivel de Confianza (1-10)</Label>
+                <Label
+                  htmlFor="confidenceLevel"
+                  className="text-yellow-300 py-2"
+                >
+                  Nivel de Confianza (1-10)
+                </Label>
                 <Input
                   id="confidenceLevel"
                   type="number"
                   min="1"
                   max="10"
                   value={formData.confidenceLevel}
-                  onChange={(e) => handleInputChange("confidenceLevel", e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange("confidenceLevel", e.target.value)
+                  }
                   className="bg-neutral-900 border-yellow-600/30 text-yellow-100"
                 />
               </div>
 
               <div>
-                <Label htmlFor="disciplineLevel" className="text-yellow-300 py-2">Nivel de Disciplina (1-10)</Label>
+                <Label
+                  htmlFor="disciplineLevel"
+                  className="text-yellow-300 py-2"
+                >
+                  Nivel de Disciplina (1-10)
+                </Label>
                 <Input
                   id="disciplineLevel"
                   type="number"
                   min="1"
                   max="10"
                   value={formData.disciplineLevel}
-                  onChange={(e) => handleInputChange("disciplineLevel", e.target.value)}
+                  onChange={(e) =>
+                    handleInputChange("disciplineLevel", e.target.value)
+                  }
                   className="bg-neutral-900 border-yellow-600/30 text-yellow-100"
                 />
               </div>
@@ -699,19 +727,19 @@ export default function EditTradeModal({
             </div>
           </div>
 
-          <DialogFooter className="flex flex-col sm:flex-row gap-3 pt-8 border-t border-yellow-600/30">
+          <DialogFooter className="flex gap-3 pt-6 border-t border-yellow-600/30">
             <Button
               type="button"
               variant="outline"
               onClick={onClose}
-              className="border-yellow-600/30 text-yellow-100 hover:bg-yellow-600/10 h-11 px-6 font-medium rounded-md transition-colors order-2 sm:order-1"
+              className="bg-neutral-800 border-neutral-600 text-neutral-300 hover:bg-neutral-700 hover:text-white hover:border-neutral-500 transition-colors"
             >
               Cancelar
             </Button>
             <Button
               type="submit"
               disabled={isLoading}
-              className="bg-yellow-600 text-black hover:bg-yellow-700 disabled:opacity-50 h-11 px-6 font-medium rounded-md transition-colors order-1 sm:order-2"
+              className="bg-yellow-600 text-black hover:bg-yellow-700 disabled:opacity-50 font-medium"
             >
               {isLoading ? "Guardando..." : "Guardar Cambios"}
             </Button>
