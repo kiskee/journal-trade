@@ -25,11 +25,14 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
+import EditNoteModal from "@/components/notes/EditNote";
 
 const Notes = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [notes, setNotes] = useState(null as any);
   const [hasChange, setHasChange] = useState(0);
+  const [editingNote, setEditingNote] = useState(null as any);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const context = useContext(UserDetailContext);
   if (!context) {
     throw new Error(
@@ -52,7 +55,7 @@ const Notes = () => {
       }
     };
     inital();
-  }, [hasChange, userDetail?.id]);
+  }, [hasChange, userDetail?.id, notes]);
 
   const formatDate = (dateString: string) => {
     const date = new Date(dateString);
@@ -63,11 +66,6 @@ const Notes = () => {
       hour: "2-digit",
       minute: "2-digit",
     });
-  };
-
-  const handleEdit = (noteId: string) => {
-    console.log("Editando nota:", noteId);
-    // Aquí puedes implementar la lógica de edición
   };
 
   const getSentimentColor = (sentiment: string) => {
@@ -94,6 +92,20 @@ const Notes = () => {
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const onHandleEdit = (trade: any) => {
+    setEditingNote(trade);
+    setIsEditModalOpen(true);
+  };
+
+  const onNoteUpdated = (updatedNote: any) => {
+    const updatedNotes = notes.map((note: any) =>
+      note.id === updatedNote.id ? updatedNote : note
+    );
+    setNotes(updatedNotes);
+    setIsEditModalOpen(false);
+    setEditingNote(null);
   };
 
   if (isLoading) {
@@ -205,7 +217,7 @@ const Notes = () => {
                     </div>
                     <div className="flex gap-1 ">
                       <button
-                        onClick={() => handleEdit(note.id)}
+                        onClick={() => onHandleEdit(note)}
                         className="p-1.5 bg-yellow-500/10 hover:bg-yellow-500/20 text-yellow-500 rounded-md transition-colors"
                         title="Editar nota"
                       >
@@ -287,6 +299,15 @@ const Notes = () => {
 
         {/* Add Note Button */}
         <CreateNote onNoteCreated={handleNoteCreated} />
+        <EditNoteModal
+          isOpen={isEditModalOpen}
+          onClose={() => {
+            setIsEditModalOpen(false);
+            setEditingNote(null);
+          }}
+          note={editingNote}
+          onNoteUpdated={onNoteUpdated}
+        />
       </div>
     </>
   );
