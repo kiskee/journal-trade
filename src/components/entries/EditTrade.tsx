@@ -102,6 +102,32 @@ export default function EditTradeModal({
     }
   }, [trade]);
 
+  // Opciones de emociones
+  const emotionBeforeOptions = [
+    "Confianza",
+    "Ansiedad",
+    "Duda",
+    "Impaciencia",
+    "Euforia",
+    "Miedo",
+    "Seguridad",
+    "Tensión",
+    "Apatía",
+    "Motivación",
+  ] as const;
+
+  const emotionAfterOptions = [
+    "Satisfacción",
+    "Frustración",
+    "Alivio",
+    "Enojo",
+    "Desilusión",
+    "Orgullo",
+    "Remordimiento",
+    "Indiferencia",
+    "Euforia",
+  ] as const;
+
   const handleInputChange = (field: string, value: any) => {
     setFormData((prev) => ({
       ...prev,
@@ -495,151 +521,67 @@ export default function EditTradeModal({
           </div>
 
           {/* Step 3: Psicología */}
-          <div className="space-y-5">
-            <h3 className="text-lg font-semibold text-yellow-400 border-b border-yellow-600/30 pb-3 mb-5">
+          <div className="space-y-4">
+            <h3 className="text-lg font-semibold text-yellow-400 border-b border-yellow-600/30 pb-2">
               Psicología
             </h3>
-
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-              <div className="space-y-2">
-                <Label
-                  htmlFor="emotionBefore"
-                  className="text-yellow-300 text-sm font-medium block"
-                >
-                  Emoción Antes
-                </Label>
-                <Select
-                  value={formData.emotionBefore}
-                  onValueChange={(value) =>
-                    handleInputChange("emotionBefore", value)
-                  }
-                >
-                  <SelectTrigger className="bg-neutral-900 border-yellow-600/30 text-yellow-100 h-11 focus:ring-2 focus:ring-yellow-600/50 focus:border-yellow-600">
+            
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              <div>
+                <Label htmlFor="emotionBefore" className="text-yellow-300 py-2">Emoción Antes</Label>
+                <Select value={formData.emotionBefore} onValueChange={(value) => handleInputChange("emotionBefore", value)}>
+                  <SelectTrigger className="bg-neutral-900 border-yellow-600/30 text-yellow-100">
                     <SelectValue placeholder="Seleccionar emoción" />
                   </SelectTrigger>
-                  <SelectContent className="bg-neutral-900 border-yellow-600/30">
-                    <SelectItem
-                      value="confiado"
-                      className="text-yellow-100 focus:bg-yellow-600/20"
-                    >
-                      Confiado
-                    </SelectItem>
-                    <SelectItem
-                      value="nervioso"
-                      className="text-yellow-100 focus:bg-yellow-600/20"
-                    >
-                      Nervioso
-                    </SelectItem>
-                    <SelectItem
-                      value="neutral"
-                      className="text-yellow-100 focus:bg-yellow-600/20"
-                    >
-                      Neutral
-                    </SelectItem>
-                    <SelectItem
-                      value="ansioso"
-                      className="text-yellow-100 focus:bg-yellow-600/20"
-                    >
-                      Ansioso
-                    </SelectItem>
-                    <SelectItem
-                      value="eufórico"
-                      className="text-yellow-100 focus:bg-yellow-600/20"
-                    >
-                      Eufórico
-                    </SelectItem>
+                  <SelectContent className="bg-neutral-900 border-yellow-600/30 text-white">
+                    {emotionBeforeOptions.map((emotion) => (
+                      <SelectItem key={emotion} value={emotion.toLowerCase()}>
+                        {emotion}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
 
-              <div className="space-y-2">
-                <Label
-                  htmlFor="emotionAfter"
-                  className="text-yellow-300 text-sm font-medium block"
-                >
-                  Emoción Después
-                </Label>
-                <Select
-                  value={formData.emotionAfter}
-                  onValueChange={(value) =>
-                    handleInputChange("emotionAfter", value)
-                  }
-                >
-                  <SelectTrigger className="bg-neutral-900 border-yellow-600/30 text-yellow-100 h-11 focus:ring-2 focus:ring-yellow-600/50 focus:border-yellow-600">
+              <div>
+                <Label htmlFor="emotionAfter" className="text-yellow-300 py-2">Emoción Después</Label>
+                <Select value={formData.emotionAfter} onValueChange={(value) => handleInputChange("emotionAfter", value)}>
+                  <SelectTrigger className="bg-neutral-900 border-yellow-600/30 text-yellow-100">
                     <SelectValue placeholder="Seleccionar emoción" />
                   </SelectTrigger>
-                  <SelectContent className="bg-neutral-900 border-yellow-600/30">
-                    <SelectItem
-                      value="satisfecho"
-                      className="text-yellow-100 focus:bg-yellow-600/20"
-                    >
-                      Satisfecho
-                    </SelectItem>
-                    <SelectItem
-                      value="frustrado"
-                      className="text-yellow-100 focus:bg-yellow-600/20"
-                    >
-                      Frustrado
-                    </SelectItem>
-                    <SelectItem
-                      value="neutral"
-                      className="text-yellow-100 focus:bg-yellow-600/20"
-                    >
-                      Neutral
-                    </SelectItem>
-                    <SelectItem
-                      value="arrepentido"
-                      className="text-yellow-100 focus:bg-yellow-600/20"
-                    >
-                      Arrepentido
-                    </SelectItem>
-                    <SelectItem
-                      value="orgulloso"
-                      className="text-yellow-100 focus:bg-yellow-600/20"
-                    >
-                      Orgulloso
-                    </SelectItem>
+                  <SelectContent className="bg-neutral-900 border-yellow-600/30 text-white">
+                    {emotionAfterOptions.map((emotion) => (
+                      <SelectItem key={emotion} value={emotion.toLowerCase()}>
+                        {emotion}
+                      </SelectItem>
+                    ))}
                   </SelectContent>
                 </Select>
               </div>
 
-              <div className="space-y-2">
-                <Label
-                  htmlFor="confidenceLevel"
-                  className="text-yellow-300 text-sm font-medium block"
-                >
-                  Nivel de Confianza (1-10)
-                </Label>
+              <div>
+                <Label htmlFor="confidenceLevel" className="text-yellow-300 py-2">Nivel de Confianza (1-10)</Label>
                 <Input
                   id="confidenceLevel"
                   type="number"
                   min="1"
                   max="10"
                   value={formData.confidenceLevel}
-                  onChange={(e) =>
-                    handleInputChange("confidenceLevel", e.target.value)
-                  }
-                  className="bg-neutral-900 border-yellow-600/30 text-yellow-100 h-11 px-4 rounded-md focus:ring-2 focus:ring-yellow-600/50 focus:border-yellow-600"
+                  onChange={(e) => handleInputChange("confidenceLevel", e.target.value)}
+                  className="bg-neutral-900 border-yellow-600/30 text-yellow-100"
                 />
               </div>
 
-              <div className="space-y-2">
-                <Label
-                  htmlFor="disciplineLevel"
-                  className="text-yellow-300 text-sm font-medium block"
-                >
-                  Nivel de Disciplina (1-10)
-                </Label>
+              <div>
+                <Label htmlFor="disciplineLevel" className="text-yellow-300 py-2">Nivel de Disciplina (1-10)</Label>
                 <Input
                   id="disciplineLevel"
                   type="number"
                   min="1"
                   max="10"
                   value={formData.disciplineLevel}
-                  onChange={(e) =>
-                    handleInputChange("disciplineLevel", e.target.value)
-                  }
-                  className="bg-neutral-900 border-yellow-600/30 text-yellow-100 h-11 px-4 rounded-md focus:ring-2 focus:ring-yellow-600/50 focus:border-yellow-600"
+                  onChange={(e) => handleInputChange("disciplineLevel", e.target.value)}
+                  className="bg-neutral-900 border-yellow-600/30 text-yellow-100"
                 />
               </div>
             </div>
