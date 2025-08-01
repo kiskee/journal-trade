@@ -5,6 +5,7 @@ import { UserDetailContext } from "@/context/UserDetailContext";
 import Loading from "@/components/Loading";
 import EditNoteModal from "@/components/notes/EditNote";
 import NotesCalendar from "@/components/notes/NewNotes";
+import { FileText } from "lucide-react";
 
 const Notes = () => {
   const [isLoading, setIsLoading] = useState(true);
