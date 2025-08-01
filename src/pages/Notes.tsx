@@ -3,7 +3,6 @@ import { useContext, useEffect, useState } from "react";
 import ModuleService from "@/services/moduleService";
 import { UserDetailContext } from "@/context/UserDetailContext";
 import Loading from "@/components/Loading";
-import { PlusCircle, FileText } from "lucide-react";
 import EditNoteModal from "@/components/notes/EditNote";
 import NotesCalendar from "@/components/notes/NewNotes";
 
