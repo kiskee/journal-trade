@@ -10,7 +10,6 @@ import CreateTrade from "./pages/CreateTrade";
 import Analytics from "./pages/Analytics";
 import Portfolio from "./pages/Portfolio";
 import Notes from "./pages/Notes";
-import Upsala from "./pages/Upsala";
 import ResetPass from "./pages/ResetPass";
 
 function App() {
@@ -94,7 +93,7 @@ function App() {
                 />
               }
             />
-            <Route
+            {/* <Route
               path="/upsala"
               element={
                 <ProtectedRoute
@@ -105,7 +104,7 @@ function App() {
                   }
                 />
               }
-            />
+            /> */}
             <Route
               path="/strategies"
               element={
