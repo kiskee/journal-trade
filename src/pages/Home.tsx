@@ -1,7 +1,8 @@
 import { useContext } from "react";
 import { UserDetailContext } from "@/context/UserDetailContext";
 import { Link } from "react-router-dom";
-import { PlusCircle, BrainCircuit, TrendingUp } from "lucide-react";
+import { PlusCircle, ChartCandlestick, TrendingUp } from "lucide-react";
+
 
 import Calculator from "@/components/calculator/Calculator";
 import CreateStrategyForm from "@/components/strategies/CreateStrategyForm";
@@ -50,7 +51,7 @@ export default function Home() {
                 </div>
               </Link>
               <div className="bg-neutral-950 border border-yellow-600/30 p-6 rounded-2xl flex items-center gap-4 hover:border-yellow-500/50 backdrop-blur-sm transition-all duration-300">
-                <BrainCircuit className="w-10 h-10 text-yellow-400" />
+                <ChartCandlestick className="w-10 h-10 text-yellow-400" />
                 <div>
                   <h2 className="font-bold text-xl text-yellow-100">
                     Nueva Estrategia
