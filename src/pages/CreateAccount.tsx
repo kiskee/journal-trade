@@ -4,6 +4,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router-dom";
 import ModuleService from "@/services/moduleService";
 import toro from "../assets/toro.png";
+import { useState } from "react";
+import Loading from "@/components/utils/Loading";
 
 // Tipos
 const AccountSchema = z.object({
@@ -23,6 +25,7 @@ type AccountForm = z.infer<typeof AccountSchema>;
 const CURRENCIES = ["USD", "EUR", "COP", "GBP", "MXN"];
 
 export default function CreateAccount() {
+ const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const {
@@ -46,17 +49,18 @@ export default function CreateAccount() {
 
   const onSubmit = async (values: AccountForm) => {
     try {
+      setIsLoading(true);
       await ModuleService.accounts.create(values);
       navigate("/inicio", { replace: true });
     } catch (err) {
       console.error("Error creando la cuenta:", err);
-      alert("Error creando la cuenta");
+      setIsLoading(false);
     }
   };
 
   return (
     <div className="min-h-screen bg-black py-12 px-4">
-      <form
+      {isLoading ? <Loading text="Creando tu cuenta" /> : <form
         onSubmit={handleSubmit(onSubmit)}
         className="max-w-xl mx-auto p-8 bg-black border border-yellow-300 rounded-2xl shadow-lg"
       >
@@ -226,7 +230,7 @@ export default function CreateAccount() {
             )}
           </button>
         </div>
-      </form>
+      </form>}
     </div>
   );
 }
