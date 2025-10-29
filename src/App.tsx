@@ -11,6 +11,7 @@ import Analytics from "./pages/Analytics";
 import Portfolio from "./pages/Portfolio";
 import Notes from "./pages/Notes";
 import ResetPass from "./pages/ResetPass";
+import CreateAccount from "./pages/CreateAccount";
 
 function App() {
   return (
@@ -93,18 +94,10 @@ function App() {
                 />
               }
             />
-            {/* <Route
-              path="/upsala"
-              element={
-                <ProtectedRoute
-                  element={
-                    <IntLayaout>
-                      <Upsala />
-                    </IntLayaout>
-                  }
-                />
-              }
-            /> */}
+            <Route
+              path="/create-account"
+              element={<ProtectedRoute element={<CreateAccount />} />}
+            />
             <Route
               path="/strategies"
               element={

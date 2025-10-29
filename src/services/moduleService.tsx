@@ -31,7 +31,22 @@ interface ModuleServiceType {
   upsala: {
     create: (data: any) => Promise<AxiosResponse<any, any>>;
     byUser: (id: string) => Promise<RegistryResponse>;
-  }
+  };
+  accounts: {
+    byUser: () => Promise<Account[] | string>;
+    create: (data: any) => Promise<AxiosResponse<any, any>>;
+  };
+}
+interface Account {
+  id: string;
+  isprimary: boolean;
+  createdAt: Date;
+  updatedAt: Date;
+  currentBalance: number;
+  name: string;
+  userId: string;
+  initialBalance: number;
+  currency: string;
 }
 
 interface NoteResponse {
@@ -165,18 +180,26 @@ const ModuleService: ModuleServiceType = {
       return response;
     },
   },
-  upsala:{
+  upsala: {
     create: async (data: any) => {
       const response = await apiClient.post("/upsala", data);
       return response;
     },
     byUser: async (id: string): Promise<any> => {
-      const response: AxiosResponse<any> = await apiClient.get(
-        `/upsala/${id}`
-      );
+      const response: AxiosResponse<any> = await apiClient.get(`/upsala/${id}`);
       return response.data;
     },
-  }
+  },
+  accounts: {
+    byUser: async (): Promise<any> => {
+      const response: AxiosResponse<any> = await apiClient.get(`/accounts`);
+      return response;
+    },
+    create: async (data: any) => {
+      const response = await apiClient.post("/accounts", data);
+      return response;
+    },
+  },
 };
 
 export default ModuleService;

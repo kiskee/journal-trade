@@ -3,23 +3,22 @@ import { UserDetailContext } from "@/context/UserDetailContext";
 import { Link } from "react-router-dom";
 import { PlusCircle, ChartCandlestick, TrendingUp } from "lucide-react";
 
-
 import Calculator from "@/components/calculator/Calculator";
 import CreateStrategyForm from "@/components/strategies/CreateStrategyForm";
 import LastTrade from "@/components/LastTrade";
-import LivePrices from "@/components/livePrices/LivePrices";
 import News from "@/components/news/News";
 import CreateNote from "@/components/notes/CreateNote";
 
 export default function Home() {
   const context = useContext(UserDetailContext);
   const userName = context?.userDetail?.name || "Trader";
+ 
 
   return (
     <div className="w-full min-h-screen bg-black">
       {/* Fondo con gradiente sutil */}
       {/* <div className="absolute inset-0 bg-gradient-to-br from-yellow-900/20 via-black to-yellow-800/10 pointer-events-none"></div> */}
-      <LivePrices />
+      
       <main className="relative p-4 sm:p-6 lg:p-8 max-w-screen-2xl mx-auto">
         {/* Header Section */}
         <div className="mb-8">
