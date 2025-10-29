@@ -188,7 +188,7 @@ export default function CreateAccount() {
 
         {/* Action Buttons */}
         <div className="flex gap-3 pt-2">
-          <Link to="/dashboard" className="flex-1">
+          <Link to="/inicio" className="flex-1">
             <button
               type="button"
               className="w-full px-6 py-3 rounded-xl border-2 border-gray-300 text-white font-semibold hover:bg-gray-50 hover:border-gray-400 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300"
