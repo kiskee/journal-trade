@@ -6,6 +6,7 @@ import ModuleService from "@/services/moduleService";
 import toro from "../assets/toro.png";
 import { useState } from "react";
 import Loading from "@/components/utils/Loading";
+import { useLogout } from "@/hooks/useLogout";
 
 // Tipos
 const AccountSchema = z.object({
@@ -27,7 +28,7 @@ const CURRENCIES = ["USD", "EUR", "COP", "GBP", "MXN"];
 export default function CreateAccount() {
  const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
-
+  const { handleLogout } = useLogout();
   const {
     register,
     handleSubmit,
@@ -58,8 +59,21 @@ export default function CreateAccount() {
     }
   };
 
+
+
   return (
     <div className="min-h-screen bg-black py-12 px-4">
+      {/* Header with Logout Button */}
+      <div className="max-w-xl mx-auto mb-4 flex justify-end">
+        <button
+          type="button"
+          onClick={handleLogout}
+          className="px-4 py-2 bg-red-600 hover:bg-red-700 text-white font-semibold rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 focus:ring-offset-black shadow-lg"
+        >
+          Cerrar sesión
+        </button>
+      </div>
+
       {isLoading ? <Loading text="Creando tu cuenta" /> : <form
         onSubmit={handleSubmit(onSubmit)}
         className="max-w-xl mx-auto p-8 bg-black border border-yellow-300 rounded-2xl shadow-lg"
