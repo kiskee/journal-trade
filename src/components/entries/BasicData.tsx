@@ -113,7 +113,6 @@ const BasicData = (props: FormStepProps) => {
       console.log("Error al crear la estrategia");
     }
   };
-
   return (
     <>
       {loadingfetch ? <Loading  text="Cargado datos"/> : <div className="flex justify-center  w-full items-center">

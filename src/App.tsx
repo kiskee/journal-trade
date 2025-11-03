@@ -12,6 +12,7 @@ import Portfolio from "./pages/Portfolio";
 import Notes from "./pages/Notes";
 import ResetPass from "./pages/ResetPass";
 import CreateAccount from "./pages/CreateAccount";
+import Acccounts from "./pages/Accounts";
 
 function App() {
   return (
@@ -105,6 +106,18 @@ function App() {
                   element={
                     <IntLayaout>
                       <Notes />
+                    </IntLayaout>
+                  }
+                />
+              }
+            />
+             <Route
+              path="/accounts"
+              element={
+                <ProtectedRoute
+                  element={
+                    <IntLayaout>
+                      <Acccounts />
                     </IntLayaout>
                   }
                 />
