@@ -82,6 +82,7 @@ export const formShemaBasicData = z.object({
     .nonnegative("Debe ser 0 o más")
     .optional(),
   //.min(1, "Debe ser al menos 1"),
+  accountId: z.string().min(1, "La Cuenta es obligatoria"),
 });
 
 export const tradeResultSchema = z.object({

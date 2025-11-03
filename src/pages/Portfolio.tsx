@@ -14,7 +14,7 @@ import {
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
 import EditTradeModal from "@/components/entries/EditTrade";
-
+import RelateAccountDialog from "@/components/RelateAccountDialog";
 
 const Portfolio = () => {
   const [trades, setTrades] = useState(null as any);
@@ -22,6 +22,7 @@ const Portfolio = () => {
   const [isEditModalOpen, setIsEditModalOpen] = useState(false);
   const [hasChange, setHasChange] = useState(0);
   const context = useContext(UserDetailContext);
+  const [accounts, setAccounts] = useState(null as any);
 
   if (!context) {
     throw new Error(
@@ -34,6 +35,8 @@ const Portfolio = () => {
   useEffect(() => {
     const initials = async () => {
       const results = await ModuleService.trades.byUser("user", userDetail?.id);
+      const accounts: any = await ModuleService.accounts.byUser();
+      setAccounts(accounts.data);
       const sorted = results.results.sort(
         (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
       );
@@ -58,13 +61,24 @@ const Portfolio = () => {
   };
 
   const onTradeUpdated = (updatedTrade: any) => {
-    const updatedTrades = trades.map((trade: any) => 
+    const updatedTrades = trades.map((trade: any) =>
       trade.id === updatedTrade.id ? updatedTrade : trade
     );
     setTrades(updatedTrades);
     setIsEditModalOpen(false);
     setEditingTrade(null);
     setHasChange(hasChange + 1);
+  };
+
+  const onHandleAddAccount = async (accountId: string, trade: any) => {
+    const tradeId = trade.id;
+    delete trade.id;
+    trade.updated = new Date().toISOString();
+    trade.step1.accountId = accountId;
+    if (!trade.step2.fees) {
+      trade.step2.fees = 0;
+    }
+    await ModuleService.trades.update(tradeId, trade);
   };
 
   return (
@@ -180,7 +194,7 @@ const Portfolio = () => {
 
                 {/* Notas y Tags */}
                 <p className="text-sm text-yellow-100">
-                  Fecha del trade: 
+                  Fecha del trade:
                   <p className="text-yellow-500">{trade.step1.date}</p>
                 </p>
                 <div className="border-t border-yellow-600/30 pt-4">
@@ -270,16 +284,16 @@ const Portfolio = () => {
                   </div>
                 </div>
               </div>
-              
+
               {/* Botones de acción */}
               <div className="pt-4 flex gap-3">
-                <Button 
+                <Button
                   onClick={() => onHandleEdit(trade)}
                   className="bg-blue-500 text-white hover:bg-blue-600 transition-colors flex-1"
                 >
                   Editar Trade
                 </Button>
-                
+
                 <AlertDialog>
                   <AlertDialogTrigger asChild>
                     <Button className="bg-red-500 text-black hover:bg-red-600 transition-colors flex-1">
@@ -310,6 +324,16 @@ const Portfolio = () => {
                   </AlertDialogContent>
                 </AlertDialog>
               </div>
+
+              {!trade.step1.accountId && (
+                <div className="flex justify-center">
+                  <RelateAccountDialog
+                    accounts={accounts}
+                    trade={trade}
+                    onRelate={onHandleAddAccount}
+                  />
+                </div>
+              )}
             </div>
           ))}
         </div>

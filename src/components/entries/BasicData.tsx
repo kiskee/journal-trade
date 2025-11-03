@@ -26,6 +26,14 @@ import {
 } from "@/components/ui/popover";
 import { cn } from "@/lib/utils";
 import CreateStrategyForm from "../strategies/CreateStrategyForm";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
+import  Loading from "../utils/Loading";
 
 interface FormStepProps {
   onNext: (data: any) => void;
@@ -39,9 +47,11 @@ interface FormStepProps {
 
 const BasicData = (props: FormStepProps) => {
   const [strategyDate, setStrategyDate] = useState(null as any);
+  const [accounts, setAccounts] = useState(null as any);
   const [open, setOpen] = useState(false);
   const [localValue, setLocalValue] = useState("");
   const [strategyCreated, setStrategyCreated] = useState(null as any);
+  const [loadingfetch, setLoadingfetch] = useState(true);
 
   useEffect(() => {
     const strategiesDate = async () => {
@@ -50,7 +60,11 @@ const BasicData = (props: FormStepProps) => {
           "user",
           props.userId
         );
+        const accountFetch: any = await ModuleService.accounts.byUser();
+
         setStrategyDate(results.results);
+        setAccounts(accountFetch.data);
+        setLoadingfetch(false);
       } catch (error) {
         console.log(error);
       }
@@ -73,6 +87,7 @@ const BasicData = (props: FormStepProps) => {
       durationUnit: "min",
       positionSize: "",
       leverage: "",
+      accountId: "",
     },
   });
 
@@ -101,7 +116,7 @@ const BasicData = (props: FormStepProps) => {
 
   return (
     <>
-      <div className="flex justify-center  w-full items-center">
+      {loadingfetch ? <Loading  text="Cargado datos"/> : <div className="flex justify-center  w-full items-center">
         <div className="flex flex-col p-4 border-4 border-yellow-500 text-center shadow-2xl shadow-yellow-500/40 rounded-md items-center w-full max-w-xl">
           {props.header}
           <h1 className="text-center font-semibold text-yellow-500 text-2xl">
@@ -180,6 +195,29 @@ const BasicData = (props: FormStepProps) => {
                   </p>
                 )}
               </div>
+            </div>
+
+            <div className="flex flex-col items-center justify-center w-full mb-4">
+              {accounts && (
+                <>
+                <label className="block mb-1 text-neutral-200 text-sm">
+                  Cuenta...
+                </label>
+                <Select onValueChange={(value) => setValue("accountId", value)}>
+                  <SelectTrigger  className="w-full p-2 rounded bg-neutral-800 border-neutral-700 text-sm">
+                    <SelectValue placeholder="Selecciona una cuenta..." className="placeholder:text-white"/>
+                  </SelectTrigger>
+                  <SelectContent className="w-full p-2 rounded bg-neutral-800 text-neutral-50 border border-neutral-700 text-sm">
+                    {accounts.map((account: any) => (
+                      <SelectItem key={account.id} value={account.id}>
+                        {account.name} - {account.currency}{" "}
+                        {account.currentBalance}
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                </>
+              )}
             </div>
 
             <div className="flex flex-col sx:flex-row gap-4 w-full items-center mb-6">
@@ -371,7 +409,7 @@ const BasicData = (props: FormStepProps) => {
             </button>
           </form>
         </div>
-      </div>
+      </div>}
     </>
   );
 };
