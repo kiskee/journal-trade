@@ -1,7 +1,7 @@
 import { UserDetailContext } from "@/context/UserDetailContext";
 import { useContext, useEffect, useState } from "react";
 import ModuleService from "@/services/moduleService";
-import Loading from "@/components/Loading";
+
 import { dataAnalisis, type TradingMetrics } from "@/services/dataAnalisis";
 import MetricCard from "@/components/analytics/MetricCard";
 import {
@@ -23,6 +23,9 @@ import {
   PlusCircle,
 } from "lucide-react";
 import { Link } from "react-router-dom";
+import { SidebarInset } from "@/components/ui/sidebar";
+import { BreadcrumbCf } from "@/components/Breadcrumb";
+import Loading from "@/components/utils/Loading";
 
 const Analytics = () => {
   const [data, setData] = useState<TradingMetrics | null>(null);
@@ -70,6 +73,8 @@ const Analytics = () => {
 
   if (!data) {
     return (
+      <SidebarInset className="text-yellow-500">
+        <BreadcrumbCf firstPage="Trades" secondPage="Analiticas" />
       <div className="w-screen h-screen flex flex-col items-center justify-center text-center text-white bg-neutral-900 p-8">
         <Target size={64} className="text-yellow-600 mb-4" />
         <h2 className="text-3xl font-bold mb-2">Aún no hay datos que analizar</h2>
@@ -85,10 +90,13 @@ const Analytics = () => {
           Registrar mi primer Trade
         </Link>
       </div>
+      </SidebarInset>
     );
   }
 
   return (
+    <SidebarInset className="text-yellow-500">
+       <BreadcrumbCf firstPage="Trades" secondPage="Analiticas" />
     <div className="min-h-screen w-full bg-black text-white p-4 sm:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-4xl font-bold mb-2 flex items-center gap-3 text-yellow-500">
@@ -151,6 +159,7 @@ const Analytics = () => {
         </div>
       </div>
     </div>
+    </SidebarInset>
   );
 };
 

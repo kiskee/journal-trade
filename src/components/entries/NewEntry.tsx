@@ -125,7 +125,7 @@ const NewEntry = () => {
   };
 
   return (
-    <div className=" bg-black flex items-center justify-center p-4 sm:p-6 lg:p-8">
+    <div className=" bg-black flex items-center justify-center p-4 sm:p-6 lg:p-8 ">
       <div className="relative w-full max-w-sm sm:max-w-md lg:max-w-lg xl:max-w-xl">
         {isLoading ? (
           <Card className="p-6 bg-neutral-800 rounded-2xl shadow-lg border-yellow-600 shadow-yellow-500/40 w-full max-w-full">

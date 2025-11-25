@@ -2,10 +2,12 @@ import CreateNote from "@/components/notes/CreateNote";
 import { useContext, useEffect, useState } from "react";
 import ModuleService from "@/services/moduleService";
 import { UserDetailContext } from "@/context/UserDetailContext";
-import Loading from "@/components/Loading";
 import EditNoteModal from "@/components/notes/EditNote";
 import NotesCalendar from "@/components/notes/NewNotes";
 import { FileText } from "lucide-react";
+import Loading from "@/components/utils/Loading";
+import { SidebarInset } from "@/components/ui/sidebar";
+import { BreadcrumbCf } from "@/components/Breadcrumb";
 
 const Notes = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -80,7 +82,9 @@ const Notes = () => {
   }
 
   return (
-    <div className="min-h-screen bg-black text-white p-6">
+     <SidebarInset className="text-yellow-500">
+      <BreadcrumbCf firstPage="Notas" secondPage="Listado de Notas" />
+    <div className="min-h-screen bg-black text-white p-6 ">
       {notes.length === 0 ? (
         <div className="flex flex-col items-center justify-center py-16 px-4">
           <div className="bg-gray-900 border border-yellow-500/20 rounded-lg p-8 max-w-md text-center">
@@ -116,6 +120,7 @@ const Notes = () => {
         onNoteUpdated={onNoteUpdated}
       />
     </div>
+    </SidebarInset>
   );
 };
 

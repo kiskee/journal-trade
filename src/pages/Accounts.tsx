@@ -1,5 +1,7 @@
+import { BreadcrumbCf } from "@/components/Breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { SidebarInset } from "@/components/ui/sidebar";
 import ModuleService from "@/services/moduleService";
 import { Eye, EyeOff, Loader2, Plus, Star, TrendingUp, Wallet } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -83,6 +85,8 @@ export default function Acccounts() {
 
   return (
     <>
+    <SidebarInset className="text-yellow-500">
+       <BreadcrumbCf firstPage="Cuentas" secondPage="Listado" />
       <div className="min-h-screen bg-black text-white p-8">
       <div className="max-w-7xl mx-auto">
         <h1 className="text-4xl font-bold text-yellow-400 mb-8">Gestión de cuentas</h1>
@@ -177,6 +181,7 @@ export default function Acccounts() {
         </div>
       </div>
     </div>
+    </SidebarInset>
     </>
   );
 }

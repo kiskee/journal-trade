@@ -15,6 +15,8 @@ import {
 import { Button } from "@/components/ui/button";
 import EditTradeModal from "@/components/entries/EditTrade";
 import RelateAccountDialog from "@/components/RelateAccountDialog";
+import { SidebarInset } from "@/components/ui/sidebar";
+import { BreadcrumbCf } from "@/components/Breadcrumb";
 
 const Portfolio = () => {
   const [trades, setTrades] = useState(null as any);
@@ -82,6 +84,8 @@ const Portfolio = () => {
   };
 
   return (
+     <SidebarInset className="text-yellow-500">
+      <BreadcrumbCf firstPage="Trades" secondPage="Listado de Trades" />
     <div className="min-h-screen w-full bg-black p-6 text-yellow-500 overflow-auto">
       <h1 className="text-2xl font-bold mb-6 text-center">
         Portfolio - Trades
@@ -356,6 +360,7 @@ const Portfolio = () => {
         onTradeUpdated={onTradeUpdated}
       />
     </div>
+    </SidebarInset>
   );
 };
 
