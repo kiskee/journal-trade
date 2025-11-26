@@ -30,7 +30,7 @@ export const MTInstructions = () => {
         {
             step: 4,
             title: "Exportar Reporte",
-            description: "Selecciona 'Guardar como Reporte Detallado' y guarda el archivo HTML",
+            description: "Selecciona 'Guardar como Reporte' y guarda el archivo Excel (.xlsx)",
             image: mt4
         }
     ];
@@ -106,7 +106,7 @@ export const MTInstructions = () => {
                     </CardHeader>
                     <CardContent className="relative z-10 space-y-4">
                         <p className="text-lg leading-relaxed">
-                            Una vez que hayas exportado tu archivo HTML desde MetaTrader, dirígete a la sección 
+                            Una vez que hayas exportado tu archivo Excel desde MetaTrader, dirígete a la sección 
                             <span className="font-bold bg-white/20 px-2 py-1 rounded mx-1">"Importar de MT"</span> 
                             para subir tu archivo y comenzar el análisis profesional de tus trades.
                         </p>
@@ -116,7 +116,7 @@ export const MTInstructions = () => {
                                 <span className="font-semibold">Formatos soportados:</span>
                             </div>
                             <span className="bg-white/20 px-3 py-1 rounded-full text-sm font-medium">
-                                .html (Reporte detallado de MT4/MT5)
+                                .xlsx (Reporte Excel de MT4/MT5)
                             </span>
                         </div>
                     </CardContent>
