@@ -57,7 +57,6 @@ const data = {
           title: "Listado de Cuentas",
           url: "/accounts",
         },
-        
       ],
     },
     {
@@ -70,31 +69,29 @@ const data = {
           title: "Notas",
           url: "/notes",
         },
-       
       ],
     },
     {
       title: "Estrategias",
+      isActive: true,
       url: "#",
-      
       icon: Settings2,
       items: [
         {
           title: "Crear Estrategia",
-          url: "#",
+          url: "/create-strategie",
         },
         {
           title: "Listado de Estrategias",
-          url: "#",
+          url: "/strategies",
         },
-       
       ],
     },
   ],
 };
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-   const { userDetail, onLogOut } = useAuth();
+  const { userDetail, onLogOut } = useAuth();
 
   return (
     <Sidebar collapsible="icon" {...props}>
@@ -106,7 +103,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         {/* <NavProjects projects={data.projects} /> */}
       </SidebarContent>
       <SidebarFooter className="bg-black">
-       <NavUser user={userDetail} onLogOut={onLogOut} />
+        <NavUser user={userDetail} onLogOut={onLogOut} />
       </SidebarFooter>
       <SidebarRail />
     </Sidebar>

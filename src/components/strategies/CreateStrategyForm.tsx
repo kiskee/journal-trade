@@ -7,6 +7,7 @@ import ModuleService from "@/services/moduleService";
 import { UserDetailContext } from "@/context/UserDetailContext";
 import Loading from "@/components/Loading";
 import StrategyForm from "./StrategyForm";
+import { useNavigate } from "react-router-dom";
 
 const strategySchema = z.object({
   strategyName: z.string().min(1, "Nombre requerido"),
@@ -19,12 +20,13 @@ type StrategyFormType = z.infer<typeof strategySchema>;
 interface SimpleStrategyFormProps {
   onlyForm?: boolean;
   onStrategyCreated?: (success: boolean) => void; // Callback opcional con bandera de éxito
+  isFromPage?: boolean;
 }
 
-const SimpleStrategyForm = ({ onlyForm = false, onStrategyCreated }: SimpleStrategyFormProps) => {
+const SimpleStrategyForm = ({ onlyForm = false, onStrategyCreated, isFromPage= false }: SimpleStrategyFormProps) => {
   const [open, setOpen] = useState(onlyForm);
   const [isLoading, setIsLoading] = useState(false);
-  
+  const navigate = useNavigate(); 
   const context = useContext(UserDetailContext);
   if (!context) {
     throw new Error(
@@ -72,6 +74,9 @@ const SimpleStrategyForm = ({ onlyForm = false, onStrategyCreated }: SimpleStrat
       setIsLoading(false);
       setOpen(false);
       reset();
+      if (isFromPage) {
+       navigate("/strategies", { replace: true });
+      }
     }
   };
 

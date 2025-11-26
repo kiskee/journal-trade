@@ -13,6 +13,8 @@ import Notes from "./pages/Notes";
 import ResetPass from "./pages/ResetPass";
 import CreateAccount from "./pages/CreateAccount";
 import Acccounts from "./pages/Accounts";
+import { Strategies } from "./pages/Strategies";
+import { CreateStrategiePage } from "./pages/createStrategie";
 
 function App() {
   return (
@@ -105,7 +107,19 @@ function App() {
                 <ProtectedRoute
                   element={
                     <IntLayaout>
-                      <Notes />
+                      <Strategies />
+                    </IntLayaout>
+                  }
+                />
+              }
+            />
+              <Route
+              path="/create-strategie"
+              element={
+                <ProtectedRoute
+                  element={
+                    <IntLayaout>
+                      <CreateStrategiePage />
                     </IntLayaout>
                   }
                 />
