@@ -11,6 +11,9 @@ import {
   Shield,
   Target,
   Lightbulb,
+  Upload,
+  Zap,
+  FileText
 } from "lucide-react";
 
 import Calculator from "@/components/calculator/Calculator";
@@ -78,6 +81,42 @@ export default function Home() {
                 Documenta tus emociones, estrategias y aprendizajes para
                 evolucionar como trader.
               </p>
+            </div>
+          </div>
+
+          {/* Coming Soon Announcement */}
+          <div className="bg-gradient-to-r from-yellow-600/20 via-yellow-500/10 to-yellow-400/20 border border-yellow-500/30 rounded-2xl p-4 sm:p-6 mb-6 md:mb-8 relative overflow-hidden">
+            <div className="absolute top-2 right-2">
+              <span className="bg-yellow-500 text-black text-xs font-bold px-2 py-1 rounded-full">PRÓXIMAMENTE</span>
+            </div>
+            <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4">
+              <div className="p-2 sm:p-3 bg-yellow-500/20 rounded-xl">
+                <Upload className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-400" />
+              </div>
+              <div className="flex-1">
+                <h3 className="text-lg sm:text-xl font-bold text-yellow-100 mb-2 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
+                  <span>Importación Automática desde MetaTrader</span>
+                  <Zap className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400" />
+                </h3>
+                <p className="text-neutral-300 mb-3 sm:mb-4 text-sm sm:text-base">
+                  Muy pronto podrás exportar tus trades directamente desde MetaTrader y subirlos aquí con solo arrastrar y soltar el archivo. 
+                  Conecta tus cuentas reales y obtén estadísticas automáticas sin esfuerzo manual.
+                </p>
+                <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4 text-xs sm:text-sm">
+                  <div className="flex items-center gap-2 text-yellow-400">
+                    <FileText className="w-3 h-3 sm:w-4 sm:h-4" />
+                    <span>Drag & Drop</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-yellow-400">
+                    <BarChart3 className="w-3 h-3 sm:w-4 sm:h-4" />
+                    <span>Estadísticas Automáticas</span>
+                  </div>
+                  <div className="flex items-center gap-2 text-yellow-400">
+                    <Wallet className="w-3 h-3 sm:w-4 sm:h-4" />
+                    <span>Múltiples Cuentas</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
