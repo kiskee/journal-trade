@@ -51,7 +51,7 @@ const data = {
       items: [
         {
           title: "Crear Cuenta",
-          url: "#",
+          url: "/create-account",
         },
         {
           title: "Listado de Cuentas",

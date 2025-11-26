@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Link, useNavigate } from "react-router-dom";
 import ModuleService from "@/services/moduleService";
 import toro from "../assets/toro.png";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Loading from "@/components/utils/Loading";
 import { useLogout } from "@/hooks/useLogout";
 
@@ -26,7 +26,8 @@ type AccountForm = z.infer<typeof AccountSchema>;
 const CURRENCIES = ["USD", "EUR", "COP", "GBP", "MXN"];
 
 export default function CreateAccount() {
- const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
+  const [accountCount, setAccountCount] = useState(0);
   const navigate = useNavigate();
   const { handleLogout } = useLogout();
   const {
@@ -48,7 +49,26 @@ export default function CreateAccount() {
 
   const isPrimary = watch("isprimary");
 
+  useEffect(() => {
+    const fetchAccountCount = async () => {
+      try {
+        const accountFetch: any = await ModuleService.accounts.byUser();
+        setAccountCount(accountFetch.data.length);
+        if (accountFetch.data.length >= 2) {
+          navigate("/inicio", { replace: true });
+        }
+      } catch (error) {
+        console.error('Error fetching accounts:', error);
+      }
+    };
+    fetchAccountCount();
+  }, [navigate]);
+
   const onSubmit = async (values: AccountForm) => {
+    if (accountCount >= 2) {
+      alert('No puedes crear más de 2 cuentas');
+      return;
+    }
     try {
       setIsLoading(true);
       await ModuleService.accounts.create(values);
@@ -58,8 +78,6 @@ export default function CreateAccount() {
       setIsLoading(false);
     }
   };
-
-
 
   return (
     <div className="min-h-screen bg-black py-12 px-4">
@@ -153,7 +171,7 @@ export default function CreateAccount() {
           </label>
           <select
             {...register("currency")}
-            className={`w-full px-4 py-3 border-2 rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-yellow  -300 focus:border-yellow-600 bg-black text-yellow-500 ${
+            className={`w-full px-4 py-3 border-2 rounded-xl transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:border-yellow-600 bg-black text-yellow-500 ${
               errors.currency
                 ? "border-red-400 bg-red-50"
                 : "border-green-200 hover:border-green-300"
@@ -213,7 +231,7 @@ export default function CreateAccount() {
 
           <button
             type="submit"
-            disabled={isSubmitting}
+            disabled={isSubmitting || accountCount >= 2}
             className="group relative bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-400 w-full flex justify-center py-2.5 sm:py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-black hover:from-yellow-700 hover:via-yellow-600 hover:to-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 focus:ring-offset-black disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-yellow-500/25"
           >
             {isSubmitting ? (
@@ -239,6 +257,8 @@ export default function CreateAccount() {
                 </svg>
                 Guardando...
               </span>
+            ) : accountCount >= 2 ? (
+              "Máximo 2 cuentas permitidas"
             ) : (
               "Crear cuenta"
             )}

@@ -94,14 +94,23 @@ export default function Acccounts() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Botón de crear cuenta */}
           <div className="lg:col-span-1">
-            <Card className="bg-zinc-900 border-zinc-800 h-full flex items-center justify-center hover:border-yellow-400 transition-colors cursor-pointer group">
+            <Card className={`bg-zinc-900 border-zinc-800 h-full flex items-center justify-center transition-colors ${
+              accounts.length >= 2 
+                ? 'opacity-50 cursor-not-allowed' 
+                : 'hover:border-yellow-400 cursor-pointer group'
+            }`}>
               <CardContent className="flex flex-col items-center justify-center py-12">
-                <div className="w-20 h-20 rounded-full bg-yellow-400/10 flex items-center justify-center mb-4 group-hover:bg-yellow-400/20 transition-colors">
+                <div className={`w-20 h-20 rounded-full bg-yellow-400/10 flex items-center justify-center mb-4 transition-colors ${
+                  accounts.length < 2 ? 'group-hover:bg-yellow-400/20' : ''
+                }`}>
                   <Plus className="w-10 h-10 text-yellow-400" />
                 </div>
                 <h3 className="text-xl font-semibold text-yellow-400 mb-2">Nueva Cuenta</h3>
                 <p className="text-zinc-400 text-center text-sm">
-                  Crea una nueva cuenta para organizar tus finanzas
+                  {accounts.length >= 2 
+                    ? 'Máximo 2 cuentas permitidas'
+                    : 'Crea una nueva cuenta para organizar tus finanzas'
+                  }
                 </p>
               </CardContent>
             </Card>
