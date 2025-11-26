@@ -51,14 +51,14 @@ const CalForm = ({ form, tradingPairs, onSubmit }: Props) => {
               </Suspense>
             )}
           />
-          <div className="flex flex-row text-center gap-6">
+          <div className="space-y-4">
             {/* Stop Loss en pips */}
             <FormField
               control={form.control}
               name="stopLossPips"
               render={({ field }) => (
-                <FormItem className="text-yellow-100 text-center">
-                  <FormLabel className="text-yellow-400 font-medium">
+                <FormItem className="text-yellow-100">
+                  <FormLabel className="text-yellow-400 font-medium text-center block">
                     Stop Loss (en pips)
                   </FormLabel>
                   <FormControl>
@@ -74,7 +74,7 @@ const CalForm = ({ form, tradingPairs, onSubmit }: Props) => {
                             : parseFloat(e.target.value);
                         field.onChange(value);
                       }}
-                      className="bg-neutral-900 border-yellow-600/30 text-yellow-100 placeholder-neutral-500 focus:border-yellow-500 focus:ring-yellow-500"
+                      className="bg-neutral-900 border-yellow-600/30 text-yellow-100 placeholder-neutral-500 focus:border-yellow-500 focus:ring-yellow-500 text-center"
                     />
                   </FormControl>
                   <FormMessage className="text-center text-red-400" />
@@ -88,7 +88,7 @@ const CalForm = ({ form, tradingPairs, onSubmit }: Props) => {
               name="riskUSD"
               render={({ field }) => (
                 <FormItem className="text-yellow-100">
-                  <FormLabel className="text-yellow-400 font-medium">Riesgo ($USD)</FormLabel>
+                  <FormLabel className="text-yellow-400 font-medium text-center block">Riesgo ($USD)</FormLabel>
                   <FormControl>
                     <Input
                       type="number"
@@ -102,10 +102,10 @@ const CalForm = ({ form, tradingPairs, onSubmit }: Props) => {
                             : parseFloat(e.target.value);
                         field.onChange(value);
                       }}
-                      className="bg-neutral-900 border-yellow-600/30 text-yellow-100 placeholder-neutral-500 focus:border-yellow-500 focus:ring-yellow-500"
+                      className="bg-neutral-900 border-yellow-600/30 text-yellow-100 placeholder-neutral-500 focus:border-yellow-500 focus:ring-yellow-500 text-center"
                     />
                   </FormControl>
-                  <FormMessage className="text-red-400" />
+                  <FormMessage className="text-center text-red-400" />
                 </FormItem>
               )}
             />
