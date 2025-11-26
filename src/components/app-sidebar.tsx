@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { BookOpen, Bot, Settings2, SquareTerminal } from "lucide-react";
+import { BookOpen, Bot, Settings2, SquareTerminal, Upload, Info } from "lucide-react";
 
 import { NavMain } from "@/components/nav-main";
 import { NavUser } from "@/components/nav-user";
@@ -40,6 +40,16 @@ const data = {
         {
           title: "Analiticas",
           url: "/analytics",
+        },
+        {
+          title: "Importar de MT",
+          url: "/import-mt",
+          icon: Upload,
+        },
+        {
+          title: "Instrucciones MT",
+          url: "/mt-instructions",
+          icon: Info,
         },
       ],
     },
