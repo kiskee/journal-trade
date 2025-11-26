@@ -16,6 +16,7 @@ import {
 } from "lucide-react";
 import { PDFDocument, rgb, StandardFonts } from "pdf-lib";
 
+
 // Tipos de datos
 interface ContractData {
   nombres: string;
@@ -39,7 +40,7 @@ const PDFSignatureComponent: React.FC<PDFSignatureComponentProps> = ({
   initialData,
   className = "",
 }) => {
-  const canvasRef = useRef<HTMLCanvasElement>(null);
+    const canvasRef = useRef<HTMLCanvasElement>(null);
   const [isDrawing, setIsDrawing] = useState<boolean>(false);
   const [signatureData, setSignatureData] = useState<string | null>(null);
   const [pdfGenerated, setPdfGenerated] = useState<boolean>(false);
@@ -73,9 +74,8 @@ const PDFSignatureComponent: React.FC<PDFSignatureComponentProps> = ({
     ctx.lineCap = "round";
     ctx.lineJoin = "round";
 
-    // Limpiar canvas
-    ctx.fillStyle = "#fff";
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    // Limpiar canvas con fondo transparente
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
 
     // Restaurar estilo de firma
     ctx.strokeStyle = "#000";
@@ -154,7 +154,7 @@ const PDFSignatureComponent: React.FC<PDFSignatureComponentProps> = ({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    // Capturar la firma como data URL
+    // Capturar la firma como data URL con fondo transparente
     const dataURL = canvas.toDataURL("image/png");
     setSignatureData(dataURL);
   };
@@ -202,7 +202,7 @@ const PDFSignatureComponent: React.FC<PDFSignatureComponentProps> = ({
     const canvas = canvasRef.current;
     if (!canvas) return;
 
-    // Capturar la firma como data URL
+    // Capturar la firma como data URL con fondo transparente
     const dataURL = canvas.toDataURL("image/png");
     setSignatureData(dataURL);
   };
@@ -223,15 +223,11 @@ const PDFSignatureComponent: React.FC<PDFSignatureComponentProps> = ({
     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
     const data = imageData.data;
 
-    // Verificar si hay píxeles no blancos (firma)
-    for (let i = 0; i < data.length; i += 4) {
-      const r = data[i];
-      const g = data[i + 1];
-      const b = data[i + 2];
-      const a = data[i + 3];
-
-      // Si encuentra un píxel que no es blanco o transparente
-      if (a > 0 && (r !== 255 || g !== 255 || b !== 255)) {
+    // Verificar si hay píxeles no transparentes (firma)
+    for (let i = 3; i < data.length; i += 4) {
+      const alpha = data[i];
+      // Si encuentra un píxel que no es transparente
+      if (alpha > 0) {
         return false;
       }
     }
@@ -282,7 +278,7 @@ const PDFSignatureComponent: React.FC<PDFSignatureComponentProps> = ({
         color: rgb(0, 0, 0),
       });
 
-      // Insertar FIRMA en página 2
+      // Insertar FIRMA en página 2 con fondo transparente
       const pngImageBytes = await fetch(signatureData).then((res) =>
         res.arrayBuffer()
       );
@@ -299,7 +295,7 @@ const PDFSignatureComponent: React.FC<PDFSignatureComponentProps> = ({
       });
 
       // Guardar PDF
-      const pdfBytes = await pdfDoc.save();
+      const pdfBytes: any = await pdfDoc.save();
       const blob = new Blob([pdfBytes], { type: "application/pdf" });
 
       const url = URL.createObjectURL(blob);
@@ -313,6 +309,8 @@ const PDFSignatureComponent: React.FC<PDFSignatureComponentProps> = ({
 
       setPdfGenerated(true);
       onPDFGenerated?.(blob);
+      
+
       alert("PDF generado y descargado exitosamente");
     } catch (error) {
       console.error("Error al generar el PDF:", error);

@@ -5,6 +5,8 @@ import mt1 from "../assets/mt1.png"
 import mt2 from "../assets/mt2.png"
 import mt3 from "../assets/mt3.png"
 import mt4 from "../assets/mt4.png"
+import { SidebarInset } from "@/components/ui/sidebar";
+import { BreadcrumbCf } from "@/components/Breadcrumb";
 
 
 export const MTInstructions = () => {
@@ -36,6 +38,8 @@ export const MTInstructions = () => {
     ];
 
     return (
+        <SidebarInset className="text-yellow-500">
+             <BreadcrumbCf firstPage="Trades" secondPage="Instrucciones MT" />
         <div className="min-h-screen bg-black py-8 px-4 sm:px-6 lg:px-8">
             <div className="max-w-7xl mx-auto space-y-12">
                 {/* Header Section */}
@@ -123,5 +127,6 @@ export const MTInstructions = () => {
                 </Card>
             </div>
         </div>
+        </SidebarInset>
     );
 }
