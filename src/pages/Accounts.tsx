@@ -5,6 +5,7 @@ import { SidebarInset } from "@/components/ui/sidebar";
 import ModuleService from "@/services/moduleService";
 import { Eye, EyeOff, Loader2, Plus, Star, TrendingUp, Wallet } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 interface Account {
   id: string;
@@ -23,6 +24,7 @@ interface ShowBalances {
 }
 
 export default function Acccounts() {
+  const navigate = useNavigate();
   const [showBalances, setShowBalances] = useState<ShowBalances>({});
   const [accounts, setAccounts] = useState<Account[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
@@ -94,11 +96,14 @@ export default function Acccounts() {
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
           {/* Botón de crear cuenta */}
           <div className="lg:col-span-1">
-            <Card className={`bg-zinc-900 border-zinc-800 h-full flex items-center justify-center transition-colors ${
-              accounts.length >= 2 
-                ? 'opacity-50 cursor-not-allowed' 
-                : 'hover:border-yellow-400 cursor-pointer group'
-            }`}>
+            <Card 
+              className={`bg-zinc-900 border-zinc-800 h-full flex items-center justify-center transition-colors ${
+                accounts.length >= 2 
+                  ? 'opacity-50 cursor-not-allowed' 
+                  : 'hover:border-yellow-400 cursor-pointer group'
+              }`}
+              onClick={() => accounts.length < 2 && navigate('/create-account')}
+            >
               <CardContent className="flex flex-col items-center justify-center py-12">
                 <div className={`w-20 h-20 rounded-full bg-yellow-400/10 flex items-center justify-center mb-4 transition-colors ${
                   accounts.length < 2 ? 'group-hover:bg-yellow-400/20' : ''
