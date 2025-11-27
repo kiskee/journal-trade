@@ -84,40 +84,39 @@ export default function Home() {
             </div>
           </div>
 
-          {/* MetaTrader Import Announcement */}
+          {/* MetaTrader Analysis Service */}
           <div className="bg-gradient-to-r from-yellow-600/20 via-yellow-500/10 to-yellow-400/20 border border-yellow-500/30 rounded-2xl p-4 sm:p-6 mb-6 md:mb-8 relative overflow-hidden">
             <div className="absolute top-2 right-2">
-              <span className="bg-blue-500 text-white text-xs font-bold px-2 py-1 rounded-full">INSTRUCCIONES</span>
+              <span className="bg-green-500 text-white text-xs font-bold px-2 py-1 rounded-full">DISPONIBLE</span>
             </div>
             <div className="flex flex-col sm:flex-row items-start gap-3 sm:gap-4">
               <div className="p-2 sm:p-3 bg-yellow-500/20 rounded-xl">
-                <Upload className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-400" />
+                <BarChart3 className="w-6 h-6 sm:w-8 sm:h-8 text-yellow-400" />
               </div>
               <div className="flex-1">
                 <h3 className="text-lg sm:text-xl font-bold text-yellow-100 mb-2 flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2">
-                  <span>Preparándote para Importar desde MetaTrader</span>
+                  <span>Análisis Profesional de MetaTrader</span>
                   <Zap className="w-4 h-4 sm:w-5 sm:h-5 text-yellow-400" />
                 </h3>
                 <p className="text-neutral-300 mb-4 text-sm sm:text-base">
-                  ¡Las instrucciones ya están disponibles! Aprende paso a paso cómo exportar correctamente tus trades desde MetaTrader 4/5. 
-                  La funcionalidad de importación estará disponible muy pronto.
+                  ¡Nuevo servicio disponible! Sube tu archivo Excel de MetaTrader y obtén un análisis completo y profesional de tu historial de trading con métricas avanzadas, gráficos y estadísticas detalladas.
                 </p>
                 <div className="flex flex-col sm:flex-row sm:items-center gap-3 sm:gap-4">
                   <Link 
-                    to="/mt-instructions" 
+                    to="/import-mt" 
                     className="bg-yellow-500 hover:bg-yellow-400 text-black font-bold py-2 px-4 rounded-lg transition-all duration-300 hover:scale-105 hover:shadow-lg flex items-center gap-2 text-sm sm:text-base w-fit"
                   >
-                    <FileText className="w-4 h-4" />
-                    Ver Instrucciones
+                    <Upload className="w-4 h-4" />
+                    Analizar Trades
                   </Link>
                   <div className="flex flex-wrap gap-2 sm:gap-4 text-xs sm:text-sm">
-                    <div className="flex items-center gap-2 text-blue-400">
-                      <FileText className="w-3 h-3 sm:w-4 sm:h-4" />
-                      <span>Guía Paso a Paso</span>
+                    <div className="flex items-center gap-2 text-green-400">
+                      <BarChart3 className="w-3 h-3 sm:w-4 sm:h-4" />
+                      <span>Análisis Completo</span>
                     </div>
                     <div className="flex items-center gap-2 text-yellow-400">
-                      <Wallet className="w-3 h-3 sm:w-4 sm:h-4" />
-                      <span>Próximamente</span>
+                      <Target className="w-3 h-3 sm:w-4 sm:h-4" />
+                      <span>Métricas Avanzadas</span>
                     </div>
                   </div>
                 </div>

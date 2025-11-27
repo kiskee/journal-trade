@@ -16,6 +16,7 @@ import Acccounts from "./pages/Accounts";
 import { Strategies } from "./pages/Strategies";
 import { CreateStrategiePage } from "./pages/createStrategie";
 import { MTInstructions } from "./pages/mtInstrucctions";
+import { ImportMT } from "./pages/ImportMT";
 
 function App() {
   return (
@@ -114,7 +115,7 @@ function App() {
                 />
               }
             />
-              <Route
+            <Route
               path="/create-strategie"
               element={
                 <ProtectedRoute
@@ -126,7 +127,7 @@ function App() {
                 />
               }
             />
-             <Route
+            <Route
               path="/accounts"
               element={
                 <ProtectedRoute
@@ -145,6 +146,18 @@ function App() {
                   element={
                     <IntLayaout>
                       <MTInstructions />
+                    </IntLayaout>
+                  }
+                />
+              }
+            />
+            <Route
+              path="/import-mt"
+              element={
+                <ProtectedRoute
+                  element={
+                    <IntLayaout>
+                      <ImportMT />
                     </IntLayaout>
                   }
                 />

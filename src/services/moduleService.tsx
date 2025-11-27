@@ -36,6 +36,14 @@ interface ModuleServiceType {
     byUser: () => Promise<Account[] | string>;
     create: (data: any) => Promise<AxiosResponse<any, any>>;
   };
+  analysis: {
+    create: (data: any) => Promise<AxiosResponse<any, any>>;
+    getAll: () => Promise<AxiosResponse<any, any>>;
+    getLatest: () => Promise<AxiosResponse<any, any>>;
+    getById: (reportId: string) => Promise<AxiosResponse<any, any>>;
+    update: (reportId: string, data: any) => Promise<AxiosResponse<any, any>>;
+    delete: (reportId: string) => Promise<AxiosResponse<any, any>>;
+  };
 }
 interface Account {
   id: string;
@@ -197,6 +205,32 @@ const ModuleService: ModuleServiceType = {
     },
     create: async (data: any) => {
       const response = await apiClient.post("/accounts", data);
+      return response;
+    },
+  },
+  analysis: {
+    create: async (data: any) => {
+      const response = await apiClient.post("/analysis", data);
+      return response;
+    },
+    getAll: async () => {
+      const response = await apiClient.get("/analysis");
+      return response;
+    },
+    getLatest: async () => {
+      const response = await apiClient.get("/analysis/latest");
+      return response;
+    },
+    getById: async (reportId: string) => {
+      const response = await apiClient.get(`/analysis/${reportId}`);
+      return response;
+    },
+    update: async (reportId: string, data: any) => {
+      const response = await apiClient.put(`/analysis/${reportId}`, data);
+      return response;
+    },
+    delete: async (reportId: string) => {
+      const response = await apiClient.delete(`/analysis/${reportId}`);
       return response;
     },
   },
