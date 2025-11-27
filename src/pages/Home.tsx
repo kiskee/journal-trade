@@ -12,8 +12,7 @@ import {
   Target,
   Lightbulb,
   Upload,
-  Zap,
-  FileText
+  Zap
 } from "lucide-react";
 
 import Calculator from "@/components/calculator/Calculator";
