@@ -26,10 +26,26 @@ import { Link } from "react-router-dom";
 import { SidebarInset } from "@/components/ui/sidebar";
 import { BreadcrumbCf } from "@/components/Breadcrumb";
 import Loading from "@/components/utils/Loading";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+
+interface Account {
+  id: string;
+  name: string;
+  currency: string;
+  currentBalance: number;
+}
 
 const Analytics = () => {
   const [data, setData] = useState<TradingMetrics | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [accounts, setAccounts] = useState<Account[]>([]);
+  const [selectedAccount, setSelectedAccount] = useState<string>("all");
   const context = useContext(UserDetailContext);
 
   if (!context) {
@@ -40,6 +56,20 @@ const Analytics = () => {
   const { userDetail } = context;
 
   useEffect(() => {
+    const fetchAccounts = async () => {
+      try {
+        const accountResponse: any = await ModuleService.accounts.byUser();
+        if (accountResponse.data) {
+          setAccounts(accountResponse.data);
+        }
+      } catch (error) {
+        console.error("Error fetching accounts:", error);
+      }
+    };
+    fetchAccounts();
+  }, []);
+
+  useEffect(() => {
     const init = async () => {
       setIsLoading(true);
       try {
@@ -48,10 +78,22 @@ const Analytics = () => {
           userDetail?.id
         );
         if (response.results && response.results.length > 0) {
-          const result = dataAnalisis(response);
-          setData(result);
+          // Filtrar trades por cuenta si se seleccionó una específica
+          let filteredTrades = response.results;
+          if (selectedAccount !== "all") {
+            filteredTrades = response.results.filter(
+              (trade: any) => trade.step1?.accountId === selectedAccount
+            );
+          }
+          
+          if (filteredTrades.length > 0) {
+            const result = dataAnalisis({ ...response, results: filteredTrades });
+            setData(result);
+          } else {
+            setData(null);
+          }
         } else {
-          setData(null); // No hay trades
+          setData(null);
         }
       } catch (error) {
         console.error("Error fetching analytics data:", error);
@@ -61,7 +103,7 @@ const Analytics = () => {
       }
     };
     init();
-  }, [userDetail?.id]);
+  }, [userDetail?.id, selectedAccount]);
 
   if (isLoading) {
     return (
@@ -99,16 +141,45 @@ const Analytics = () => {
        <BreadcrumbCf firstPage="Trades" secondPage="Analiticas" />
     <div className="min-h-screen w-full bg-black text-white p-4 sm:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto">
-        <h1 className="text-4xl font-bold mb-2 flex items-center gap-3 text-yellow-500">
-          <BarChart className="w-10 h-10 text-yellow-500" />
-          Dashboard de Analíticas
-        </h1>
-        <p className="text-neutral-400 mb-8">
-          Tu rendimiento de un vistazo. Usa estos datos para encontrar tus puntos fuertes y débiles.
-        </p>
+        <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between mb-8">
+          <div>
+            <h1 className="text-4xl font-bold mb-2 flex items-center gap-3 text-yellow-500">
+              <BarChart className="w-10 h-10 text-yellow-500" />
+              Dashboard de Analíticas
+            </h1>
+            <p className="text-neutral-400">
+              Tu rendimiento de un vistazo. Usa estos datos para encontrar tus puntos fuertes y débiles.
+            </p>
+          </div>
+          
+          <div className="mt-4 lg:mt-0">
+            <label className="block text-sm text-neutral-300 mb-2">
+              Filtrar por cuenta:
+            </label>
+            <Select value={selectedAccount} onValueChange={setSelectedAccount}>
+              <SelectTrigger className="w-64 bg-neutral-800 border-neutral-700 text-white">
+                <SelectValue />
+              </SelectTrigger>
+              <SelectContent className="bg-neutral-800 border-neutral-700">
+                <SelectItem value="all" className="text-white hover:bg-neutral-700">
+                  Todas las cuentas
+                </SelectItem>
+                {accounts.map((account) => (
+                  <SelectItem 
+                    key={account.id} 
+                    value={account.id}
+                    className="text-white hover:bg-neutral-700"
+                  >
+                    {account.name} ({account.currency})
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </div>
+        </div>
 
         {/* KPIs Principales */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <MetricCard
             title="PnL Neto"
             value={`$${data.netPnL}`}

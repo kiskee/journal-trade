@@ -13,6 +13,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog";
 import { Button } from "@/components/ui/button";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import EditTradeModal from "@/components/entries/EditTrade";
 import RelateAccountDialog from "@/components/RelateAccountDialog";
 import { SidebarInset } from "@/components/ui/sidebar";
@@ -25,6 +26,7 @@ const Portfolio = () => {
   const [hasChange, setHasChange] = useState(0);
   const context = useContext(UserDetailContext);
   const [accounts, setAccounts] = useState(null as any);
+  const [selectedAccountId, setSelectedAccountId] = useState("all");
 
   if (!context) {
     throw new Error(
@@ -83,17 +85,54 @@ const Portfolio = () => {
     await ModuleService.trades.update(tradeId, trade);
   };
 
+  const filteredTrades = trades ? trades.filter((trade: any) => 
+    selectedAccountId === "all" || trade.step1.accountId === selectedAccountId
+  ) : [];
+
   return (
      <SidebarInset className="text-yellow-500">
       <BreadcrumbCf firstPage="Trades" secondPage="Listado de Trades" />
     <div className="min-h-screen w-full bg-black p-6 text-yellow-500 overflow-auto">
-      <h1 className="text-2xl font-bold mb-6 text-center">
-        Portfolio - Trades
-      </h1>
+      <div className="mb-8 text-center">
+        <h1 className="text-4xl font-bold bg-gradient-to-r from-yellow-400 to-yellow-600 bg-clip-text text-transparent mb-2">
+          📊 Portfolio de Trades
+        </h1>
+        <p className="text-neutral-400 text-sm">
+          Gestiona y analiza tu historial de operaciones
+        </p>
+      </div>
 
-      {trades && trades.length > 0 ? (
+      {/* Filtro por cuenta */}
+      <div className="mb-8 flex justify-center">
+        <div className="flex flex-col items-center space-y-3 w-full max-w-xs">
+          <label className="text-sm text-yellow-400 font-medium text-center">
+            Filtrar trades por cuenta:
+          </label>
+          <Select value={selectedAccountId} onValueChange={setSelectedAccountId}>
+            <SelectTrigger className="bg-neutral-950 border-yellow-600/30 text-yellow-100 w-full">
+              <SelectValue placeholder="Seleccionar cuenta" />
+            </SelectTrigger>
+            <SelectContent className="bg-neutral-950 border-yellow-600/30">
+              <SelectItem value="all" className="text-yellow-100 focus:bg-yellow-500/20">
+                Todas las cuentas
+              </SelectItem>
+              {accounts?.map((account: any) => (
+                <SelectItem 
+                  key={account.id} 
+                  value={account.id}
+                  className="text-yellow-100 focus:bg-yellow-500/20"
+                >
+                  {account.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+        </div>
+      </div>
+
+      {filteredTrades && filteredTrades.length > 0 ? (
         <div className="space-y-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-4 gap-6 justify-items-center">
-          {trades.map((trade: any) => (
+          {filteredTrades.map((trade: any) => (
             <div
               key={trade.id}
               className="bg-neutral-950 text-white rounded-lg shadow-md shadow-yellow-500/10 p-6 border border-yellow-600/30 w-full h-full sm:min-w-xs min-w-xs backdrop-blur-sm"

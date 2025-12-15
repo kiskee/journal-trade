@@ -17,6 +17,7 @@ interface Trade {
     setup: string;
     duration: number;
     durationUnit: string;
+    accountId: string;
   };
   step2: {
     entryPrice: number;
