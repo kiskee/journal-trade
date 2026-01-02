@@ -65,23 +65,6 @@ export const formShemaBasicData = z.object({
     .min(1, "El setup es obligatorio")
     .max(50, "Máximo 50 caracteres"),
 
-  duration: z
-    .number({ invalid_type_error: "La duración debe ser un número" })
-    .positive("Debe ser mayor que cero"),
-
-  durationUnit: z.enum(["min", "h", "d"], {
-    errorMap: () => ({ message: "Selecciona una unidad válida" }),
-  }),
-
-  positionSize: z
-    .number({ invalid_type_error: "El tamaño debe ser un número" })
-    .min(0.01, { message: "Debe ser mayor o igual a 0.01" }),
-
-  leverage: z
-    .number({ invalid_type_error: "El apalancamiento debe ser un número" })
-    .nonnegative("Debe ser 0 o más")
-    .optional(),
-  //.min(1, "Debe ser al menos 1"),
   accountId: z.string().min(1, "La Cuenta es obligatoria"),
 });
 
@@ -106,17 +89,6 @@ export const tradeResultSchema = z.object({
   resultUsd: z.number({
     invalid_type_error: "El resultado ($) debe ser un número",
   }),
-  //.min(1, "Debe ser al menos 1"),
-
-  resultPercent: z.number({
-    invalid_type_error: "El resultado (%) debe ser un número",
-  }),
-  //.min(1, "Debe ser al menos 1"),
-
-  fees: z
-    .number({ invalid_type_error: "Las comisiones deben ser un número" })
-    .nonnegative("Debe ser 0 o más")
-    .optional(),
 });
 
 const emotionBeforeOptions = [

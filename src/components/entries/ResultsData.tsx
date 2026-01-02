@@ -26,8 +26,6 @@ const ResultsData = (props: FormStepProps) => {
       stopLoss: "",
       takeProfit: "",
       resultUsd: "",
-      resultPercent: "",
-      fees: "",
     },
   });
 
@@ -129,7 +127,7 @@ const ResultsData = (props: FormStepProps) => {
 
           <div className="flex flex-col sx:flex-row gap-4 w-full items-center mb-6">
             {/* Resultado ($) */}
-            <div className="w-full sm:w-1/2">
+            <div className="w-full">
               <label className="block mb-1 text-neutral-200 text-sm">
                 Resultado ($):
               </label>
@@ -145,45 +143,6 @@ const ResultsData = (props: FormStepProps) => {
                 </p>
               )}
             </div>
-
-            {/* Resultado (%) */}
-            <div className="w-full sm:w-1/2">
-              <label className="block mb-1 text-neutral-200 text-sm">
-                Resultado (%):
-              </label>
-              <input
-                type="number"
-                step="any"
-                {...register("resultPercent", { valueAsNumber: true })}
-                className="w-full p-2 rounded bg-neutral-800 text-neutral-50 border border-neutral-700 text-sm"
-              />
-              {errors.resultPercent && (
-                <p className="text-rose-500 text-xs mt-1">
-                  {errors.resultPercent.message}
-                </p>
-              )}
-            </div>
-          </div>
-
-          {/* Comisiones / Spread */}
-          <div className="w-full mb-6">
-            <label className="block mb-1 text-neutral-200 text-sm">
-              Comisiones / Spread:
-            </label>
-            <input
-              type="number"
-              step="any"
-              {...register("fees", {
-                setValueAs: (value) =>
-                  value === "" ? undefined : parseFloat(value) || 0,
-              })}
-              className="w-full p-2 rounded bg-neutral-800 text-neutral-50 border border-neutral-700 text-sm"
-            />
-            {errors.fees && (
-              <p className="text-rose-500 text-xs mt-1">
-                {errors.fees.message}
-              </p>
-            )}
           </div>
 
           {/* Botones */}
