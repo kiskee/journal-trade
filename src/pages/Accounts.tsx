@@ -89,8 +89,7 @@ export default function Acccounts() {
 
   const handleUpdateAccount = async (accountId: string, newName: string): Promise<void> => {
     try {
-      // Aquí harías la llamada a la API para actualizar el nombre
-      // await ModuleService.accounts.update(accountId, { name: newName });
+      await ModuleService.accounts.update(accountId, { name: newName });
       
       // Actualizar el estado local
       setAccounts(prev => 
@@ -134,22 +133,22 @@ export default function Acccounts() {
           <div className="lg:col-span-1">
             <Card 
               className={`bg-zinc-900 border-zinc-800 h-full flex items-center justify-center transition-colors ${
-                accounts.length >= 2 
+                accounts.length >= 3 
                   ? 'opacity-50 cursor-not-allowed' 
                   : 'hover:border-yellow-400 cursor-pointer group'
               }`}
-              onClick={() => accounts.length < 2 && navigate('/create-account')}
+              onClick={() => accounts.length < 3 && navigate('/create-account')}
             >
               <CardContent className="flex flex-col items-center justify-center py-12">
                 <div className={`w-20 h-20 rounded-full bg-yellow-400/10 flex items-center justify-center mb-4 transition-colors ${
-                  accounts.length < 2 ? 'group-hover:bg-yellow-400/20' : ''
+                  accounts.length < 3 ? 'group-hover:bg-yellow-400/20' : ''
                 }`}>
                   <Plus className="w-10 h-10 text-yellow-400" />
                 </div>
                 <h3 className="text-xl font-semibold text-yellow-400 mb-2">Nueva Cuenta</h3>
                 <p className="text-zinc-400 text-center text-sm">
-                  {accounts.length >= 2 
-                    ? 'Máximo 2 cuentas permitidas'
+                  {accounts.length >= 3 
+                    ? 'Máximo 3 cuentas permitidas'
                     : 'Crea una nueva cuenta para organizar tus finanzas'
                   }
                 </p>

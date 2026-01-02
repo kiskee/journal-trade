@@ -35,6 +35,7 @@ interface ModuleServiceType {
   accounts: {
     byUser: () => Promise<Account[] | string>;
     create: (data: any) => Promise<AxiosResponse<any, any>>;
+    update: (accountId: string, data: any) => Promise<AxiosResponse<any, any>>;
   };
   analysis: {
     create: (data: any) => Promise<AxiosResponse<any, any>>;
@@ -205,6 +206,10 @@ const ModuleService: ModuleServiceType = {
     },
     create: async (data: any) => {
       const response = await apiClient.post("/accounts", data);
+      return response;
+    },
+    update: async (accountId: string, data: any) => {
+      const response = await apiClient.put(`/accounts/${accountId}`, data);
       return response;
     },
   },
