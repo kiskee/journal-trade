@@ -65,7 +65,7 @@ export default function CreateAccount() {
   }, [navigate]);
 
   const onSubmit = async (values: AccountForm) => {
-    if (accountCount >= 2) {
+    if (accountCount >= 3) {
       alert('No puedes crear más de 3 cuentas');
       return;
     }
@@ -231,7 +231,7 @@ export default function CreateAccount() {
 
           <button
             type="submit"
-            disabled={isSubmitting || accountCount >= 2}
+            disabled={isSubmitting || accountCount >= 3}
             className="group relative bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-400 w-full flex justify-center py-2.5 sm:py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-black hover:from-yellow-700 hover:via-yellow-600 hover:to-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 focus:ring-offset-black disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-yellow-500/25"
           >
             {isSubmitting ? (
@@ -257,8 +257,8 @@ export default function CreateAccount() {
                 </svg>
                 Guardando...
               </span>
-            ) : accountCount >= 2 ? (
-              "Máximo 2 cuentas permitidas"
+            ) : accountCount >= 3 ? (
+              "Máximo 3 cuentas permitidas"
             ) : (
               "Crear cuenta"
             )}

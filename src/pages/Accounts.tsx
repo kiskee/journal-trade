@@ -109,6 +109,21 @@ export default function Acccounts() {
     }
   };
 
+  const handleDeleteAccount = async (accountId: string): Promise<void> => {
+    try {
+      await ModuleService.accounts.delete(accountId);
+      
+      // Remover la cuenta del estado local
+      setAccounts(prev => prev.filter(account => account.id !== accountId));
+      
+      // Cerrar el modal
+      setIsModalOpen(false);
+      setSelectedAccount(null);
+    } catch (error) {
+      console.error('Error deleting account:', error);
+    }
+  };
+
   if (loading) {
     return (
       <div className="min-h-screen bg-black text-white p-8 flex items-center justify-center">
@@ -238,6 +253,7 @@ export default function Acccounts() {
       isOpen={isModalOpen}
       onClose={handleCloseModal}
       onUpdateAccount={handleUpdateAccount}
+      onDeleteAccount={handleDeleteAccount}
     />
     </>
   );

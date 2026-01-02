@@ -36,6 +36,7 @@ interface ModuleServiceType {
     byUser: () => Promise<Account[] | string>;
     create: (data: any) => Promise<AxiosResponse<any, any>>;
     update: (accountId: string, data: any) => Promise<AxiosResponse<any, any>>;
+    delete: (accountId: string) => Promise<AxiosResponse<any, any>>;
   };
   analysis: {
     create: (data: any) => Promise<AxiosResponse<any, any>>;
@@ -210,6 +211,10 @@ const ModuleService: ModuleServiceType = {
     },
     update: async (accountId: string, data: any) => {
       const response = await apiClient.put(`/accounts/${accountId}`, data);
+      return response;
+    },
+    delete: async (accountId: string) => {
+      const response = await apiClient.delete(`/accounts/${accountId}`);
       return response;
     },
   },
