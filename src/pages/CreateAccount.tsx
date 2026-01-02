@@ -7,6 +7,7 @@ import toro from "../assets/toro.png";
 import { useState, useEffect } from "react";
 import Loading from "@/components/utils/Loading";
 import { useLogout } from "@/hooks/useLogout";
+import { useAuth } from "@/hooks/useAuth";
 
 // Tipos
 const AccountSchema = z.object({
@@ -28,6 +29,7 @@ const CURRENCIES = ["USD", "EUR", "COP", "GBP", "MXN"];
 export default function CreateAccount() {
   const [isLoading, setIsLoading] = useState(false);
   const [accountCount, setAccountCount] = useState(0);
+  const { userDetail } = useAuth();
   const navigate = useNavigate();
   const { handleLogout } = useLogout();
   const {
@@ -47,14 +49,16 @@ export default function CreateAccount() {
     mode: "onTouched",
   });
 
+  const role = userDetail?.role;
   const isPrimary = watch("isprimary");
-
+  
   useEffect(() => {
     const fetchAccountCount = async () => {
       try {
         const accountFetch: any = await ModuleService.accounts.byUser();
         setAccountCount(accountFetch.data.length);
-        if (accountFetch.data.length >= 3) {
+        const maxAccounts = role === 'admin' ? 5 : 3;
+        if (accountFetch.data.length >= maxAccounts) {
           navigate("/inicio", { replace: true });
         }
       } catch (error) {
@@ -62,11 +66,12 @@ export default function CreateAccount() {
       }
     };
     fetchAccountCount();
-  }, [navigate]);
+  }, [navigate, role]);
 
   const onSubmit = async (values: AccountForm) => {
-    if (accountCount >= 3) {
-      alert('No puedes crear más de 3 cuentas');
+    const maxAccounts = role === 'admin' ? 5 : 3;
+    if (accountCount >= maxAccounts) {
+      alert(`No puedes crear más de ${maxAccounts} cuentas`);
       return;
     }
     try {
@@ -231,7 +236,7 @@ export default function CreateAccount() {
 
           <button
             type="submit"
-            disabled={isSubmitting || accountCount >= 3}
+            disabled={isSubmitting || accountCount >= (role === 'admin' ? 5 : 3)}
             className="group relative bg-gradient-to-r from-yellow-600 via-yellow-500 to-yellow-400 w-full flex justify-center py-2.5 sm:py-3 px-4 border border-transparent text-sm font-medium rounded-lg text-black hover:from-yellow-700 hover:via-yellow-600 hover:to-yellow-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-yellow-500 focus:ring-offset-black disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-200 shadow-lg hover:shadow-yellow-500/25"
           >
             {isSubmitting ? (
