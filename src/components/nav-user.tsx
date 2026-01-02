@@ -15,6 +15,7 @@ import {
   useSidebar,
 } from "@/components/ui/sidebar";
 import type { UserDetail } from "@/context/UserDetailContext";
+import { NotificationToggle } from "./NotificationToggle";
 
 export interface User {
   id: string;
@@ -78,7 +79,12 @@ export function NavUser({
               </div>
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
-
+            //// Notification Toggle
+            <div className="px-2 py-2">
+              <NotificationToggle />
+            </div>
+            <DropdownMenuSeparator />
+            /////b      
             <DropdownMenuItem onClick={onLogOut} className="hover:bg-black bg-black">
               <LogOut />
               Log out
