@@ -54,7 +54,7 @@ export default function CreateAccount() {
       try {
         const accountFetch: any = await ModuleService.accounts.byUser();
         setAccountCount(accountFetch.data.length);
-        if (accountFetch.data.length >= 2) {
+        if (accountFetch.data.length >= 3) {
           navigate("/inicio", { replace: true });
         }
       } catch (error) {
@@ -66,7 +66,7 @@ export default function CreateAccount() {
 
   const onSubmit = async (values: AccountForm) => {
     if (accountCount >= 2) {
-      alert('No puedes crear más de 2 cuentas');
+      alert('No puedes crear más de 3 cuentas');
       return;
     }
     try {

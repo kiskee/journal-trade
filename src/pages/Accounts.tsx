@@ -2,6 +2,7 @@ import { BreadcrumbCf } from "@/components/Breadcrumb";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SidebarInset } from "@/components/ui/sidebar";
+import { AccountDetailsModal } from "@/components/AccountDetailsModal";
 import ModuleService from "@/services/moduleService";
 import { Eye, EyeOff, Loader2, Plus, Star, TrendingUp, Wallet } from "lucide-react";
 import { useEffect, useState } from "react";
@@ -28,6 +29,8 @@ export default function Acccounts() {
   const [showBalances, setShowBalances] = useState<ShowBalances>({});
   const [accounts, setAccounts] = useState<Account[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [selectedAccount, setSelectedAccount] = useState<Account | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 
   useEffect(() => {
     const fetchAccounts = async (): Promise<void> => {
@@ -72,6 +75,39 @@ export default function Acccounts() {
     const change = current - initial;
     const percentage = ((change / initial) * 100).toFixed(2);
     return { change, percentage };
+  };
+
+  const handleViewDetails = (account: Account): void => {
+    setSelectedAccount(account);
+    setIsModalOpen(true);
+  };
+
+  const handleCloseModal = (): void => {
+    setIsModalOpen(false);
+    setSelectedAccount(null);
+  };
+
+  const handleUpdateAccount = async (accountId: string, newName: string): Promise<void> => {
+    try {
+      // Aquí harías la llamada a la API para actualizar el nombre
+      // await ModuleService.accounts.update(accountId, { name: newName });
+      
+      // Actualizar el estado local
+      setAccounts(prev => 
+        prev.map(account => 
+          account.id === accountId 
+            ? { ...account, name: newName }
+            : account
+        )
+      );
+      
+      // Actualizar la cuenta seleccionada si es la misma
+      if (selectedAccount?.id === accountId) {
+        setSelectedAccount(prev => prev ? { ...prev, name: newName } : null);
+      }
+    } catch (error) {
+      console.error('Error updating account:', error);
+    }
   };
 
   if (loading) {
@@ -182,6 +218,7 @@ export default function Acccounts() {
                           variant="ghost" 
                           size="sm"
                           className="text-yellow-400 hover:text-yellow-300 hover:bg-yellow-400/10"
+                          onClick={() => handleViewDetails(account)}
                         >
                           Ver detalles
                         </Button>
@@ -196,6 +233,13 @@ export default function Acccounts() {
       </div>
     </div>
     </SidebarInset>
+    
+    <AccountDetailsModal 
+      account={selectedAccount}
+      isOpen={isModalOpen}
+      onClose={handleCloseModal}
+      onUpdateAccount={handleUpdateAccount}
+    />
     </>
   );
 }
