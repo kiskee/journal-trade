@@ -19,7 +19,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Separator } from "@/components/ui/separator";
-import { Calendar, DollarSign, Edit2, Save, Star, TrendingUp, Trash2, Wallet, X } from "lucide-react";
+import { Calendar, DollarSign, Edit2, Save, TrendingUp, Trash2, Wallet, X } from "lucide-react";
 import { useState } from "react";
 
 interface Account {
