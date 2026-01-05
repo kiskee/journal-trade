@@ -137,12 +137,7 @@ export function AccountDetailsModal({ account, isOpen, onClose, onUpdateAccount,
                 </>
               )}
             </div>
-            {account.isprimary && (
-              <Badge className="bg-yellow-400/10 text-yellow-400 border-yellow-400/20 w-fit">
-                <Star className="w-3 h-3 mr-1 fill-yellow-400" />
-                Principal
-              </Badge>
-            )}
+
           </div>
 
           <Separator className="bg-zinc-800" />
@@ -227,10 +222,9 @@ export function AccountDetailsModal({ account, isOpen, onClose, onUpdateAccount,
                   variant="destructive"
                   size="sm"
                   className="w-full bg-red-600 hover:bg-red-700"
-                  disabled={account.isprimary}
                 >
                   <Trash2 className="w-4 h-4 mr-2" />
-                  {account.isprimary ? "No se puede eliminar cuenta principal" : "Eliminar cuenta"}
+                  Eliminar cuenta
                 </Button>
               </AlertDialogTrigger>
               <AlertDialogContent className="bg-neutral-950 border-2 border-red-600">

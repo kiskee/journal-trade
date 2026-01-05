@@ -75,11 +75,20 @@ const BasicData = (props: FormStepProps) => {
 
   type FormSchema = z.infer<typeof formShemaBasicData>;
 
+  const getCurrentDateTime = () => {
+    const now = new Date();
+    const date = now.toISOString().split('T')[0];
+    const time = now.toTimeString().slice(0, 5);
+    return { date, time };
+  };
+
+  const { date: currentDate, time: currentTime } = getCurrentDateTime();
+
   const form = useForm<FormSchema>({
     resolver: zodResolver(formShemaBasicData),
     defaultValues: props.initialData || {
-      date: "",
-      time: "",
+      date: currentDate,
+      time: currentTime,
       asset: "",
       tradeType: "compra",
       setup: "",

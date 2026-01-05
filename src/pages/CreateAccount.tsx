@@ -36,21 +36,18 @@ export default function CreateAccount() {
     register,
     handleSubmit,
     formState: { errors, isSubmitting },
-    setValue,
-    watch,
   } = useForm<AccountForm>({
     resolver: zodResolver(AccountSchema),
     defaultValues: {
       name: "",
       initialBalance: 0,
       currency: "USD",
-      isprimary: true,
+      isprimary: false,
     },
     mode: "onTouched",
   });
 
   const role = userDetail?.role;
-  const isPrimary = watch("isprimary");
   
   useEffect(() => {
     const fetchAccountCount = async () => {
@@ -132,7 +129,7 @@ export default function CreateAccount() {
                 ? "border-red-400 bg-red-50"
                 : "border-green-200 hover:border-green-300"
             }`}
-            placeholder="Ej. Cuenta Principal"
+            placeholder="Ej. 10K Trading"
           />
           {errors.name && (
             <p className="mt-2 text-xs text-red-600 flex items-center gap-1">
@@ -196,32 +193,7 @@ export default function CreateAccount() {
           )}
         </div>
 
-        {/* Is Primary Toggle */}
-        <div className="flex items-center justify-between p-4 mb-8 bg-black rounded-xl border-2 border-gray-100">
-          <div>
-            <div className="text-sm font-semibold text-yellow-500">
-              Cuenta primaria
-            </div>
-            <div className="text-xs text-white mt-0.5">
-              Marca esta cuenta como principal
-            </div>
-          </div>
 
-          <button
-            type="button"
-            onClick={() => setValue("isprimary", !isPrimary)}
-            className={`relative inline-flex items-center h-7 rounded-full w-12 transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-yellow-300 focus:ring-offset-2 ${
-              isPrimary ? "bg-yellow-500" : "bg-gray-300"
-            }`}
-          >
-            <span
-              className={`transform transition-transform duration-300 inline-block w-5 h-5 bg-white rounded-full shadow-md ${
-                isPrimary ? "translate-x-6" : "translate-x-1"
-              }`}
-            />
-          </button>
-          <input type="hidden" {...register("isprimary")} />
-        </div>
 
         {/* Action Buttons */}
         <div className="flex gap-3 pt-2">
@@ -262,8 +234,8 @@ export default function CreateAccount() {
                 </svg>
                 Guardando...
               </span>
-            ) : accountCount >= 3 ? (
-              "Máximo 3 cuentas permitidas"
+            ) : accountCount >= (role === 'admin' ? 5 : 3) ? (
+              `Máximo ${role === 'admin' ? 5 : 3} cuentas permitidas`
             ) : (
               "Crear cuenta"
             )}

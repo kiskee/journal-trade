@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { SidebarInset } from "@/components/ui/sidebar";
 import { AccountDetailsModal } from "@/components/AccountDetailsModal";
 import ModuleService from "@/services/moduleService";
-import { Eye, EyeOff, Loader2, Plus, Star, TrendingUp, Wallet } from "lucide-react";
+import { Eye, EyeOff, Loader2, Plus, TrendingUp, Wallet, BarChart3 } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useNavigate } from "react-router-dom";
@@ -192,9 +192,6 @@ export default function Acccounts() {
                         <div>
                           <div className="flex items-center gap-2">
                             <CardTitle className="text-white text-lg">{account.name}</CardTitle>
-                            {account.isprimary && (
-                              <Star className="w-4 h-4 text-yellow-400 fill-yellow-400" />
-                            )}
                           </div>
                           <p className="text-zinc-500 text-sm">Balance inicial: ${account.initialBalance.toLocaleString()}</p>
                         </div>
@@ -231,14 +228,25 @@ export default function Acccounts() {
                           <TrendingUp className="w-4 h-4" />
                           <span>{formatDate(account.updatedAt)}</span>
                         </div>
-                        <Button 
-                          variant="ghost" 
-                          size="sm"
-                          className="text-yellow-400 hover:text-yellow-300 hover:bg-yellow-400/10"
-                          onClick={() => handleViewDetails(account)}
-                        >
-                          Ver detalles
-                        </Button>
+                        <div className="flex gap-2">
+                          <Button 
+                            variant="ghost" 
+                            size="sm"
+                            className="text-blue-400 hover:text-blue-300 hover:bg-blue-400/10"
+                            onClick={() => navigate(`/portfolio?accountId=${account.id}`)}
+                          >
+                            <BarChart3 className="w-4 h-4 mr-1" />
+                            Trades
+                          </Button>
+                          <Button 
+                            variant="ghost" 
+                            size="sm"
+                            className="text-yellow-400 hover:text-yellow-300 hover:bg-yellow-400/10"
+                            onClick={() => handleViewDetails(account)}
+                          >
+                            Ver detalles
+                          </Button>
+                        </div>
                       </div>
                     </div>
                   </CardContent>

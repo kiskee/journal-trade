@@ -1,4 +1,5 @@
 import { useContext, useEffect, useState } from "react";
+import { useSearchParams } from "react-router-dom";
 import ModuleService from "@/services/moduleService";
 import { UserDetailContext } from "@/context/UserDetailContext";
 import {
@@ -27,6 +28,7 @@ const Portfolio = () => {
   const context = useContext(UserDetailContext);
   const [accounts, setAccounts] = useState(null as any);
   const [selectedAccountId, setSelectedAccountId] = useState("all");
+  const [searchParams] = useSearchParams();
 
   if (!context) {
     throw new Error(
@@ -45,9 +47,15 @@ const Portfolio = () => {
         (a, b) => new Date(b.date).getTime() - new Date(a.date).getTime()
       );
       setTrades(sorted);
+      
+      // Verificar si hay un accountId en la URL
+      const accountIdFromUrl = searchParams.get('accountId');
+      if (accountIdFromUrl) {
+        setSelectedAccountId(accountIdFromUrl);
+      }
     };
     initials();
-  }, [hasChange]);
+  }, [hasChange, searchParams]);
 
   const onHandleDelete = async (id: string) => {
     try {
@@ -106,7 +114,7 @@ const Portfolio = () => {
       <div className="mb-8 flex justify-center">
         <div className="flex flex-col items-center space-y-3 w-full max-w-xs">
           <label className="text-sm text-yellow-400 font-medium text-center">
-            Filtrar trades por cuenta:
+            {searchParams.get('accountId') ? 'Mostrando trades de la cuenta seleccionada:' : 'Filtrar trades por cuenta:'}
           </label>
           <Select value={selectedAccountId} onValueChange={setSelectedAccountId}>
             <SelectTrigger className="bg-neutral-950 border-yellow-600/30 text-yellow-100 w-full">
