@@ -71,20 +71,19 @@ export const formShemaBasicData = z.object({
 export const tradeResultSchema = z.object({
   entryPrice: z
     .number({ invalid_type_error: "El precio de entrada debe ser un número" })
-    .min(1, "Debe ser al menos 1"),
+    .min(0.01, "Debe ser mayor a 0"),
 
   exitPrice: z
     .number({ invalid_type_error: "El precio de salida debe ser un número" })
-    .min(1, "Debe ser al menos 1"),
+    .min(0.01, "Debe ser mayor a 0"),
 
   stopLoss: z
     .number({ invalid_type_error: "El Stop Loss debe ser un número" })
-    .min(1, "Debe ser al menos 1"),
+    .min(0.01, "Debe ser mayor a 0"),
 
   takeProfit: z.number({
     invalid_type_error: "El Take Profit debe ser un número",
-  }),
-  //.min(1, "Debe ser al menos 1"),
+  }).min(0.01, "Debe ser mayor a 0"),
 
   resultUsd: z.number({
     invalid_type_error: "El resultado ($) debe ser un número",
